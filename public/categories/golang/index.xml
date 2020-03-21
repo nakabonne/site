@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ryo Nakao</title>
-    <link>https://nakabonne.com/</link>
-    <description>Recent content on Ryo Nakao</description>
+    <title>golang on Ryo Nakao</title>
+    <link>https://nakabonne.com/categories/golang/</link>
+    <description>Recent content in golang on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Fri, 05 Oct 2018 14:55:14 +0900</lastBuildDate>
     
-	<atom:link href="https://nakabonne.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nakabonne.com/categories/golang/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>

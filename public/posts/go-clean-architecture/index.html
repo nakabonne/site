@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="description" content="Software Engineer">
+<meta name="keywords" content="engineer,go">
+
+<base href="https://nakabonne.com">
+
+<title>
+  Ryo Nakao - Go × Clean Architecture implementation pattern 
+</title>
+
+<meta name="generator" content="Hugo 0.67.1" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400|Roboto+Slab:400,700|Roboto:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="https://nakabonne.com/css/main.css">
+<link rel="stylesheet" href="https://nakabonne.com/css/custom.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+</head>
+<body lang="en-US">
+<div class="container">
+
+
+<header class="row text-left title">
+  <h1 class="title">Go × Clean Architecture implementation pattern</h1>
+</header>
+<section id="category-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-left meta">
+        PUBLISHED ON OCT 5, 2018 
+      
+      
+      
+      —
+      
+      
+      <a class="meta" href="/categories/golang">GOLANG</a>
+      
+      
+      
+    </h6>
+  </div>
+  
+</section>
+<section id="content-pane" class="row">
+  <div class="col-md-12 text-justify content">
+    
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-clean-architecture">What is Clean Architecture?</a></li>
+    <li><a href="#sample-app">Sample App</a></li>
+    <li><a href="#app-architecture">App Architecture</a></li>
+    <li><a href="#directory-structure">Directory structure</a></li>
+    <li><a href="#be-thorough-on-dependency">Be thorough on dependency</a></li>
+    <li><a href="#what-is-dependency-inversion-principle">What is dependency inversion principle?</a></li>
+    <li><a href="#implementation-example-of-each-layer">Implementation example of each layer</a>
+      <ul>
+        <li><a href="#routing">routing</a></li>
+        <li><a href="#orm">ORM</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusions">Conclusions</a></li>
+  </ul>
+</nav>
+    
+    <p>Click <a href="http://nakawatch.hatenablog.com/entry/2018/07/11/181453">here</a> for Japanese version</p>
+<h2 id="what-is-clean-architecture">What is Clean Architecture?</h2>
+<p>It could be thought an architecture pattern that dissociates interest by realizing:</p>
+<ul>
+<li>Make domain logic independent</li>
+<li>Make framework independent</li>
+<li>Make UI independent</li>
+<li>Make any external agency independent</li>
+<li>Make domain logic easier to test</li>
+</ul>
+<p>you may refer to various <a href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">articles</a> for further details, and we will focus on discussing about implementation patterns.</p>
+<h2 id="sample-app">Sample App</h2>
+<p><strong><a href="https://github.com/nakabonne/cleanarchitecture-sample">https://github.com/nakabonne/cleanarchitecture-sample</a></strong></p>
+<p>It just can be used to register user by posting to <code>/users</code> and is based on <a href="https://github.com/manuelkiessling/go-cleanarchitecture">manuelkiessling/go-cleanarchitecture</a> and using gorm as an ORM.</p>
+<h2 id="app-architecture">App Architecture</h2>
+<p><img src="/img/CleanArchitecture.jpg" alt=""></p>
+<p>Generally, it can be divided into any layers, but you should divide according to “Common Closure Principle (CCP)”; it means bunching up the components that could be changed for the common reason. This time, I divided it into four layers according to <a href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">original text</a>.</p>
+<p>Be sure to make dependencies keeping in a single direction from the outside to the inside, here’s the bottom line.</p>
+<h2 id="directory-structure">Directory structure</h2>
+<pre><code>pkg
+├── adapter
+│   ├── controllers
+│   ├── gateway
+│   └── interfaces
+├── domain
+├── external
+│   ├── mysql
+└── usecase
+    └── interfaces
+</code></pre><p>The chart below shows the relationship between the directories and their roles.</p>
+<script type="application/javascript" src="https://gist.github.com/nakabonne/810955447fced5bf036e7829a0828f5f.js"></script>
+
+<h2 id="be-thorough-on-dependency">Be thorough on dependency</h2>
+<p>I’ve got to walk you through an essential rule before entering the implementation explanation.</p>
+<p>As mentioned earlier, dependencies must be kept in a single direction from the outside to the inside. On the contrary, any program has inputs and outputs, and scenes where the results processed inside are output to the outside frequently appear — that is, the scene that you want to depend on from the inside to the outside is typical. Solving the contradiction using the <strong>dependency inversion principle</strong> will be the key to keeping the clean architecture clean.</p>
+<h2 id="what-is-dependency-inversion-principle">What is dependency inversion principle?</h2>
+<p>Briefly, the principle is that inside should not depend on the outside, but should depend on abstraction. It would be tough to understand, so let’s actually look at the code.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">i</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">UserInteractor</span>) <span style="color:#a6e22e">Add</span>(<span style="color:#a6e22e">u</span> <span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">User</span>) (<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">i</span>.<span style="color:#a6e22e">UserRepository</span>.<span style="color:#a6e22e">Store</span>(<span style="color:#a6e22e">u</span>)
+}
+</code></pre></div><p>The above represents the second layer from inside, the implementation of the app business rules layer. It can be used to try to store the userinfo into the DB outside. In this scene many people tend to do accessing the outer layers directly, but you’ve got to avoid that in order to make inside not dependent on outside.</p>
+<p>The key to solving that is the dependency inversion principle, you can realize it by defining the interface.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">UserRepository</span> <span style="color:#66d9ef">interface</span> {
+    <span style="color:#a6e22e">Store</span>(<span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">User</span>) (<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">error</span>)
+    <span style="color:#a6e22e">FindByName</span>(<span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">User</span>, <span style="color:#66d9ef">error</span>)
+    <span style="color:#a6e22e">FindAll</span>() ([]<span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">User</span>, <span style="color:#66d9ef">error</span>)
+}
+</code></pre></div><p>The repository interface should be defined in the same layer so that it depends on this interface. And concrete type can be kept dependency from inside to outside by passing from the outside.</p>
+<p>This is the dependency inversion principle. You’d better see here for better understanding.</p>
+<h2 id="implementation-example-of-each-layer">Implementation example of each layer</h2>
+<p>The implementation of the inner two layers typically can be changed depending on the project; we will focus on the outer two layers.</p>
+<h3 id="routing">routing</h3>
+<p>It was actually implemented with gin for WAF, but it’s easy to replace because this layer uses it as a tool. Also, the fact that concrete type such as DB connection and logger etc are passed to inside in this layer realizes dependency inversion principle.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Router</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Engine</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+    <span style="color:#a6e22e">router</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Default</span>()
+
+    <span style="color:#a6e22e">logger</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Logger</span>{}
+
+    <span style="color:#a6e22e">conn</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mysql</span>.<span style="color:#a6e22e">Connect</span>()
+
+    <span style="color:#a6e22e">userController</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">controllers</span>.<span style="color:#a6e22e">NewUserController</span>(<span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">logger</span>)
+
+    <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/users&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) { <span style="color:#a6e22e">userController</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">c</span>) })
+
+    <span style="color:#a6e22e">Router</span> = <span style="color:#a6e22e">router</span>
+}
+</code></pre></div><h3 id="orm">ORM</h3>
+<p>ORMapper is defined in Adapter layer.<br>
+In this case, I am devoted to solving the impedance mismatch by converting the DB optimized type to the type optimized for domain logic.<br>
+The adapter layer actually depends on abstraction and the interface defined in this layer depends to some extent on the outer library.<br>
+In principle, I looked at the following is defined:</p>
+<blockquote>
+<p>‘Abstract’ should not depend on implementation details</p>
+</blockquote>
+<p>The role of this layer is conversion; it would be natural to know both sides to some extent.<br>
+Please let me know if you know a better implementation pattern here.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> (
+    <span style="color:#a6e22e">UserRepository</span> <span style="color:#66d9ef">struct</span> {
+        <span style="color:#a6e22e">Conn</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">DB</span>
+    }
+
+    <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+        <span style="color:#a6e22e">gorm</span>.<span style="color:#a6e22e">Model</span>
+        <span style="color:#a6e22e">Name</span>  <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`gorm:&#34;size:20;not null&#34;`</span>
+        <span style="color:#a6e22e">Email</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`gorm:&#34;size:100;not null&#34;`</span>
+        <span style="color:#a6e22e">Age</span>   <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`gorm:&#34;type:smallint&#34;`</span>
+    }
+)
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">UserRepository</span>) <span style="color:#a6e22e">Store</span>(<span style="color:#a6e22e">u</span> <span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">User</span>) (<span style="color:#a6e22e">id</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+    <span style="color:#a6e22e">user</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">User</span>{
+        <span style="color:#a6e22e">Name</span>:  <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">Name</span>,
+        <span style="color:#a6e22e">Email</span>: <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">Email</span>,
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Conn</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">user</span>).<span style="color:#a6e22e">Error</span>; <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span>
+    }
+
+    <span style="color:#66d9ef">return</span> int(<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">ID</span>), <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><h2 id="conclusions">Conclusions</h2>
+<p>As you can see, it is just too large to make REST api just to register userinfo.</p>
+<p>You can separate concerns by abstraction, yet would it be worth that much effort to you? You’ve got to think carefully. It would be often that there is no effect if the application size is small since the code becomes complicated basically when it abstracts.</p>
+<p>It would be greatly appreciated if you could point out if there is something wrong.</p>
+
+  </div>
+</section>
+<section id="tag-pane" class="row meta">
+  
+  <div class="col-md-12">
+    <h6 class="text-right meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+
+
+
+
+
+<section id="menu-pane" class="row menu text-center">
+  
+  
+  
+  
+  
+  <h4 class="text-center"><a class="menu-item" href="https://nakabonne.com">home</a></h4>
+</section>
+
+
+
+<footer class="row text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">Copyright © 2020 Ryo Nakao All Right Reserved.</h6>
+  
+      
+      <h6><a href="" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a></h6>
+    
+  
+</footer>
+
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
+
+
