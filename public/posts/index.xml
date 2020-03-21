@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Ryo Nakao</title>
+    <link>https://nakabonne.com/posts/</link>
+    <description>Recent content in Posts on Ryo Nakao</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sat, 21 Mar 2020 14:55:14 +0900</lastBuildDate>
+    
+	<atom:link href="https://nakabonne.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>First</title>
+      <link>https://nakabonne.com/posts/first/</link>
+      <pubDate>Sat, 21 Mar 2020 14:55:14 +0900</pubDate>
+      
+      <guid>https://nakabonne.com/posts/first/</guid>
+      <description>nestif 
+Reports deeply nested if statements in Go code, by calculating its complexities based on the rules defined by the Cognitive Complexity white paper by G. Ann Campbell.
+It helps you find if statements that make your code hard to read, and clarifies which parts to refactor.
+Installation go get github.com/nakabonne/nestif/cmd/nestif Usage Quick Start nestif The ... glob operator is supported, and the above is an equivalent of:
+nestif .</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,59 @@
+## Basic Configuration
+
+baseurl = "https://nakabonne.com"
+#builddrafts = false
+#canonifyurls = false
+languageCode = "en-US"
+
+contentdir = "content"
+layoutdir = "layouts"
+publishdir = "public"
+
+author = "Ryo Nakao"
+title = "Ryo Nakao"
+
+theme = "hugo-goa"
+
+## Hugo Built-in Features
+#disqusShortname = "https-shenoybr-github-io-hugo-goa-demo" # Comment out to disable Disqus.
+#googleAnalytics = "XYZ"
+enableRobotsTXT = true
+
+## Site Settings
+[params]
+author = "Ryo Nakao"
+intro = "Software Engineer"
+description = "a.k.a. @nakabonne"
+authorimage = "icon.png"
+dateformat = "Jan 2, 2006"
+
+## Site Meta Settings
+[params.meta]
+description = "Software Engineer"
+keywords = "engineer,go"
+
+## Social Accounts
+[params.social]
+github = "nakabonne"
+linkedin = "nakabonne"
+twitter = "nakabonne"
+facebook = "nakabonne"
+email = "nakabonne@gmail.com"
+
+## Extras
+[params.extra]
+copyright = "Copyright © 2020 Ryo Nakao All Right Reserved."
+poweredby = false
+highlightjs = true
+
+## Main Menu
+[[menu.main]]
+    name = "Blog"
+    weight = 100
+    identifier = "blog-en"
+    url = "/posts/"
+[[menu.main]]
+    name = "Blog(ja)"
+    weight = 200
+    identifier = "blog-ja"
+    url = "http://nakawatch.hatenablog.com/"
