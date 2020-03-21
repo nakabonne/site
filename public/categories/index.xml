@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Ryo Nakao</title>
-    <link>https://nakabonne.com/categories/</link>
+    <link>http://35.200.16.155/categories/</link>
     <description>Recent content in Categories on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Fri, 05 Oct 2018 14:55:14 +0900</lastBuildDate>
     
-	<atom:link href="https://nakabonne.com/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://35.200.16.155/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>golang</title>
-      <link>https://nakabonne.com/categories/golang/</link>
+      <link>http://35.200.16.155/categories/golang/</link>
       <pubDate>Fri, 05 Oct 2018 14:55:14 +0900</pubDate>
       
-      <guid>https://nakabonne.com/categories/golang/</guid>
+      <guid>http://35.200.16.155/categories/golang/</guid>
       <description></description>
     </item>
     

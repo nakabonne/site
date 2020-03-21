@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>golang on Ryo Nakao</title>
-    <link>https://nakabonne.com/categories/golang/</link>
+    <link>http://35.200.16.155/categories/golang/</link>
     <description>Recent content in golang on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Fri, 05 Oct 2018 14:55:14 +0900</lastBuildDate>
     
-	<atom:link href="https://nakabonne.com/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://35.200.16.155/categories/golang/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Go × Clean Architecture implementation pattern</title>
-      <link>https://nakabonne.com/posts/go-clean-architecture/</link>
+      <link>http://35.200.16.155/posts/go-clean-architecture/</link>
       <pubDate>Fri, 05 Oct 2018 14:55:14 +0900</pubDate>
       
-      <guid>https://nakabonne.com/posts/go-clean-architecture/</guid>
+      <guid>http://35.200.16.155/posts/go-clean-architecture/</guid>
       <description>Click here for Japanese version
 What is Clean Architecture? It could be thought an architecture pattern that dissociates interest by realizing:
  Make domain logic independent Make framework independent Make UI independent Make any external agency independent Make domain logic easier to test  you may refer to various articles for further details, and we will focus on discussing about implementation patterns.

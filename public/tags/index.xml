@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Ryo Nakao</title>
-    <link>https://nakabonne.com/tags/</link>
+    <link>http://35.200.16.155/tags/</link>
     <description>Recent content in Tags on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     
-	<atom:link href="https://nakabonne.com/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://35.200.16.155/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

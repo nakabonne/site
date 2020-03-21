@@ -3,32 +3,32 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://nakabonne.com/categories/</loc>
+    <loc>http://35.200.16.155/categories/</loc>
     <lastmod>2018-10-05T14:55:14+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://nakabonne.com/posts/go-clean-architecture/</loc>
+    <loc>http://35.200.16.155/posts/go-clean-architecture/</loc>
     <lastmod>2018-10-05T14:55:14+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://nakabonne.com/categories/golang/</loc>
+    <loc>http://35.200.16.155/categories/golang/</loc>
     <lastmod>2018-10-05T14:55:14+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://nakabonne.com/posts/</loc>
+    <loc>http://35.200.16.155/posts/</loc>
     <lastmod>2018-10-05T14:55:14+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://nakabonne.com/</loc>
+    <loc>http://35.200.16.155/</loc>
     <lastmod>2018-10-05T14:55:14+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://nakabonne.com/tags/</loc>
+    <loc>http://35.200.16.155/tags/</loc>
   </url>
   
 </urlset>

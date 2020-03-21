@@ -1,6 +1,6 @@
 ## Basic Configuration
 
-baseurl = "https://nakabonne.com"
+baseurl = "http://35.200.16.155"
 #builddrafts = false
 #canonifyurls = false
 languageCode = "en-US"
