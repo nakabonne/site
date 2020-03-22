@@ -162,7 +162,10 @@ People call an architecture that solves the problem unique to Microservices by m
 However, it’s necessary to implement implementation to propagate <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/headers">specific identifiers</a> within the application in order to properly propagate contexts such as parent-child relationships between spans. This will be described later.</p>
 <h3 id="envoys-tracing-architecture">Envoy’s tracing architecture</h3>
 <p>Depending on the trace provider you use, in most cases it will be an architecture consisting of the following components. Some providers provide storage, others need to operate on their own.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*Tu2WZtoFf26CTGCHAKYqCg.png" alt=""></p>
+<figure>
+    <img src="https://cdn-images-1.medium.com/max/800/1*Tu2WZtoFf26CTGCHAKYqCg.png" width="100%" height="auto"/> 
+</figure>
+
 <p>Generally, spans are associated by propagating unique identifier within a trace.<br>
 In this series of flows, Envoy has tasks which are roughly divided into three. Trace generation, propagation, and transmission to collectors.</p>
 <h4 id="generation">Generation</h4>
@@ -182,48 +185,76 @@ Also, It’s better to read documents of provider you use since necessary identi
 <li><a href="https://datadoghq.com/">DataDog</a></li>
 </ul>
 <p>According to the <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/trace/v2/trace.proto">document</a>, specify the collector cluster to send the span. For example Zipkin, define as follows.</p>
-<h3 id="hands-on">Hands-on</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">static_resources</span>:
+  <span style="color:#66d9ef">clusters</span>:
+  - <span style="color:#66d9ef">name</span>: zipkin
+    <span style="color:#66d9ef">connect_timeout</span>: 1s
+    <span style="color:#66d9ef">type</span>: static
+    <span style="color:#66d9ef">lb_policy</span>: round_robin
+    <span style="color:#66d9ef">hosts</span>:
+    - <span style="color:#66d9ef">socket_address</span>:
+        <span style="color:#66d9ef">address</span>: <span style="color:#ae81ff">10.5.0.2</span>
+        <span style="color:#66d9ef">port_value</span>: <span style="color:#ae81ff">9411</span>
+<span style="color:#66d9ef">tracing</span>:
+  <span style="color:#66d9ef">http</span>:
+    <span style="color:#66d9ef">name</span>: envoy.zipkin
+    <span style="color:#66d9ef">config</span>:
+      <span style="color:#66d9ef">collector_cluster</span>: zipkin
+      <span style="color:#66d9ef">collector_endpoint</span>: <span style="color:#e6db74">&#34;/api/v1/spans&#34;</span>
+</code></pre></div><h3 id="hands-on">Hands-on</h3>
 <p>Envoy offers a number of official <a href="https://www.envoyproxy.io/docs/envoy/latest/start/start#sandboxes">sandboxes</a>. I’d like to deepen the understanding of the flow of distributed tracing while using <a href="https://github.com/envoyproxy/envoy/tree/master/examples/jaeger-tracing">jaeger-tracing</a> in this time.</p>
 <h4 id="start-services">Start services</h4>
-<p>$ git clone <a href="https://github.com/envoyproxy/envoy.git">https://github.com/envoyproxy/envoy.git</a><br>
-$ cd envoy/examples/jaeger-tracing<br>
-$ docker-compose up -d</p>
-<p>Three containers front-proxy, service1, service2 are started.</p>
+<pre><code>$ git clone https://github.com/envoyproxy/envoy.git  
+$ cd envoy/examples/jaeger-tracing  
+$ docker-compose up -d
+</code></pre><p>Three containers front-proxy, service1, service2 are started.</p>
 <h4 id="send-arequest">Send a request</h4>
-<p>$ curl -v http://localhost:8000/trace/1<br>
-*   Trying ::1&hellip;<br>
-* TCP_NODELAY set<br>
-* Connected to localhost (::1) port 8000 (#0)<br>
-&gt; GET /trace/1 HTTP/1.1<br>
-&gt; Host: localhost:8000<br>
-&gt; User-Agent: curl/7.54.0<br>
-&gt; Accept: */*<br>
-&gt;<br>
-&lt; HTTP/1.1 200 OK<br>
-&lt; content-type: text/html; charset=utf-8<br>
-&lt; content-length: 89<br>
-&lt; server: envoy<br>
-&lt; date: Sat, 08 Dec 2018 06:10:24 GMT<br>
-&lt; x-envoy-upstream-service-time: 27<br>
-&lt;<br>
-Hello from behind Envoy (service 1)! hostname: 580a7e50d809 resolvedhostname: 172.18.0.5<br>
-* Connection #0 to host localhost left intact</p>
-<p>It will communicate in the order front-proxy, service1, service2.</p>
+<pre><code>$ curl -v http://localhost:8000/trace/1  
+\*   Trying ::1...  
+\* TCP\_NODELAY set  
+\* Connected to localhost (::1) port 8000 (#0)  
+\&gt; GET /trace/1 HTTP/1.1  
+\&gt; Host: localhost:8000  
+\&gt; User-Agent: curl/7.54.0  
+\&gt; Accept: \*/\*  
+\&gt;  
+&lt; HTTP/1.1 200 OK  
+&lt; content-type: text/html; charset=utf-8  
+&lt; content-length: 89  
+&lt; server: envoy  
+&lt; date: Sat, 08 Dec 2018 06:10:24 GMT  
+&lt; x-envoy-upstream-service-time: 27  
+&lt;  
+Hello from behind Envoy (service 1)! hostname: 580a7e50d809 resolvedhostname: 172.18.0.5  
+\* Connection #0 to host localhost left intact
+</code></pre><p>It will communicate in the order front-proxy, service1, service2.</p>
 <h4 id="visualization">Visualization</h4>
 <p>Point your browser to <a href="http://localhost:16686">http://localhost:16686</a>.<br>
 You should see multiple spans which are displayed as one trace.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*fmQ07BJCOL9ptDsflViHsA.png" alt=""></p>
+<figure>
+    <img src="https://cdn-images-1.medium.com/max/800/1*fmQ07BJCOL9ptDsflViHsA.png" width="100%" height="auto"/> 
+</figure>
+
 <h4 id="modify-implementation">Modify implementation</h4>
 <p>An example implementation of the service is in <a href="https://github.com/envoyproxy/envoy/blob/master/examples/front-proxy/service.py">examples/front-proxy/service.py</a>.<br>
 The notable implementation is the following part, it propagates the received identifier by putting it on the header.</p>
-<p>For Zipkin compatible providers, this identifier is detailed in the repository <a href="https://github.com/openzipkin/b3-propagation">B3 Propagation</a>.<br>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> int(os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;SERVICE_NAME&#39;</span>]) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> :
+    <span style="color:#66d9ef">for</span> header <span style="color:#f92672">in</span> TRACE_HEADERS_TO_PROPAGATE:
+        <span style="color:#66d9ef">if</span> header <span style="color:#f92672">in</span> request<span style="color:#f92672">.</span>headers:
+            <span style="color:#75715e"># Comment out here</span>
+            <span style="color:#75715e"># headers[header] = request.headers[header]</span>
+    ret <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;http://localhost:9000/trace/2&#34;</span>, headers<span style="color:#f92672">=</span>headers)
+</code></pre></div><p>For Zipkin compatible providers, this identifier is detailed in the repository <a href="https://github.com/openzipkin/b3-propagation">B3 Propagation</a>.<br>
 Let’s try commenting out this line and send a request again.</p>
-<p><img src="https://cdn-images-1.medium.com/max/800/1*rlSZ3Aknoul83EDz7tTQBw.png" alt=""></p>
+<figure>
+    <img src="https://cdn-images-1.medium.com/max/800/1*rlSZ3Aknoul83EDz7tTQBw.png" width="100%" height="auto"/> 
+</figure>
+
 <p>You could see that the spans are recognized as separate traces. We were able to confirm that it’s impossible to fetch a trace correctly unless the identifier is propagated between spans.</p>
 <h3 id="future">Future</h3>
 <p>Did you understand the rough mechanism by starting with the overall architecture and eventually touching the code?<br>
 Envoy has become the third project to graduate on November 28, 2018. Envoy’s goal is “to abstract the network from application developers so that they can focus on business logic” as mentioned repeatedly in the <a href="https://blog.envoyproxy.io/envoy-graduates-a6f71879852e">blog</a>.<br>
-Not only Envoy, <strong>in these modern days when cloud native became mainstream many people want an environment where application developers can focus on creative activities.</strong><br>
+Not only Envoy, <em><strong>in these modern days when cloud native became mainstream many people want an environment where application developers can focus on creative activities.</strong></em><br>
 The reaction to the project surpassed their wildest imagination when Lyft released Envoy as OSS in September 2016. This indicates that the network proxy occupies a very important position in promoting cloud native. A network proxy should always stay close to an application inside even if many projects which abstracts the network from the application will be started rapidly from now on. Therefore, deepening your understanding of proxies is very important in the cloud native era.</p>
 <p>*I’d be grateful if you could point out mistakes and outdated knowledge on <a href="https://twitter.com/nakabonne/">Twitter</a> etc.</p>
 

@@ -9,7 +9,7 @@ tags: ["Microservices"]
 
 The term gRPC became very famous, and articles such as “Introducing gRPC in house” and “How to build gRPC server” can now overflow.
 
-![](https://cdn-images-1.medium.com/max/800/1*e2RMFaYNVAsjcjFWHmWvYQ.png)
+{{< figure src="https://cdn-images-1.medium.com/max/800/1*e2RMFaYNVAsjcjFWHmWvYQ.png" width="100%" height="auto">}}
 
 By doing this, the hurdle for introducing gRPC has come down, and it has become possible to create a production ready gRPC server relatively easily.
 

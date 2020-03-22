@@ -21,7 +21,7 @@ you may refer to various [articles](https://8thlight.com/blog/uncle-bob/2012/08/
 
 ## Sample App
 
-**https://github.com/nakabonne/cleanarchitecture-sample**
+[nakabonne/cleanarchitecture-sample.git](https://github.com/nakabonne/cleanarchitecture-sample)
 
 It just can be used to register user by posting to `/users` and is based on [manuelkiessling/go-cleanarchitecture](https://github.com/manuelkiessling/go-cleanarchitecture) and using gorm as an ORM.
 
@@ -51,7 +51,12 @@ pkg
 
 The chart below shows the relationship between the directories and their roles.
 
-{{< gist nakabonne 810955447fced5bf036e7829a0828f5f >}}
+| Directory | Layer |
+|-----|:-----|
+| external | frameworks & drivers |
+| adapter | interface adapters |
+| usecase | app business rules |
+| domain | enterprise business rules |
 
 ## Be thorough on dependency
 I’ve got to walk you through an essential rule before entering the implementation explanation.  

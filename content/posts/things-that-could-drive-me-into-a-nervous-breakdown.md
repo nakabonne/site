@@ -7,7 +7,8 @@ date: '2019-06-04T05:54:14.614Z'
 tags: ["Philosophy"]
 ---
 
-![Photo by [Ric Rodrigues](https://www.pexels.com/ja-jp/@ricrodrigues?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from [Pexels](https://www.pexels.com/ja-jp/photo/1278566/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)](https://cdn-images-1.medium.com/max/800/1*ftquH--L3i4J-IOlpmkYoQ.jpeg)
+
+{{< figure src="https://cdn-images-1.medium.com/max/800/1*ftquH--L3i4J-IOlpmkYoQ.jpeg" width="100%" height="auto">}}
 Photo by [Ric Rodrigues](https://www.pexels.com/ja-jp/@ricrodrigues?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from [Pexels](https://www.pexels.com/ja-jp/photo/1278566/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)
 
 Nowadays, I have room in my heart for thinking about what could push me past my breaking point. I can see what I’m seeking and what is what’s necessary to live a fulfilling and healthy life, at least than before — I will walk you through what got started to make my heart empty and how I realized that.
@@ -21,12 +22,12 @@ FYI: I’m a student, passionate about software development. While keen interest
 At end of day, I often considered the value of that day: how much skill I improved, what kind of learning did I get, and so on. Because of feeling restricted by that, the keen interests and feelings of love was starting to go away. In addition, my skills are never improved as long as my mind is something like that. Asking what the meaning of all my time is makes myself suffer. Viktor E. Frankl says:
 
 > “Ultimately, man should not ask what the meaning of his life is, but rather must recognize that it is he who is asked. In a word, each man is questioned by life; and he can only answer to life by answering for his own life; to life he can only respond by being responsible.”
-
+>
 > ― Viktor E. Frankl, Man’s Search for Meaning
 
-**_Don’t ask how beneficial today was, ask whether I had another fun day today._**
+***Don’t ask how beneficial today was, ask whether I had another fun day today.***
 
-![Photo by [Pixabay](https://www.pexels.com/ja-jp/@pixabay?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from [Pexels](https://www.pexels.com/ja-jp/photo/60032/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)](https://cdn-images-1.medium.com/max/800/1*mDOLLdnlFE2ZzWIhX4x9wQ.jpeg)
+{{< figure src="https://cdn-images-1.medium.com/max/800/1*mDOLLdnlFE2ZzWIhX4x9wQ.jpeg" width="100%" height="auto">}}
 Photo by [Pixabay](https://www.pexels.com/ja-jp/@pixabay?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from [Pexels](https://www.pexels.com/ja-jp/photo/60032/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)
 
 #### **Obsessed** with finishing until the deadline

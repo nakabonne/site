@@ -10,8 +10,7 @@ Now, the architecture called Service Mesh is attracting attention in the Microse
 There are various products for realization, but I made a small control-plane called sxds.  
 In this article, I will introduce the means to start small Service Mesh referring to sxds.
 
-[**nakabonne/sxds**  
-_simple-xds that provides configuration and route table to data-plane for service discovery - nakabonne/sxds_github.com](https://github.com/nakabonne/sxds "https://github.com/nakabonne/sxds")[](https://github.com/nakabonne/sxds)
+[nakabonne/sxds.git](https://github.com/nakabonne/sxds)
 
 ### Target reader
 
@@ -94,7 +93,7 @@ Yes, this is the end of xds implementation. However, since go-control-plane need
 
 The whole architecture looks like this.
 
-![](https://cdn-images-1.medium.com/max/800/1*eFBElcoENe93GfH8K4ERLA.png)
+{{< figure src="https://cdn-images-1.medium.com/max/800/1*eFBElcoENe93GfH8K4ERLA.png" width="100%" height="auto">}}
 
 #### Static resources management
 
@@ -127,19 +126,25 @@ sxds caches resources for each node type to reduce memory consumption.
 Therefore, it’s necessary to set the node type at startup, and set this by setting the node ID naming rule to {node\_type}-something.  
 Also, since its own cluster information is required for discovery request to control-plane, please specify the cluster name as well.
 
+```
 $ envoy --service-node sidecar-app1 --service-cluster app1
+```
 
 **Execution of sxds**
 
+```
 $ sxds  
 2018-12-01T10:00:00.518+0900    INFO    xds/server.go:56    xDS server is listening {"conf": {"Port":8081}}  
 2018-12-01T10:00:00.518+0900    INFO    cacher/server.go:58 cacher server is listening  {"conf": {"Port":8082}}
+```
 
 **Send resources**
 
 Send the json file created above to the cacher server.
 
+```
 $ curl -XPUT http://{IP\_ADDRESS}:8082/resources/sidecar -d @sidecar.json
+```
 
 Then you should be able to confirm that the setting is reflected in Envoy.
 
@@ -148,8 +153,8 @@ Then you should be able to confirm that the setting is reflected in Envoy.
 I introduced sxds, but of course this is not perfect.  
 It becomes hard to handle when xds is made redundant, and a mechanism to persist resources json is also necessary.
 
-**What I want to tell you is that using the official library of envoyproxy makes it possible to create a control-plane at low cost, and that means of self-making only the necessary functions is also a sufficiently effective means.  
+***What I want to tell you is that using the official library of envoyproxy makes it possible to create a control-plane at low cost, and that means of self-making only the necessary functions is also a sufficiently effective means.  
 When migrating an existing service to Microservice, it’s not necessarily a modern environment.  
-In such a situation, having a means to be able to easily self-make according to the environment is a great weapon.**
+In such a situation, having a means to be able to easily self-make according to the environment is a great weapon.***
 
 I would be pleased if you have the choice to start small Service Mesh in your head now.

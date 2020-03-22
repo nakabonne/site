@@ -11,7 +11,7 @@ tags: ["OSS"]
 
 Unfortunately, as mentioned earlier I was not able to get into Google Summer of Code 2019.
 
-![](https://cdn-images-1.medium.com/max/800/1*nOtoPtGnycTtSnGfg5Jtaw.png)
+{{< figure src="https://cdn-images-1.medium.com/max/800/1*nOtoPtGnycTtSnGfg5Jtaw.png" width="100%" height="auto">}}
 
 Despite things never worked out as my expect, I do not despaired at all. Why?  
 One of the potential reasons is that I was able to take the first big step toward wonderful OSS committer. I will walk you through what happened and what I got during the period of discussing application ideas with mentoring organizations.
@@ -24,7 +24,7 @@ First, for those that aren’t familiar, may be better to explain what GSoC is a
 
 Looping back to the previous topic, [Rook](https://rook.io/) is the organization that I applied for, a cloud-native storage orchestrator running in Kubernetes. After several commits, I encountered such this email:
 
-![](https://cdn-images-1.medium.com/max/800/1*WgMyIVp-pSeFbW9esC-yqQ.png)
+{{< figure src="https://cdn-images-1.medium.com/max/800/1*WgMyIVp-pSeFbW9esC-yqQ.png" width="100%" height="auto">}}
 
 It could be thought first awesome event, Rook let me be part of the organization! I’m well aware of the fact that the reason is he just wanted to assign me to an issue, yet it was a big step for me. Really wish to develop a long-range relationship with them.
 

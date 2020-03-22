@@ -152,7 +152,7 @@
 </ul>
 <p>you may refer to various <a href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">articles</a> for further details, and we will focus on discussing about implementation patterns.</p>
 <h2 id="sample-app">Sample App</h2>
-<p><strong><a href="https://github.com/nakabonne/cleanarchitecture-sample">https://github.com/nakabonne/cleanarchitecture-sample</a></strong></p>
+<p><a href="https://github.com/nakabonne/cleanarchitecture-sample">nakabonne/cleanarchitecture-sample.git</a></p>
 <p>It just can be used to register user by posting to <code>/users</code> and is based on <a href="https://github.com/manuelkiessling/go-cleanarchitecture">manuelkiessling/go-cleanarchitecture</a> and using gorm as an ORM.</p>
 <h2 id="app-architecture">App Architecture</h2>
 <figure>
@@ -173,8 +173,32 @@
 └── usecase
     └── interfaces
 </code></pre><p>The chart below shows the relationship between the directories and their roles.</p>
-<script type="application/javascript" src="https://gist.github.com/nakabonne/810955447fced5bf036e7829a0828f5f.js"></script>
-
+<table>
+<thead>
+<tr>
+<th>Directory</th>
+<th align="left">Layer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>external</td>
+<td align="left">frameworks &amp; drivers</td>
+</tr>
+<tr>
+<td>adapter</td>
+<td align="left">interface adapters</td>
+</tr>
+<tr>
+<td>usecase</td>
+<td align="left">app business rules</td>
+</tr>
+<tr>
+<td>domain</td>
+<td align="left">enterprise business rules</td>
+</tr>
+</tbody>
+</table>
 <h2 id="be-thorough-on-dependency">Be thorough on dependency</h2>
 <p>I’ve got to walk you through an essential rule before entering the implementation explanation.</p>
 <p>As mentioned earlier, dependencies must be kept in a single direction from the outside to the inside. On the contrary, any program has inputs and outputs, and scenes where the results processed inside are output to the outside frequently appear — that is, the scene that you want to depend on from the inside to the outside is typical. Solving the contradiction using the <strong>dependency inversion principle</strong> will be the key to keeping the clean architecture clean.</p>

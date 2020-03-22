@@ -37,7 +37,7 @@ However, it’s necessary to implement implementation to propagate [specific ide
 
 Depending on the trace provider you use, in most cases it will be an architecture consisting of the following components. Some providers provide storage, others need to operate on their own.
 
-![](https://cdn-images-1.medium.com/max/800/1*Tu2WZtoFf26CTGCHAKYqCg.png)
+{{< figure src="https://cdn-images-1.medium.com/max/800/1*Tu2WZtoFf26CTGCHAKYqCg.png" width="100%" height="auto">}}
 
 Generally, spans are associated by propagating unique identifier within a trace.  
 In this series of flows, Envoy has tasks which are roughly divided into three. Trace generation, propagation, and transmission to collectors.
@@ -67,20 +67,42 @@ At the time of this writing (December 14, 2018), trace visualization provider wh
 
 According to the [document](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/trace/v2/trace.proto), specify the collector cluster to send the span. For example Zipkin, define as follows.
 
+```yaml
+static_resources:
+  clusters:
+  - name: zipkin
+    connect_timeout: 1s
+    type: static
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: 10.5.0.2
+        port_value: 9411
+tracing:
+  http:
+    name: envoy.zipkin
+    config:
+      collector_cluster: zipkin
+      collector_endpoint: "/api/v1/spans"
+```
+
 ### Hands-on
 
 Envoy offers a number of official [sandboxes](https://www.envoyproxy.io/docs/envoy/latest/start/start#sandboxes). I’d like to deepen the understanding of the flow of distributed tracing while using [jaeger-tracing](https://github.com/envoyproxy/envoy/tree/master/examples/jaeger-tracing) in this time.
 
 #### Start services
 
+```
 $ git clone https://github.com/envoyproxy/envoy.git  
 $ cd envoy/examples/jaeger-tracing  
 $ docker-compose up -d
+```
 
 Three containers front-proxy, service1, service2 are started.
 
 #### Send a request
 
+```
 $ curl -v http://localhost:8000/trace/1  
 \*   Trying ::1...  
 \* TCP\_NODELAY set  
@@ -99,6 +121,7 @@ $ curl -v http://localhost:8000/trace/1
 <  
 Hello from behind Envoy (service 1)! hostname: 580a7e50d809 resolvedhostname: 172.18.0.5  
 \* Connection #0 to host localhost left intact
+```
 
 It will communicate in the order front-proxy, service1, service2.
 
@@ -107,17 +130,26 @@ It will communicate in the order front-proxy, service1, service2.
 Point your browser to [http://localhost:16686](http://localhost:16686).  
 You should see multiple spans which are displayed as one trace.
 
-![](https://cdn-images-1.medium.com/max/800/1*fmQ07BJCOL9ptDsflViHsA.png)
+{{< figure src="https://cdn-images-1.medium.com/max/800/1*fmQ07BJCOL9ptDsflViHsA.png" width="100%" height="auto">}}
 
 #### Modify implementation
 
 An example implementation of the service is in [examples/front-proxy/service.py](https://github.com/envoyproxy/envoy/blob/master/examples/front-proxy/service.py).  
 The notable implementation is the following part, it propagates the received identifier by putting it on the header.
 
+```python
+if int(os.environ['SERVICE_NAME']) == 1 :
+    for header in TRACE_HEADERS_TO_PROPAGATE:
+        if header in request.headers:
+            # Comment out here
+            # headers[header] = request.headers[header]
+    ret = requests.get("http://localhost:9000/trace/2", headers=headers)
+```
+
 For Zipkin compatible providers, this identifier is detailed in the repository [B3 Propagation](https://github.com/openzipkin/b3-propagation).  
 Let’s try commenting out this line and send a request again.
 
-![](https://cdn-images-1.medium.com/max/800/1*rlSZ3Aknoul83EDz7tTQBw.png)
+{{< figure src="https://cdn-images-1.medium.com/max/800/1*rlSZ3Aknoul83EDz7tTQBw.png" width="100%" height="auto">}}
 
 You could see that the spans are recognized as separate traces. We were able to confirm that it’s impossible to fetch a trace correctly unless the identifier is propagated between spans.
 
@@ -125,7 +157,7 @@ You could see that the spans are recognized as separate traces. We were able to 
 
 Did you understand the rough mechanism by starting with the overall architecture and eventually touching the code?  
 Envoy has become the third project to graduate on November 28, 2018. Envoy’s goal is “to abstract the network from application developers so that they can focus on business logic” as mentioned repeatedly in the [blog](https://blog.envoyproxy.io/envoy-graduates-a6f71879852e).  
-Not only Envoy, **in these modern days when cloud native became mainstream many people want an environment where application developers can focus on creative activities.**  
+Not only Envoy, ***in these modern days when cloud native became mainstream many people want an environment where application developers can focus on creative activities.***  
 The reaction to the project surpassed their wildest imagination when Lyft released Envoy as OSS in September 2016. This indicates that the network proxy occupies a very important position in promoting cloud native. A network proxy should always stay close to an application inside even if many projects which abstracts the network from the application will be started rapidly from now on. Therefore, deepening your understanding of proxies is very important in the cloud native era.
 
 \*I’d be grateful if you could point out mistakes and outdated knowledge on [Twitter](https://twitter.com/nakabonne/) etc.
