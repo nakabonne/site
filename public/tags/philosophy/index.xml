@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Philosophy on Ryo Nakao</title>
-    <link>http://35.200.16.155/tags/philosophy/</link>
+    <link>https://nakabonne.com/tags/philosophy/</link>
     <description>Recent content in Philosophy on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 04 Jun 2019 05:54:14 +0000</lastBuildDate>
     
-	<atom:link href="http://35.200.16.155/tags/philosophy/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nakabonne.com/tags/philosophy/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Things That Could Drive Me Into a Nervous Breakdown</title>
-      <link>http://35.200.16.155/posts/things-that-could-drive-me-into-a-nervous-breakdown/</link>
+      <link>https://nakabonne.com/posts/things-that-could-drive-me-into-a-nervous-breakdown/</link>
       <pubDate>Tue, 04 Jun 2019 05:54:14 +0000</pubDate>
       
-      <guid>http://35.200.16.155/posts/things-that-could-drive-me-into-a-nervous-breakdown/</guid>
+      <guid>https://nakabonne.com/posts/things-that-could-drive-me-into-a-nervous-breakdown/</guid>
       <description>Photo by Ric Rodrigues from Pexels
 Nowadays, I have room in my heart for thinking about what could push me past my breaking point.</description>
     </item>
     
     <item>
       <title>Depth of module</title>
-      <link>http://35.200.16.155/posts/depth-of-module/</link>
+      <link>https://nakabonne.com/posts/depth-of-module/</link>
       <pubDate>Thu, 17 Jan 2019 11:33:43 +0000</pubDate>
       
-      <guid>http://35.200.16.155/posts/depth-of-module/</guid>
+      <guid>https://nakabonne.com/posts/depth-of-module/</guid>
       <description>Click here for Japanese version
 This article summarizes the concept of deep module described in the book “A Philosophy of Software Design” written by Professor John Ousterhout at Stanford University, and is written with permission of him.</description>
     </item>

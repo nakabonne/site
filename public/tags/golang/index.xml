@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Golang on Ryo Nakao</title>
-    <link>http://35.200.16.155/tags/golang/</link>
+    <link>https://nakabonne.com/tags/golang/</link>
     <description>Recent content in Golang on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 24 Nov 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://35.200.16.155/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nakabonne.com/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>A choice to start small Service Mesh</title>
-      <link>http://35.200.16.155/posts/a-choice-to-start-small-service-mesh/</link>
+      <link>https://nakabonne.com/posts/a-choice-to-start-small-service-mesh/</link>
       <pubDate>Sat, 24 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://35.200.16.155/posts/a-choice-to-start-small-service-mesh/</guid>
+      <guid>https://nakabonne.com/posts/a-choice-to-start-small-service-mesh/</guid>
       <description>Now, the architecture called Service Mesh is attracting attention in the Microservice industry.</description>
     </item>
     
     <item>
       <title>Go × Clean Architecture implementation pattern</title>
-      <link>http://35.200.16.155/posts/go-clean-architecture/</link>
+      <link>https://nakabonne.com/posts/go-clean-architecture/</link>
       <pubDate>Fri, 05 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://35.200.16.155/posts/go-clean-architecture/</guid>
+      <guid>https://nakabonne.com/posts/go-clean-architecture/</guid>
       <description>Click here for Japanese version
 What is Clean Architecture? It could be thought an architecture pattern that dissociates interest by realizing:</description>
     </item>
