@@ -1,11 +1,10 @@
 ---
 title: "Go × Clean Architecture implementation pattern"
+description: "A brief description of the clean architecture implementation patterns."
 date: 2018-10-05T14:55:14+09:00
 draft: false
-
-categories: ["golang"]
+tags: ["golang"]
 comments: false
-description: "A brief description of the clean architecture implementation patterns."
 ---
 
 Click [here](http://nakawatch.hatenablog.com/entry/2018/07/11/181453) for Japanese version  

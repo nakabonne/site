@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>http://35.200.16.155/tags/golang/</loc>
+    <lastmod>2018-10-05T14:55:14+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://35.200.16.155/posts/</loc>
     <lastmod>2018-10-05T14:55:14+09:00</lastmod>
   </url>
@@ -19,6 +24,11 @@
   
   <url>
     <loc>http://35.200.16.155/tags/</loc>
+    <lastmod>2018-10-05T14:55:14+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://35.200.16.155/about/</loc>
   </url>
   
 </urlset>
