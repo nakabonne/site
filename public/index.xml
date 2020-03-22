@@ -5,7 +5,7 @@
     <link>http://35.200.16.155/</link>
     <description>Recent content on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-US</language>
+    <language>en-us</language>
     <lastBuildDate>Fri, 05 Oct 2018 14:55:14 +0900</lastBuildDate>
     
 	<atom:link href="http://35.200.16.155/index.xml" rel="self" type="application/rss+xml" />
@@ -18,10 +18,7 @@
       
       <guid>http://35.200.16.155/posts/go-clean-architecture/</guid>
       <description>Click here for Japanese version
-What is Clean Architecture? It could be thought an architecture pattern that dissociates interest by realizing:
- Make domain logic independent Make framework independent Make UI independent Make any external agency independent Make domain logic easier to test  you may refer to various articles for further details, and we will focus on discussing about implementation patterns.
-Sample App https://github.com/nakabonne/cleanarchitecture-sample
-It just can be used to register user by posting to /users and is based on manuelkiessling/go-cleanarchitecture and using gorm as an ORM.</description>
+What is Clean Architecture? It could be thought an architecture pattern that dissociates interest by realizing:</description>
     </item>
     
   </channel>
