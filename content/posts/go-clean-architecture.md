@@ -30,7 +30,7 @@ It just can be used to register user by posting to `/users` and is based on [man
 ## App Architecture
 
 
-{{< figure src="/img/CleanArchitecture.jpg" >}}
+{{< figure src="/img/CleanArchitecture.jpg" width="100%" height="auto">}}
 
 Generally, it can be divided into any layers, but you should divide according to “Common Closure Principle (CCP)”; it means bunching up the components that could be changed for the common reason. This time, I divided it into four layers according to [original text](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html).  
   
