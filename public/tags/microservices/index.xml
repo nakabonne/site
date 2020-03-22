@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Microservices on Ryo Nakao</title>
+    <link>http://35.200.16.155/tags/microservices/</link>
+    <description>Recent content in Microservices on Ryo Nakao</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 18 Dec 2018 10:08:02 +0000</lastBuildDate>
+    
+	<atom:link href="http://35.200.16.155/tags/microservices/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Realization of distributed tracing by Envoy</title>
+      <link>http://35.200.16.155/posts/realization-of-distributed-tracing-by-envoy/</link>
+      <pubDate>Tue, 18 Dec 2018 10:08:02 +0000</pubDate>
+      
+      <guid>http://35.200.16.155/posts/realization-of-distributed-tracing-by-envoy/</guid>
+      <description>Necessity of distributed tracing Since distributed architecture such as Microservices are handled across multiple services, it’s difficult to keep track of communication between services.</description>
+    </item>
+    
+    <item>
+      <title>A choice to start small Service Mesh</title>
+      <link>http://35.200.16.155/posts/a-choice-to-start-small-service-mesh/</link>
+      <pubDate>Sat, 24 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://35.200.16.155/posts/a-choice-to-start-small-service-mesh/</guid>
+      <description>Now, the architecture called Service Mesh is attracting attention in the Microservice industry.</description>
+    </item>
+    
+    <item>
+      <title>Why was gRPC born?</title>
+      <link>http://35.200.16.155/posts/why-was-grpc-born/</link>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://35.200.16.155/posts/why-was-grpc-born/</guid>
+      <description>The term gRPC became very famous, and articles such as “Introducing gRPC in house” and “How to build gRPC server” can now overflow.</description>
+    </item>
+    
+  </channel>
+</rss>

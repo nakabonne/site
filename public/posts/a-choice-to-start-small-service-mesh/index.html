@@ -29,8 +29,6 @@
     
  
     
-    <link rel="alternate" type="application/rss+xml" href="http://35.200.16.155/tags/index.xml" title="Ryo Nakao" />
-    
     
 </head>
     <body>
@@ -136,23 +134,146 @@
 </nav>
         <div id="content" class="content-container">
         
-
-<h1>Tags</h1>
+<h1 class="post-title">A choice to start small Service Mesh</h1>
+    
+    <time>November 24, 2018</time>
+    
+    <div>
+        <p>
+        <p>Now, the architecture called Service Mesh is attracting attention in the Microservice industry.<br>
+There are various products for realization, but I made a small control-plane called sxds.<br>
+In this article, I will introduce the means to start small Service Mesh referring to sxds.</p>
+<p><a href="https://github.com/nakabonne/sxds" title="https://github.com/nakabonne/sxds"><strong>nakabonne/sxds</strong><br>
+_simple-xds that provides configuration and route table to data-plane for service discovery - nakabonne/sxds_github.com</a>[](<a href="https://github.com/nakabonne/sxds">https://github.com/nakabonne/sxds</a>)</p>
+<h3 id="target-reader">Target reader</h3>
 <ul>
-    
-        <li><a href="http://35.200.16.155/tags/golang/">Golang</a> 2</li>
-    
-        <li><a href="http://35.200.16.155/tags/microservices/">Microservices</a> 3</li>
-    
-        <li><a href="http://35.200.16.155/tags/oss/">OSS</a> 1</li>
-    
-        <li><a href="http://35.200.16.155/tags/philosophy/">Philosophy</a> 2</li>
-    
-        <li><a href="http://35.200.16.155/tags/software-design/">Software Design</a> 2</li>
-    
+<li>Those considering introducing Service Mesh</li>
+<li>Those who want to deepen their understanding of Service Mesh</li>
+<li>Those being Interested in Microservices</li>
 </ul>
+<h3 id="what-is-servicemesh">What is Service Mesh</h3>
+<p>Briefly, it’s one of the architectures to solve various problems caused by Microservices.<br>
+Since the definition of Service Mesh is introduced in various articles, it’s omitted in the present article.</p>
+<ul>
+<li><a href="https://www.redhat.com/ko/topics/microservices/what-is-a-service-mesh">What’s a service mesh?</a></li>
+<li><a href="https://istio.io/docs/concepts/what-is-istio/#what-is-a-service-mesh">Istio / What is Istio?</a></li>
+<li><a href="https://www.nginx.com/blog/what-is-a-service-mesh/">What Is a Service Mesh? — NGINX</a></li>
+<li><a href="https://www.microservices.com/talks/lyfts-envoy-monolith-service-mesh-matt-klein/">Lyft’s Envoy: From Monolith to Service Mesh — Matt Klein | Microservices.com</a></li>
+<li><a href="https://blog.buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/">What’s a service mesh? And why do I need one? — blog.buoyant</a></li>
+</ul>
+<h3 id="means-of-realizing-servicemesh">Means of realizing Service Mesh</h3>
+<p>The tools that realize control-plane and data-plane are as follows.<br>
+I will explain only what is considered representative at the time of writing here.</p>
+<h4 id="control-plane">control-plane</h4>
+<ul>
+<li><a href="https://istio.io/">Istio</a></li>
+<li><a href="https://inch-ci.org/github/airbnb/synapse">Synapse</a></li>
+<li><a href="https://getnelson.io/">Nelson</a></li>
+<li><a href="https://aws.amazon.com/jp/app-mesh/">AWS App Mesh</a> (Available only as public preview at the time of writing)</li>
+</ul>
+<p>Istio is famous as the control-plane at the time of writing.<br>
+Istio encloses a data-plane. Therefore, Service Mesh can be realized by this one.<br>
+It’s a very good tool, but of course it’s not a silver bullet.<br>
+Istio exerts its effect by collecting cluster information etc from the orchestration tool.<br>
+In other words, it can not be effective in environments not using orchestration tools.<br>
+Also, Istio offers many functions, but if you use only a few functions you can not get enough benefit.</p>
+<h4 id="data-plane">data-plane</h4>
+<ul>
+<li><a href="https://www.envoyproxy.io/">Envoy</a></li>
+<li><a href="https://linkerd.io/">Linkerd</a></li>
+<li><a href="https://www.nginx.com/">NGINX</a></li>
+<li><a href="https://www.haproxy.com/">HAProxy</a></li>
+<li><a href="https://traefik.io/">Traefik</a></li>
+</ul>
+<p>I think that Envoy which is also adopted as Istio’s default data-plane can be considered as a representative.<br>
+Envoy is an L7 proxy. The feature is built on the premise of mediation of inbound and outbound traffic, so distribution tracing and dynamic service discovery can be realized at the proxy level.</p>
+<h3 id="control-plane-self-making">Control-plane self-making</h3>
+<p>As I mentioned, there are lots of great tools. However, the only function I initially wanted in my project was to dynamically update the data-plane configuration for service discovery.<br>
+Also, since all services were running on a container management service called AWS’s ECS, we have not used orchestration tools such as k8s.<br>
+So I adopted Envoy for data-plane and created control-plane <a href="https://github.com/nakabonne/sxds">sxds</a> which controls it.<br>
+I will explain the method from the next section in detail.</p>
+<h4 id="interface">Interface</h4>
+<p>The interface for communicating with the Envoy is published as <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api">data-plane-api</a>, and we will create an API that satisfies this.<br>
+While Envoy is the only proxy conforming to this API definition at the time of writing, the author Matt Klein is speaking on a <a href="https://blog.envoyproxy.io/the-universal-data-plane-api-d15cec7a">blog</a> to make data-plane-api generic.<br>
+Therefore, if this API definition becomes generic in the future, the control-plane created by you will be generic as well.<br>
+Also, the API that satisfies data-plane-api is called xds.</p>
+<h4 id="implementation-bygo">Implementation by Go</h4>
+<p>Envoy defines a proprietary protocol, <a href="https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md">xds protocol</a>.<br>
+According to this, xds must be implemented in gRPC bidi stream or long polling REST.<br>
+It’s necessary to implement an implementation that complies with xds protocol, but only Go and Java have official libraries containing this implementation.</p>
+<ul>
+<li><a href="https://github.com/envoyproxy/go-control-plane">envoyproxy/go-control-plane</a></li>
+<li><a href="https://github.com/envoyproxy/java-control-plane">envoyproxy/java-control-plane</a></li>
+</ul>
+<p>In sxds I selected Go, and imported go-control-plane and implemented xds server.</p>
+<ul>
+<li><a href="https://github.com/nakabonne/sxds/blob/master/server/xds/server.go">xds/server.go · nakabonne/sxds · GitHub</a></li>
+</ul>
+<p>Yes, this is the end of xds implementation. However, since go-control-plane needs to cache data-plane settings in memory, we also implemented a REST server for caching as follows.</p>
+<ul>
+<li><a href="https://github.com/nakabonne/sxds/blob/master/server/cacher/server.go">cacher/server.go · nakabonne/sxds · GitHub</a></li>
+<li><a href="https://github.com/nakabonne/sxds/blob/master/server/cacher/cacher.go">cacher/cacher.go · nakabonne/sxds · GitHub</a></li>
+</ul>
+<p>The whole architecture looks like this.</p>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*eFBElcoENe93GfH8K4ERLA.png" alt=""></p>
+<h4 id="static-resources-management">Static resources management</h4>
+<p>You need to manage the static resources needed to respond to Envoy.<br>
+Since sxds provides four services, <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/lds">LDS</a>/<a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cds">CDS</a>/<a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/rds">RDS</a>/<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/eds.proto#envoy-api-file-envoy-api-v2-eds-proto">EDS</a>, you need to define the following resources necessary for these services.</p>
+<ul>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/lds.proto#envoy-api-msg-listener">listeners</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#cluster">clusters</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/rds.proto#routeconfiguration">routes</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/eds.proto#envoy-api-msg-clusterloadassignment">endpoints</a></li>
+</ul>
+<p>You also need to specify the version of the resources.<br>
+In order to prevent unnecessary packet exchange, the rule that no response is returned when there is no change in version is defined in xds protocol.<br>
+You need to define them with json and send to the server for caching.</p>
+<ul>
+<li><a href="https://github.com/nakabonne/sxds/blob/master/sample/resource/sidecar.json">resources/sidecar.json · nakabonne/sxds · GitHub</a></li>
+</ul>
+<h4 id="envoy-settings">Envoy settings</h4>
+<p>As a static resources, define information on the cluster that runs sxds.<br>
+As a dynamic resources, specify the cluster defined earlier.</p>
+<ul>
+<li><a href="https://github.com/nakabonne/sxds/blob/master/sample/envoy/envoy.yml">envoy/envoy.yml · nakabonne/sxds · GitHub</a></li>
+</ul>
+<h4 id="execution">Execution</h4>
+<p><strong>Execution of Envoy</strong></p>
+<p>sxds caches resources for each node type to reduce memory consumption.<br>
+Therefore, it’s necessary to set the node type at startup, and set this by setting the node ID naming rule to {node_type}-something.<br>
+Also, since its own cluster information is required for discovery request to control-plane, please specify the cluster name as well.</p>
+<p>$ envoy &ndash;service-node sidecar-app1 &ndash;service-cluster app1</p>
+<p><strong>Execution of sxds</strong></p>
+<p>$ sxds<br>
+2018-12-01T10:00:00.518+0900    INFO    xds/server.go:56    xDS server is listening {&ldquo;conf&rdquo;: {&ldquo;Port&rdquo;:8081}}<br>
+2018-12-01T10:00:00.518+0900    INFO    cacher/server.go:58 cacher server is listening  {&ldquo;conf&rdquo;: {&ldquo;Port&rdquo;:8082}}</p>
+<p><strong>Send resources</strong></p>
+<p>Send the json file created above to the cacher server.</p>
+<p>$ curl -XPUT http://{IP_ADDRESS}:8082/resources/sidecar -d @sidecar.json</p>
+<p>Then you should be able to confirm that the setting is reflected in Envoy.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>I introduced sxds, but of course this is not perfect.<br>
+It becomes hard to handle when xds is made redundant, and a mechanism to persist resources json is also necessary.</p>
+<p><strong>What I want to tell you is that using the official library of envoyproxy makes it possible to create a control-plane at low cost, and that means of self-making only the necessary functions is also a sufficiently effective means.<br>
+When migrating an existing service to Microservice, it’s not necessarily a modern environment.<br>
+In such a situation, having a means to be able to easily self-make according to the environment is a great weapon.</strong></p>
+<p>I would be pleased if you have the choice to start small Service Mesh in your head now.</p>
 
-<div class="page-footer"></div>
+        </p>
+    </div>
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/golang">#Golang</a>
+        
+            <a class="tag" href="/tags/microservices">#Microservices</a>
+        
+      
+    </div>
+
 
         
 

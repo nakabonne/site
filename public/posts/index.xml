@@ -6,19 +6,75 @@
     <description>Recent content in Posts on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 05 Oct 2018 14:55:14 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 04 Jun 2019 05:54:14 +0000</lastBuildDate>
     
 	<atom:link href="http://35.200.16.155/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Things That Could Drive Me Into a Nervous Breakdown</title>
+      <link>http://35.200.16.155/posts/things-that-could-drive-me-into-a-nervous-breakdown/</link>
+      <pubDate>Tue, 04 Jun 2019 05:54:14 +0000</pubDate>
+      
+      <guid>http://35.200.16.155/posts/things-that-could-drive-me-into-a-nervous-breakdown/</guid>
+      <description>Photo by Ric Rodrigues from Pexels
+Nowadays, I have room in my heart for thinking about what could push me past my breaking point.</description>
+    </item>
+    
+    <item>
+      <title>Incredible reasons I make a recommendation to apply to GSoC despite never got accepted</title>
+      <link>http://35.200.16.155/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</link>
+      <pubDate>Sat, 11 May 2019 02:19:59 +0000</pubDate>
+      
+      <guid>http://35.200.16.155/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</guid>
+      <description>Unfortunately, as mentioned earlier I was not able to get into Google Summer of Code 2019.</description>
+    </item>
+    
+    <item>
+      <title>Depth of module</title>
+      <link>http://35.200.16.155/posts/depth-of-module/</link>
+      <pubDate>Thu, 17 Jan 2019 11:33:43 +0000</pubDate>
+      
+      <guid>http://35.200.16.155/posts/depth-of-module/</guid>
+      <description>Click here for Japanese version
+This article summarizes the concept of deep module described in the book “A Philosophy of Software Design” written by Professor John Ousterhout at Stanford University, and is written with permission of him.</description>
+    </item>
+    
+    <item>
+      <title>Realization of distributed tracing by Envoy</title>
+      <link>http://35.200.16.155/posts/realization-of-distributed-tracing-by-envoy/</link>
+      <pubDate>Tue, 18 Dec 2018 10:08:02 +0000</pubDate>
+      
+      <guid>http://35.200.16.155/posts/realization-of-distributed-tracing-by-envoy/</guid>
+      <description>Necessity of distributed tracing Since distributed architecture such as Microservices are handled across multiple services, it’s difficult to keep track of communication between services.</description>
+    </item>
+    
+    <item>
+      <title>A choice to start small Service Mesh</title>
+      <link>http://35.200.16.155/posts/a-choice-to-start-small-service-mesh/</link>
+      <pubDate>Sat, 24 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://35.200.16.155/posts/a-choice-to-start-small-service-mesh/</guid>
+      <description>Now, the architecture called Service Mesh is attracting attention in the Microservice industry.</description>
+    </item>
+    
+    <item>
       <title>Go × Clean Architecture implementation pattern</title>
       <link>http://35.200.16.155/posts/go-clean-architecture/</link>
-      <pubDate>Fri, 05 Oct 2018 14:55:14 +0900</pubDate>
+      <pubDate>Fri, 05 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>http://35.200.16.155/posts/go-clean-architecture/</guid>
       <description>Click here for Japanese version
 What is Clean Architecture? It could be thought an architecture pattern that dissociates interest by realizing:</description>
+    </item>
+    
+    <item>
+      <title>Why was gRPC born?</title>
+      <link>http://35.200.16.155/posts/why-was-grpc-born/</link>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://35.200.16.155/posts/why-was-grpc-born/</guid>
+      <description>The term gRPC became very famous, and articles such as “Introducing gRPC in house” and “How to build gRPC server” can now overflow.</description>
     </item>
     
   </channel>

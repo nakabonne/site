@@ -29,8 +29,6 @@
     
  
     
-    <link rel="alternate" type="application/rss+xml" href="http://35.200.16.155/tags/index.xml" title="Ryo Nakao" />
-    
     
 </head>
     <body>
@@ -136,23 +134,88 @@
 </nav>
         <div id="content" class="content-container">
         
-
-<h1>Tags</h1>
+<h1 class="post-title">Depth of module</h1>
+    
+    <time>January 17, 2019</time>
+    
+    <div>
+        <p>
+        <p>Click <a href="http://nakawatch.hatenablog.com/entry/module-depth">here</a> for Japanese version</p>
+<p>This article summarizes the concept of <strong>deep module</strong> described in the book “<a href="https://www.amazon.com/t/dp/1732102201">A Philosophy of Software Design</a>” written by <a href="https://web.stanford.edu/~ouster/cgi-bin/home.php">Professor John Ousterhout</a> at Stanford University, and is written with permission of him. However, this is mainly describing my opinion rather than giving detailed contents of this book.</p>
+<p>First, I will define a good module I consider and then walk you through the concept of deep module to realize it.</p>
+<h3 id="whats-a-goodmodule">What’s a good module</h3>
+<p>What’s a good module? The term module here means classes, structures, subsystems and divided software such as Microservice etc, and language does not matter.</p>
+<h4 id="a-smallmodule">A small module?</h4>
+<p>Small is worth, as is the Unix philosophy of “Small is beautiful”. Dividing the module into small pieces makes it easier to clarify the work of each module, which makes maintenance easier as a result. Certainly it is important, but in the first place, why make a module?<br>
+One of the main reasons is to lower the complexity of implementation by gathering elements of high relevance. See this code on the assumption that it.<br>
+In order to open a file in Java, you need three small classes as follows.</p>
+<p>three small classes</p>
+<p><a href="https://docs.oracle.com/javase/8/docs/api/java/io/FileInputStream.html">FileInputStream</a> provides rudimentary I/O only, and <a href="https://docs.oracle.com/javase/8/docs/api/java/io/BufferedInputStream.html">BufferedInputStream</a> converts the byte input stream obtained by FileInputStream into a byte input stream with buffering read. And <a href="https://docs.oracle.com/javase/8/docs/api/java/io/ObjectInputStream.html">ObjectInputStream</a> provides the ability to operate serialized objects.<br>
+As you can see, we have to generate as many as three objects just to open a file. By making the class smaller, the work of each class became clear, but because the relevant FileInputStream and BufferedInputStream are independent, if a user forgets to create a BufferedInputStream, it will not be buffered and will be slow. The point is, the complexity of implementation is leaking to the outside. It’s not always bad that the complexity of implementation leaks out, but you should be aware of the following.</p>
 <ul>
-    
-        <li><a href="http://35.200.16.155/tags/golang/">Golang</a> 2</li>
-    
-        <li><a href="http://35.200.16.155/tags/microservices/">Microservices</a> 3</li>
-    
-        <li><a href="http://35.200.16.155/tags/oss/">OSS</a> 1</li>
-    
-        <li><a href="http://35.200.16.155/tags/philosophy/">Philosophy</a> 2</li>
-    
-        <li><a href="http://35.200.16.155/tags/software-design/">Software Design</a> 2</li>
-    
+<li>The fact that modules are small means that the amount of information they have is small</li>
+<li>If the amount of information that it has is small, the complexity of implementation tends to leak outside</li>
+<li>If the complexity of implementation is leaking to the outside, it is easier for module implementation changes to affect the surrounding modules</li>
 </ul>
+<p>There is no doubt that small is beautiful, but it turned out that maintainability declined if dividing highly relevant elements. Thus, it turned out realized that you could not make a good module if you were too conscious of making it smaller.</p>
+<h4 id="high-cohesion-loose-coupling">High Cohesion? Loose Coupling?</h4>
+<p>It is essential that elements of high relevance gather (high cohesion), and each doesn’t depend on (loose coupling). The above code is a beautiful example of loose cohesion and tight coupling. There are many benefits to having hidden many elements of high relevance.<br>
+Having elements of “high relevance” makes the design clearer, easier to maintain and extend, and increases reusability.<br>
+Also, having “many” elements strengthens the functionality of modules.<br>
+In addition, by having “hidden” it, you can promote loose coupling.<br>
+Therefore, it turned out that high cohesion is a very important concept.</p>
+<p>It goes without saying that the loose coupling of modules will have a positive impact on software, but in order to maintain loose coupling, it is necessary <strong>to make interfaces connecting the modules good</strong>.</p>
+<h4 id="whats-a-good-interface">What’s a good interface?</h4>
+<p>People often say that “keep interface simple”, but the word “simple” is ambiguous, so it should be embodied.<br>
+First of all it’s necessary to understand what is required of an interface of a module. For modules to use other modules, they sign a contract named interface. Since each module is implemented on the premise of that contract, as the contract changes, the implementation of all modules involved in the contract must be changed. However, software is quite likely to evolve. Interfaces are required to not collapse even in this contradiction, in other words, <strong>I’m sure that a good interface is an immutable interface (it does not allow changes other than addition)</strong>.</p>
+<p>And it should be easy to use for users who use an interface whenever possible. But my thought on this “ease of use” is influenced by the way of thinking that Clojure author Rich Hickey mentioned in <a href="http://confreaks.tv/videos/railsconf2012-keynote-simplicity-matters">Simplicity Matters</a>. I consider that ease of use is a relative concept, and what is useful depends on the user.<br>
+Users are roughly divided into two in terms of use cases, some people use in the edge case, others use in the general case. Allowing edge cases is one of the main reasons that the interface becomes complicated. For that reason, <strong>you should focus on general use cases and pursue ease of use</strong>.<br>
+Please see at the Java code above again. It’s a general usage method to use buffering when operating files. Nonetheless, it allowed the edge case that it doesn’t use buffering by allowing the BufferedInputStream class to be independent. As a result, the interface has become complicated.<br>
+I again define a good interface as “an easy-to-use in a general case and immutable interface”.</p>
+<h4 id="a-goodmodule">A good module</h4>
+<p>Based on the above, the definition of a good module I consider is <strong>“a module that hides many elements of high relevance and provides powerful functionalities through an easy-to-use in a general case and immutable interface”</strong>. In the next chapter, I will walk you through the concept of deep module that realizes it.</p>
+<h3 id="deep-module">deep module</h3>
+<p>Implementation becomes complicated to some extent due to hide many elements, yet in order to become an ideal module, it must provide powerful functionality through interfaces that hide the complexity of implementation. Professor John Ousterhout calls such a module deep module. It is written as follows in this book.</p>
+<blockquote>
+<p>“they allow a lot of functionality to be accessed through a simple interface.”</p>
+</blockquote>
+<blockquote>
+<p>(John Ousterhout, A Philosophy of <a href="http://d.hatena.ne.jp/keyword/Software%20Design">Software Design</a>.)</p>
+</blockquote>
+<p><img src="https://cdn-images-1.medium.com/max/800/1*lCGfGhyIOUg12Bhis-iLQA.png" alt="deep and shallow modules">
+deep and shallow modules</p>
+<p>The above figure was created with reference to the figure depicted in this book. The rectangle represents a module, the length of the top edge represents the complexity of the interface, and the vertical length represents the powerfulness of the functionality (benefits the module brings). That means the longer it’s horizontally the more complicated the interface, and the longer it’s vertically the more powerful the functionality. Professor John Ousterhout uses the term “deep” to describe modules such as the portrait rectangle on the left side, and thinks it is the best.<br>
+It indicates that the following viewpoints are necessary for module design.</p>
+<ul>
+<li>The functionalities are powerful, but are the interfaces more complicated than that?</li>
+<li>The interfaces are simple, but are the functionalities poorer than that?</li>
+</ul>
+<p><strong>Interface complexity is cost, and powerfulness of functionality is benefit</strong>. It’s a deep module if the benefit is above the cost, yet it’s hard to identify this, so you should see many good examples.</p>
+<h4 id="eg-file-io-provided-by-unixos">e.g.) File I/O provided by Unix OS</h4>
+<p>Specific examples of embodying deep module include system calls for I/O provided by the Unix OS. Basically, there are only five system calls if you follow the standard file I/O model.</p>
+<ul>
+<li>open()</li>
+<li>read()</li>
+<li>write()</li>
+<li>close()</li>
+<li>lseek()</li>
+</ul>
+<p>Despite the fact that the implementations of Unix I/O have evolved over the years, these five system calls have not changed. This is an ideal deep module. Since the kernel was originally designed to run the user application stably, the interface is hardly changed. Therefore, I’m convinced that seeing system calls is very helpful.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>Module designers are required to design with a lot of perspectives(e.g. cohesion, coupling, reversibility, orthogonality).<br>
+However, I suppose everyone feels that it’s hard to incorporate all perspectives into software which expresses abstract world with concrete code and changes constantly.<br>
+So, <strong>why not try asking a single question “Is this module deep?”</strong>.<br>
+I would be grateful if as many people as possible could grasp Professor John Ousterhout ‘s wonderful concept deep module.<br>
+You should purchase <a href="https://www.amazon.com/t/dp/1732102201">this book</a> if you’re intrigued.</p>
 
-<div class="page-footer"></div>
+        </p>
+    </div>
+    
+
+    <div class="page-footer">
+        
+    </div>
+
 
         
 
