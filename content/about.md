@@ -10,6 +10,6 @@ I'm a software engineer, passionate about reducing the cycle time between an ide
 I can be found online at:
 
 - [Github](https://github.com/nakabonne)
-- [Twitter](https://twitter.com/nakabonne)
+- [Twitter](https://twitter.com/nakabonne) (Mostly Japanese)
 
-For more detail on my professional career, visit my [LinkedIn page](https://www.linkedin.com/in/nakabonne/).
+Visit my [LinkedIn page](https://www.linkedin.com/in/nakabonne/) for more detail on my professional career.
