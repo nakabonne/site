@@ -155,7 +155,10 @@
 <p><strong><a href="https://github.com/nakabonne/cleanarchitecture-sample">https://github.com/nakabonne/cleanarchitecture-sample</a></strong></p>
 <p>It just can be used to register user by posting to <code>/users</code> and is based on <a href="https://github.com/manuelkiessling/go-cleanarchitecture">manuelkiessling/go-cleanarchitecture</a> and using gorm as an ORM.</p>
 <h2 id="app-architecture">App Architecture</h2>
-<p><img src="/img/CleanArchitecture.jpg" alt=""></p>
+<figure>
+    <img src="/img/CleanArchitecture.jpg"/> 
+</figure>
+
 <p>Generally, it can be divided into any layers, but you should divide according to “Common Closure Principle (CCP)”; it means bunching up the components that could be changed for the common reason. This time, I divided it into four layers according to <a href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">original text</a>.</p>
 <p>Be sure to make dependencies keeping in a single direction from the outside to the inside, here’s the bottom line.</p>
 <h2 id="directory-structure">Directory structure</h2>
