@@ -18,7 +18,7 @@ summaryLength = 10 # Configure how long the post summary should be on the homepa
 ## Site Settings
 [params]
 	math = true
-	description = "a random walk through Software Development"
+	description = "a random walk through topics that interest me"
   # For social links
   github = "https://github.com/nakabonne"
 	linkedin = "https://www.linkedin.com/in/nakabonne"
