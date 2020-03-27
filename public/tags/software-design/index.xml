@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Software Design on Ryo Nakao</title>
-    <link>https://nakabonne.com/tags/software-design/</link>
+    <link>https://nakabonne.dev/tags/software-design/</link>
     <description>Recent content in Software Design on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 17 Jan 2019 11:33:43 +0000</lastBuildDate>
     
-	<atom:link href="https://nakabonne.com/tags/software-design/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nakabonne.dev/tags/software-design/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Depth of module</title>
-      <link>https://nakabonne.com/posts/depth-of-module/</link>
+      <link>https://nakabonne.dev/posts/depth-of-module/</link>
       <pubDate>Thu, 17 Jan 2019 11:33:43 +0000</pubDate>
       
-      <guid>https://nakabonne.com/posts/depth-of-module/</guid>
+      <guid>https://nakabonne.dev/posts/depth-of-module/</guid>
       <description>Click here for Japanese version
 This article summarizes the concept of deep module described in the book “A Philosophy of Software Design” written by Professor John Ousterhout at Stanford University, and is written with permission of him.</description>
     </item>
     
     <item>
       <title>Go × Clean Architecture implementation pattern</title>
-      <link>https://nakabonne.com/posts/go-clean-architecture/</link>
+      <link>https://nakabonne.dev/posts/go-clean-architecture/</link>
       <pubDate>Fri, 05 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://nakabonne.com/posts/go-clean-architecture/</guid>
+      <guid>https://nakabonne.dev/posts/go-clean-architecture/</guid>
       <description>Click here for Japanese version
 What is Clean Architecture? It could be thought an architecture pattern that dissociates interest by realizing:</description>
     </item>

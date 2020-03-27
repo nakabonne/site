@@ -2,87 +2,87 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ryo Nakao</title>
-    <link>https://nakabonne.com/</link>
+    <link>https://nakabonne.dev/</link>
     <description>Recent content on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 04 Jun 2019 05:54:14 +0000</lastBuildDate>
     
-	<atom:link href="https://nakabonne.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nakabonne.dev/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Things That Could Drive Me Into a Nervous Breakdown</title>
-      <link>https://nakabonne.com/posts/things-that-could-drive-me-into-a-nervous-breakdown/</link>
+      <link>https://nakabonne.dev/posts/things-that-could-drive-me-into-a-nervous-breakdown/</link>
       <pubDate>Tue, 04 Jun 2019 05:54:14 +0000</pubDate>
       
-      <guid>https://nakabonne.com/posts/things-that-could-drive-me-into-a-nervous-breakdown/</guid>
+      <guid>https://nakabonne.dev/posts/things-that-could-drive-me-into-a-nervous-breakdown/</guid>
       <description>Photo by Ric Rodrigues from Pexels
 Nowadays, I have room in my heart for thinking about what could push me past my breaking point.</description>
     </item>
     
     <item>
       <title>Incredible reasons I make a recommendation to apply to GSoC despite never got accepted</title>
-      <link>https://nakabonne.com/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</link>
+      <link>https://nakabonne.dev/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</link>
       <pubDate>Sat, 11 May 2019 02:19:59 +0000</pubDate>
       
-      <guid>https://nakabonne.com/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</guid>
+      <guid>https://nakabonne.dev/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</guid>
       <description>Unfortunately, as mentioned earlier I was not able to get into Google Summer of Code 2019.</description>
     </item>
     
     <item>
       <title>Depth of module</title>
-      <link>https://nakabonne.com/posts/depth-of-module/</link>
+      <link>https://nakabonne.dev/posts/depth-of-module/</link>
       <pubDate>Thu, 17 Jan 2019 11:33:43 +0000</pubDate>
       
-      <guid>https://nakabonne.com/posts/depth-of-module/</guid>
+      <guid>https://nakabonne.dev/posts/depth-of-module/</guid>
       <description>Click here for Japanese version
 This article summarizes the concept of deep module described in the book “A Philosophy of Software Design” written by Professor John Ousterhout at Stanford University, and is written with permission of him.</description>
     </item>
     
     <item>
       <title>Realization of distributed tracing by Envoy</title>
-      <link>https://nakabonne.com/posts/realization-of-distributed-tracing-by-envoy/</link>
+      <link>https://nakabonne.dev/posts/realization-of-distributed-tracing-by-envoy/</link>
       <pubDate>Tue, 18 Dec 2018 10:08:02 +0000</pubDate>
       
-      <guid>https://nakabonne.com/posts/realization-of-distributed-tracing-by-envoy/</guid>
+      <guid>https://nakabonne.dev/posts/realization-of-distributed-tracing-by-envoy/</guid>
       <description>Necessity of distributed tracing Since distributed architecture such as Microservices are handled across multiple services, it’s difficult to keep track of communication between services.</description>
     </item>
     
     <item>
       <title>A choice to start small Service Mesh</title>
-      <link>https://nakabonne.com/posts/a-choice-to-start-small-service-mesh/</link>
+      <link>https://nakabonne.dev/posts/a-choice-to-start-small-service-mesh/</link>
       <pubDate>Sat, 24 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://nakabonne.com/posts/a-choice-to-start-small-service-mesh/</guid>
+      <guid>https://nakabonne.dev/posts/a-choice-to-start-small-service-mesh/</guid>
       <description>Now, the architecture called Service Mesh is attracting attention in the Microservice industry.</description>
     </item>
     
     <item>
       <title>Go × Clean Architecture implementation pattern</title>
-      <link>https://nakabonne.com/posts/go-clean-architecture/</link>
+      <link>https://nakabonne.dev/posts/go-clean-architecture/</link>
       <pubDate>Fri, 05 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://nakabonne.com/posts/go-clean-architecture/</guid>
+      <guid>https://nakabonne.dev/posts/go-clean-architecture/</guid>
       <description>Click here for Japanese version
 What is Clean Architecture? It could be thought an architecture pattern that dissociates interest by realizing:</description>
     </item>
     
     <item>
       <title>Why was gRPC born?</title>
-      <link>https://nakabonne.com/posts/why-was-grpc-born/</link>
+      <link>https://nakabonne.dev/posts/why-was-grpc-born/</link>
       <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://nakabonne.com/posts/why-was-grpc-born/</guid>
+      <guid>https://nakabonne.dev/posts/why-was-grpc-born/</guid>
       <description>The term gRPC became very famous, and articles such as “Introducing gRPC in house” and “How to build gRPC server” can now overflow.</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>https://nakabonne.com/about/</link>
+      <link>https://nakabonne.dev/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://nakabonne.com/about/</guid>
+      <guid>https://nakabonne.dev/about/</guid>
       <description>Hi there! I&amp;rsquo;m Ryo Nakao.
 I&amp;rsquo;m a software engineer, passionate about reducing the cycle time between an idea and usable software.</description>
     </item>

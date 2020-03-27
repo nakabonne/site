@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>OSS on Ryo Nakao</title>
-    <link>https://nakabonne.com/tags/oss/</link>
+    <link>https://nakabonne.dev/tags/oss/</link>
     <description>Recent content in OSS on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 11 May 2019 02:19:59 +0000</lastBuildDate>
     
-	<atom:link href="https://nakabonne.com/tags/oss/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nakabonne.dev/tags/oss/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Incredible reasons I make a recommendation to apply to GSoC despite never got accepted</title>
-      <link>https://nakabonne.com/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</link>
+      <link>https://nakabonne.dev/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</link>
       <pubDate>Sat, 11 May 2019 02:19:59 +0000</pubDate>
       
-      <guid>https://nakabonne.com/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</guid>
+      <guid>https://nakabonne.dev/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</guid>
       <description>Unfortunately, as mentioned earlier I was not able to get into Google Summer of Code 2019.</description>
     </item>
     
