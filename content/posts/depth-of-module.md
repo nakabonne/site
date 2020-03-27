@@ -11,7 +11,6 @@ Click [here](http://nakawatch.hatenablog.com/entry/module-depth) for Japanese ve
 
 This article summarizes the concept of **deep module** described in the book “[A Philosophy of Software Design](https://www.amazon.com/t/dp/1732102201)” written by [Professor John Ousterhout](https://web.stanford.edu/~ouster/cgi-bin/home.php) at Stanford University, and is written with permission of him. However, this is mainly describing my opinion rather than giving detailed contents of this book.
 
-{{< tweet 1084303975694757889 >}}
 {{< tweet 1084606003922984960 >}}
 
 First, I will define a good module I consider and then walk you through the concept of deep module to realize it.
