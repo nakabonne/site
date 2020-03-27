@@ -1,6 +1,6 @@
 ## Basic Configuration
 theme = "noteworthy"
-baseurl = "https://nakabonne.com"
+baseurl = "http://35.200.16.155"
 languageCode = "en-us"
 author = "Ryo Nakao"
 title = "Ryo Nakao"
