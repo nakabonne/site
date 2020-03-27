@@ -18,12 +18,14 @@ summaryLength = 10 # Configure how long the post summary should be on the homepa
 ## Site Settings
 [params]
 	math = true
-	# Blog description at the top of the homepage. Supports markdown.
-	description = "a random walk through Software Development"
-
   github = "https://github.com/nakabonne"
 	linkedin = "https://www.linkedin.com/in/nakabonne"
   twitter = "https://twitter.com/nakabonne"
+
+  # For Twitter card and OGP
+	description = "a random walk through Software Development"
+  images = ["site-feature-image.jpg"]
+  title = "Ryo Nakao"
 
 # Menu links along the sidebar navigation.
 [[menu.main]]
