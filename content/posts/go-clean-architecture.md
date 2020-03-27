@@ -3,7 +3,6 @@ title: "Go × Clean Architecture implementation pattern"
 description: "A brief description of the clean architecture implementation patterns."
 date: 2018-10-05
 tags: ["Golang", "Software Design"]
-images: ["/img/CleanArchitecture.jpg"]
 ---
 
 Click [here](http://nakawatch.hatenablog.com/entry/2018/07/11/181453) for Japanese version  
