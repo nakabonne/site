@@ -40,8 +40,3 @@ summaryLength = 10 # Configure how long the post summary should be on the homepa
 	url = "/tags/"
 	weight = 2
 
-[[menu.main]]
-	identifier = "blog(ja)"
-	name = "Blog(ja)"
-	url = "http://nakawatch.hatenablog.com"
-	weight = 3

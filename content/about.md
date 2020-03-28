@@ -12,4 +12,4 @@ I can be found online at:
 - [Github](https://github.com/nakabonne)
 - [LinkedIn](https://www.linkedin.com/in/nakabonne)
 - [Twitter](https://twitter.com/nakabonne) (Mostly Japanese)
-
+- [Blog(ja)](http://nakawatch.hatenablog.com)
