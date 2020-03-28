@@ -5,7 +5,7 @@ draft: false
 
 Hi there! I'm Ryo Nakao.  
 
-I'm a software engineer, passionate about reducing the cycle time between an idea and usable software.  
+I'm a software engineer, quite interested in reducing the cycle time between an idea and usable software.  
 
 I can be found online at:
 
