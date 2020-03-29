@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 04 Jun 2019 05:54:14 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://nakabonne.dev/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Digging deeper into the analysis of Go-code</title>
+      <link>https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/</link>
+      <pubDate>Sun, 29 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/</guid>
+      <description>The analysis of source code at the syntactic level can help you with your coding in a variety of ways.</description>
+    </item>
     
     <item>
       <title>Things That Could Drive Me Into a Nervous Breakdown</title>

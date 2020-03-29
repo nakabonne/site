@@ -6,10 +6,19 @@
     <description>Recent content in Tags on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 04 Jun 2019 05:54:14 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://nakabonne.dev/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Golang</title>
+      <link>https://nakabonne.dev/tags/golang/</link>
+      <pubDate>Sun, 29 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://nakabonne.dev/tags/golang/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Philosophy</title>
@@ -44,15 +53,6 @@
       <pubDate>Tue, 18 Dec 2018 10:08:02 +0000</pubDate>
       
       <guid>https://nakabonne.dev/tags/microservices/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Golang</title>
-      <link>https://nakabonne.dev/tags/golang/</link>
-      <pubDate>Sat, 24 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://nakabonne.dev/tags/golang/</guid>
       <description></description>
     </item>
     
