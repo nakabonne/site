@@ -3,27 +3,32 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/</loc>
-    <lastmod>2020-03-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://nakabonne.dev/tags/golang/</loc>
-    <lastmod>2020-03-29T00:00:00+00:00</lastmod>
+    <lastmod>2020-03-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://nakabonne.dev/posts/</loc>
-    <lastmod>2020-03-29T00:00:00+00:00</lastmod>
+    <lastmod>2020-03-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://nakabonne.dev/</loc>
-    <lastmod>2020-03-29T00:00:00+00:00</lastmod>
+    <lastmod>2020-03-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://nakabonne.dev/tags/</loc>
+    <lastmod>2020-03-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nakabonne.dev/posts/walk-the-go-ast-in-depth-first/</loc>
+    <lastmod>2020-03-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/</loc>
     <lastmod>2020-03-29T00:00:00+00:00</lastmod>
   </url>
   

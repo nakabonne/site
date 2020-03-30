@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 29 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 30 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://nakabonne.dev/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Walk the Go AST in depth-first</title>
+      <link>https://nakabonne.dev/posts/walk-the-go-ast-in-depth-first/</link>
+      <pubDate>Mon, 30 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://nakabonne.dev/posts/walk-the-go-ast-in-depth-first/</guid>
+      <description>ドキュメントを見ればASTの全てのNodeの説明はある。しかしイメージが付きづらいのが現実。なので、タイトルの通りサンプルコードを実際に深さ優先探索でinspectしていきながら、現れたNodeの解説をしていくことで、私達が普段書いているGoのコードが内部でどのように表現されているかを理解する。
+この記事ではソースコードをパースする方法には触れず、ASTが構築された後について説明します。コードがASTに変換される方法について気になる人は、 Digging deeper into the analysis of Go-code にnavigate toしてください。</description>
+    </item>
     
     <item>
       <title>Digging deeper into the analysis of Go-code</title>
