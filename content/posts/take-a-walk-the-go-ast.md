@@ -7,9 +7,12 @@ draft: false
 images: ["/img/ast-file-tree.png"]
 ---
 
-もしあなたがGoのASTについて興味を持ったら、ドキュメントを見ればASTの全てのNodeの説明はある。しかしイメージが付きづらいのが現実。なのでこの記事では肩の力を抜いてASTを散歩することで私達が普段書いているGoのコードが内部でどのように表現されているかを理解する。
+もしあなたがGoのASTについてcurious aboutした時、何を参照しますか？ドキュメント？ソースコード？それらを最初から最後まで読めば完全に理解できますね。
+でもそれをしようとすると疲れちゃいますよね。
+なのでこの記事では肩の力を抜いてASTを散歩することで私達が普段書いているGoのコードが内部でどのように表現されているかを理解する。
 
-この記事ではソースコードをパースする方法には触れず、ASTが構築された後について説明します。コードがASTに変換される方法について気になる人は、 [Digging deeper into the analysis of Go-code](https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/) にnavigate toしてください。
+この記事ではソースコードをパースする方法には触れず、ASTが構築された後について説明します。
+コードがASTに変換される方法について気になる人は、 [Digging deeper into the analysis of Go-code](https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/) にnavigate toしてください。
 
 Let’s get started.
 
