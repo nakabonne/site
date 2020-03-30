@@ -58,11 +58,11 @@ type Decl interface {
 早速歩き始めましょう。私達がASTに変換するコードはこちらです。
 
 ```go
-package testpkg
+package hello
 
 import "fmt"
 
-func foo() {
+func greet() {
 	fmt.Println("Hello, World")
 }
 ```
@@ -74,20 +74,20 @@ Nothing fancy — an overly simple Hello, World program. The AST built on this i
   
 ```go
 *ast.File {
-.  Package: foo.go:1:1
+.  Package: dummy.go:1:1
 .  Name: *ast.Ident {
-.  .  NamePos: foo.go:1:9
-.  .  Name: "testpkg"
+.  .  NamePos: dummy.go:1:9
+.  .  Name: "hello"
 .  }
 .  Decls: []ast.Decl (len = 2) {
 .  .  0: *ast.GenDecl {
-.  .  .  TokPos: foo.go:3:1
+.  .  .  TokPos: dummy.go:3:1
 .  .  .  Tok: import
 .  .  .  Lparen: -
 .  .  .  Specs: []ast.Spec (len = 1) {
 .  .  .  .  0: *ast.ImportSpec {
 .  .  .  .  .  Path: *ast.BasicLit {
-.  .  .  .  .  .  ValuePos: foo.go:3:8
+.  .  .  .  .  .  ValuePos: dummy.go:3:8
 .  .  .  .  .  .  Kind: STRING
 .  .  .  .  .  .  Value: "\"fmt\""
 .  .  .  .  .  }
@@ -98,56 +98,56 @@ Nothing fancy — an overly simple Hello, World program. The AST built on this i
 .  .  }
 .  .  1: *ast.FuncDecl {
 .  .  .  Name: *ast.Ident {
-.  .  .  .  NamePos: foo.go:5:6
-.  .  .  .  Name: "foo"
+.  .  .  .  NamePos: dummy.go:5:6
+.  .  .  .  Name: "greet"
 .  .  .  .  Obj: *ast.Object {
 .  .  .  .  .  Kind: func
-.  .  .  .  .  Name: "foo"
+.  .  .  .  .  Name: "greet"
 .  .  .  .  .  Decl: *(obj @ 23)
 .  .  .  .  }
 .  .  .  }
 .  .  .  Type: *ast.FuncType {
-.  .  .  .  Func: foo.go:5:1
+.  .  .  .  Func: dummy.go:5:1
 .  .  .  .  Params: *ast.FieldList {
-.  .  .  .  .  Opening: foo.go:5:9
-.  .  .  .  .  Closing: foo.go:5:10
+.  .  .  .  .  Opening: dummy.go:5:11
+.  .  .  .  .  Closing: dummy.go:5:12
 .  .  .  .  }
 .  .  .  }
 .  .  .  Body: *ast.BlockStmt {
-.  .  .  .  Lbrace: foo.go:5:12
+.  .  .  .  Lbrace: dummy.go:5:14
 .  .  .  .  List: []ast.Stmt (len = 1) {
 .  .  .  .  .  0: *ast.ExprStmt {
 .  .  .  .  .  .  X: *ast.CallExpr {
 .  .  .  .  .  .  .  Fun: *ast.SelectorExpr {
 .  .  .  .  .  .  .  .  X: *ast.Ident {
-.  .  .  .  .  .  .  .  .  NamePos: foo.go:6:2
+.  .  .  .  .  .  .  .  .  NamePos: dummy.go:6:2
 .  .  .  .  .  .  .  .  .  Name: "fmt"
 .  .  .  .  .  .  .  .  }
 .  .  .  .  .  .  .  .  Sel: *ast.Ident {
-.  .  .  .  .  .  .  .  .  NamePos: foo.go:6:6
+.  .  .  .  .  .  .  .  .  NamePos: dummy.go:6:6
 .  .  .  .  .  .  .  .  .  Name: "Println"
 .  .  .  .  .  .  .  .  }
 .  .  .  .  .  .  .  }
-.  .  .  .  .  .  .  Lparen: foo.go:6:13
+.  .  .  .  .  .  .  Lparen: dummy.go:6:13
 .  .  .  .  .  .  .  Args: []ast.Expr (len = 1) {
 .  .  .  .  .  .  .  .  0: *ast.BasicLit {
-.  .  .  .  .  .  .  .  .  ValuePos: foo.go:6:14
+.  .  .  .  .  .  .  .  .  ValuePos: dummy.go:6:14
 .  .  .  .  .  .  .  .  .  Kind: STRING
-.  .  .  .  .  .  .  .  .  Value: "\"bar\""
+.  .  .  .  .  .  .  .  .  Value: "\"Hello, World\""
 .  .  .  .  .  .  .  .  }
 .  .  .  .  .  .  .  }
 .  .  .  .  .  .  .  Ellipsis: -
-.  .  .  .  .  .  .  Rparen: foo.go:6:19
+.  .  .  .  .  .  .  Rparen: dummy.go:6:28
 .  .  .  .  .  .  }
 .  .  .  .  .  }
 .  .  .  .  }
-.  .  .  .  Rbrace: foo.go:7:1
+.  .  .  .  Rbrace: dummy.go:7:1
 .  .  .  }
 .  .  }
 .  }
 .  Scope: *ast.Scope {
 .  .  Objects: map[string]*ast.Object (len = 1) {
-.  .  .  "foo": *(obj @ 27)
+.  .  .  "greet": *(obj @ 27)
 .  .  }
 .  }
 .  Imports: []*ast.ImportSpec (len = 1) {
@@ -181,18 +181,17 @@ func main() {
 	f, _ := parser.ParseFile(fset, "dummy.go", src, parser.ParseComments)
 
 	ast.Inspect(f, func(n ast.Node) bool {
-      // Prints recursively with depth first.
 		ast.Print(fset, n)
 		return true
 	})
 }
 
-var src = `package testpkg
+var src = `package hello
 
 import "fmt"
 
-func foo() {
-	fmt.Println("bar")
+func greet() {
+	fmt.Println("Hello, World")
 }
 `
 ```
@@ -202,3 +201,109 @@ func foo() {
 
 ### ast.File
 最初のNodeは、全てのルートであるast.Fileです。
+
+
+{{< figure src="/img/ast-file-tree.png" width="100%" height="auto">}}
+
+
+### Package Name
+
+```go
+*ast.Ident {
+.  NamePos: dummy.go:1:9
+.  Name: "hello"
+}
+```
+
+### Import Declarations
+
+```go
+     0  *ast.GenDecl {
+     1  .  TokPos: dummy.go:3:1
+     2  .  Tok: import
+     3  .  Lparen: -
+     4  .  Specs: []ast.Spec (len = 1) {
+     5  .  .  0: *ast.ImportSpec {
+     6  .  .  .  Path: *ast.BasicLit {
+     7  .  .  .  .  ValuePos: dummy.go:3:8
+     8  .  .  .  .  Kind: STRING
+     9  .  .  .  .  Value: "\"fmt\""
+    10  .  .  .  }
+    11  .  .  .  EndPos: -
+    12  .  .  }
+    13  .  }
+    14  .  Rparen: -
+    15  }
+```
+
+```go
+     0  *ast.ImportSpec {
+     1  .  Path: *ast.BasicLit {
+     2  .  .  ValuePos: dummy.go:3:8
+     3  .  .  Kind: STRING
+     4  .  .  Value: "\"fmt\""
+     5  .  }
+     6  .  EndPos: -
+     7  }
+```
+
+```go
+     0  *ast.BasicLit {
+     1  .  ValuePos: dummy.go:3:8
+     2  .  Kind: STRING
+     3  .  Value: "\"fmt\""
+     4  }
+```
+
+### Func Declarations
+
+```go
+     0  *ast.FuncDecl {
+     1  .  Name: *ast.Ident {
+     2  .  .  NamePos: dummy.go:5:6
+     3  .  .  Name: "greet"
+     4  .  .  Obj: *ast.Object {
+     5  .  .  .  Kind: func
+     6  .  .  .  Name: "greet"
+     7  .  .  .  Decl: *(obj @ 0)
+     8  .  .  }
+     9  .  }
+    10  .  Type: *ast.FuncType {
+    11  .  .  Func: dummy.go:5:1
+    12  .  .  Params: *ast.FieldList {
+    13  .  .  .  Opening: dummy.go:5:11
+    14  .  .  .  Closing: dummy.go:5:12
+    15  .  .  }
+    16  .  }
+    17  .  Body: *ast.BlockStmt {
+    18  .  .  Lbrace: dummy.go:5:14
+    19  .  .  List: []ast.Stmt (len = 1) {
+    20  .  .  .  0: *ast.ExprStmt {
+    21  .  .  .  .  X: *ast.CallExpr {
+    22  .  .  .  .  .  Fun: *ast.SelectorExpr {
+    23  .  .  .  .  .  .  X: *ast.Ident {
+    24  .  .  .  .  .  .  .  NamePos: dummy.go:6:2
+    25  .  .  .  .  .  .  .  Name: "fmt"
+    26  .  .  .  .  .  .  }
+    27  .  .  .  .  .  .  Sel: *ast.Ident {
+    28  .  .  .  .  .  .  .  NamePos: dummy.go:6:6
+    29  .  .  .  .  .  .  .  Name: "Println"
+    30  .  .  .  .  .  .  }
+    31  .  .  .  .  .  }
+    32  .  .  .  .  .  Lparen: dummy.go:6:13
+    33  .  .  .  .  .  Args: []ast.Expr (len = 1) {
+    34  .  .  .  .  .  .  0: *ast.BasicLit {
+    35  .  .  .  .  .  .  .  ValuePos: dummy.go:6:14
+    36  .  .  .  .  .  .  .  Kind: STRING
+    37  .  .  .  .  .  .  .  Value: "\"Hello, World\""
+    38  .  .  .  .  .  .  }
+    39  .  .  .  .  .  }
+    40  .  .  .  .  .  Ellipsis: -
+    41  .  .  .  .  .  Rparen: dummy.go:6:28
+    42  .  .  .  .  }
+    43  .  .  .  }
+    44  .  .  }
+    45  .  .  Rbrace: dummy.go:7:1
+    46  .  }
+    47  }
+```
