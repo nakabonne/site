@@ -7,11 +7,12 @@ draft: false
 images: ["/img/ast-file-tree.png"]
 ---
 
-もしあなたがGoのASTについてcurious aboutした時、何を参照しますか？ドキュメント？ソースコード？それらを最初から最後まで読めば完全に理解できますね。
-でもそれをしようとすると疲れちゃいますよね。
-なのでこの記事では肩の力を抜いてASTを散歩することで私達が普段書いているGoのコードが内部でどのように表現されているかを理解する。
+もしあなたがGoのASTについてcurious aboutした時、何を参照しますか？ドキュメント？ソースコード？
+ドキュメントを読めば抽象的な理解はできますが、API同士の関連などを理解することはできません。
+ソースコードを読めばそれらも理解出来ますが、全部読もうとするとかなり体力を使います。
+なのでこの記事ではその中間となることを目指します。肩の力を抜いてASTを散歩することで私達が普段書いているGoのコードが内部でどのように表現されているかを理解しましょう。
 
-この記事ではソースコードをパースする方法には触れず、ASTが構築された後について説明します。
+この記事ではソースコードをパースする方法には触れず、ASTが構築された後から始めます。
 コードがASTに変換される方法について気になる人は、 [Digging deeper into the analysis of Go-code](https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/) にnavigate toしてください。
 
 Let’s get started.
@@ -57,7 +58,7 @@ type Decl interface {
 }
 ```
 
-## Getting started to walk
+## Getting started with walking
 早速歩き始めましょう。私達がASTに変換するコードはこちらです。
 
 ```go
@@ -163,11 +164,15 @@ Nothing fancy — an overly simple Hello, World program. The AST built on this i
 ```
 </details>
 
-  
-これを深さ優先でトラバースしていくわけですが、以下のように[`ast.Inspect()`](https://pkg.go.dev/go/ast?tab=doc#Inspect)を使って`ast.Print`を再帰的に呼ぶことで、一つひとつのNodeを表示していきます:
+#### How to walk
+All we have todo is traverse this AST node in depth-first order.
+Let's print each Node one by one by calling [`ast.Inspect()`](https://pkg.go.dev/go/ast?tab=doc#Inspect) recursively.
+
+Also, printing AST directly then we will typically see stuff that is not human readable. 
+To prevent that from happening, we're going to use [`ast.Print`](https://pkg.go.dev/go/ast?tab=doc#Print), a powerful API for human reading of AST:
 
 <details>
-  <summary>How to walk</summary>
+  <summary>walk.go</summary>
   
 ```go
 package main
@@ -184,6 +189,7 @@ func main() {
 	f, _ := parser.ParseFile(fset, "dummy.go", src, parser.ParseComments)
 
 	ast.Inspect(f, func(n ast.Node) bool {
+        // Called recursively.
 		ast.Print(fset, n)
 		return true
 	})
@@ -209,9 +215,11 @@ ast.Nodeを実装しています。
 
 {{< figure src="/img/ast-file-tree.png" width="100%" height="auto">}}
 
-Fileは大まかにこれらを子ノードとして持っています。厳密にはCommentsなどもありますが、今回は省略します。
+Fileは大まかにこれらを子ノードとして持っています。厳密にはCommentsなどもありますが、今回は省略します。まずはPackage Nameから見ていきましょう。
 
 ### Package Name
+
+#### *ast.Ident
 
 ```go
 *ast.Ident {
@@ -220,9 +228,13 @@ Fileは大まかにこれらを子ノードとして持っています。厳密�
 }
 ```
 
+A package name can be represented by the AST node type [`*ast.Ident`](https://pkg.go.dev/go/ast?tab=doc#Ident), which implements the `ast.Expr` interface.
+All identifiers are represented by this structure. It mainly contains its name and a source position within a file set.  
+From the code shown above, we can see that the package name is `hello` and is declared in the first line of `dummy.go`.
+
 ### Import Declarations
 
-*ast.GenDecl
+#### *ast.GenDecl
 
 ```go
 *ast.GenDecl {
@@ -230,20 +242,27 @@ Fileは大まかにこれらを子ノードとして持っています。厳密�
 .  Tok: import
 .  Lparen: -
 .  Specs: []ast.Spec (len = 1) {
-.  .  0: *ast.ImportSpec {}
+.  .  0: *ast.ImportSpec {/* Omission */}
 .  }
 .  Rparen: -
 }
 ```
+A declaration of import is represented by the AST node type `ast.GenDecl`, which implements the `ast.Decl` interface.
+`ast.GenDecl` represents all declarations except for functions; That is, import, const, var, and type.
 
-*ast.ImportSpec
+`Tok` represents a lexical token — which is specifies what the declaration is about depending on its implementation (IMPORT or CONST or TYPE or VAR).  
+This AST Node tells us that the import declaration is on line 3 in dummy.go.
+
+#### *ast.ImportSpec
 
 ```go
 *ast.ImportSpec {
-.  Path: *ast.BasicLit {}
+.  Path: *ast.BasicLit {/* Omission */}
 .  EndPos: -
 }
 ```
+
+[`*ast.ImportSpec`](https://pkg.go.dev/go/ast?tab=doc#ImportSpec) implements the [`ast.Spec`](https://pkg.go.dev/go/ast?tab=doc#Spec) interface.
 
 *ast.BasicLit
 
@@ -259,51 +278,102 @@ Fileは大まかにこれらを子ノードとして持っています。厳密�
 
 ```go
 *ast.FuncDecl {
-.  Name: *ast.Ident {
-.  .  NamePos: dummy.go:5:6
+.  Name: *ast.Ident {/* Omission */}
+.  Type: *ast.FuncType {/* Omission */}
+.  Body: *ast.BlockStmt {/* Omission */}
+}
+```
+
+*ast.Ident
+
+```go
+*ast.Ident {
+.  NamePos: dummy.go:5:6
+.  Name: "greet"
+.  Obj: *ast.Object {
+.  .  Kind: func
 .  .  Name: "greet"
-.  .  Obj: *ast.Object {
-.  .  .  Kind: func
-.  .  .  Name: "greet"
-.  .  .  Decl: *(obj @ 0)
-.  .  }
+.  .  Decl: *(obj @ 0)
 .  }
-.  Type: *ast.FuncType {
-.  .  Func: dummy.go:5:1
-.  .  Params: *ast.FieldList {
-.  .  .  Opening: dummy.go:5:11
-.  .  .  Closing: dummy.go:5:12
-.  .  }
+}
+```
+
+*ast.FuncType
+
+```go
+*ast.FuncType {
+.  Func: dummy.go:5:1
+.  Params: *ast.FieldList {
+.  .  Opening: dummy.go:5:11
+.  .  Closing: dummy.go:5:12
 .  }
-.  Body: *ast.BlockStmt {
-.  .  Lbrace: dummy.go:5:14
-.  .  List: []ast.Stmt (len = 1) {
-.  .  .  0: *ast.ExprStmt {
-.  .  .  .  X: *ast.CallExpr {
-.  .  .  .  .  Fun: *ast.SelectorExpr {
-.  .  .  .  .  .  X: *ast.Ident {
-.  .  .  .  .  .  .  NamePos: dummy.go:6:2
-.  .  .  .  .  .  .  Name: "fmt"
-.  .  .  .  .  .  }
-.  .  .  .  .  .  Sel: *ast.Ident {
-.  .  .  .  .  .  .  NamePos: dummy.go:6:6
-.  .  .  .  .  .  .  Name: "Println"
-.  .  .  .  .  .  }
-.  .  .  .  .  }
-.  .  .  .  .  Lparen: dummy.go:6:13
-.  .  .  .  .  Args: []ast.Expr (len = 1) {
-.  .  .  .  .  .  0: *ast.BasicLit {
-.  .  .  .  .  .  .  ValuePos: dummy.go:6:14
-.  .  .  .  .  .  .  Kind: STRING
-.  .  .  .  .  .  .  Value: "\"Hello, World\""
-.  .  .  .  .  .  }
-.  .  .  .  .  }
-.  .  .  .  .  Ellipsis: -
-.  .  .  .  .  Rparen: dummy.go:6:28
-.  .  .  .  }
-.  .  .  }
-.  .  }
-.  .  Rbrace: dummy.go:7:1
+}
+```
+
+*ast.FieldList
+
+```go
+*ast.FieldList {
+.  Opening: dummy.go:5:11
+.  Closing: dummy.go:5:12
+}
+```
+
+
+```go
+*ast.BlockStmt {
+.  Lbrace: dummy.go:5:14
+.  List: []ast.Stmt (len = 1) {
+.  .  0: *ast.ExprStmt {/* Omission */}
 .  }
+.  Rbrace: dummy.go:7:1
+}
+```
+
+```go
+*ast.ExprStmt {
+.  X: *ast.CallExpr {/* Omission */}
+}
+```
+
+```go
+*ast.CallExpr {
+.  Fun: *ast.SelectorExpr {/* Omission */}
+.  Lparen: dummy.go:6:13
+.  Args: []ast.Expr (len = 1) {
+.  .  0: *ast.BasicLit {/* Omission */}
+.  }
+.  Ellipsis: -
+.  Rparen: dummy.go:6:28
+}
+```
+
+```go
+*ast.SelectorExpr {
+.  X: *ast.Ident {/* Omission */}
+.  Sel: *ast.Ident {/* Omission */}
+}
+```
+
+
+```go
+*ast.Ident {
+.  NamePos: dummy.go:6:2
+.  Name: "fmt"
+}
+```
+
+```go
+*ast.Ident {
+.  NamePos: dummy.go:6:6
+.  Name: "Println"
+}
+```
+
+```go
+*ast.BasicLit {
+.  ValuePos: dummy.go:6:14
+.  Kind: STRING
+.  Value: "\"Hello, World\""
 }
 ```
