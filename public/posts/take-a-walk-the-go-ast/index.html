@@ -462,24 +462,29 @@ It implements the <code>ast.Stmt</code> interface and contains a single <code>as
 The fields to look at are the function to call and the list of arguments to pass to it.</p>
 <h4 id="astselectorexpr">*ast.SelectorExpr</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">SelectorExpr</span> {
-.  <span style="color:#a6e22e">X</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {<span style="color:#75715e">/* Omission */</span>}
-.  <span style="color:#a6e22e">Sel</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {<span style="color:#75715e">/* Omission */</span>}
+.  <span style="color:#a6e22e">X</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {
+.  .  <span style="color:#a6e22e">NamePos</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">2</span>
+.  .  <span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;fmt&#34;</span>
+.  }
+.  <span style="color:#a6e22e">Sel</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {
+.  .  <span style="color:#a6e22e">NamePos</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">6</span>
+.  .  <span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;Println&#34;</span>
+.  }
 }
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {
-.  <span style="color:#a6e22e">NamePos</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">2</span>
-.  <span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;fmt&#34;</span>
-}
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {
-.  <span style="color:#a6e22e">NamePos</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">6</span>
-.  <span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;Println&#34;</span>
-}
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">BasicLit</span> {
+</code></pre></div><p><a href="https://pkg.go.dev/go/ast?tab=doc#SelectorExpr"><code>*ast.SelectorExpr</code></a> represents an expression followed by a selector.
+Simply put, it means <code>fmt.Println</code>.</p>
+<h4 id="astbasiclit-1">*ast.BasicLit</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">BasicLit</span> {
 .  <span style="color:#a6e22e">ValuePos</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">14</span>
 .  <span style="color:#a6e22e">Kind</span>: <span style="color:#a6e22e">STRING</span>
 .  <span style="color:#a6e22e">Value</span>: <span style="color:#e6db74">&#34;\&#34;Hello, World\&#34;&#34;</span>
 }
-</code></pre></div><h2 id="bottom-line">Bottom Line</h2>
-<p>紹介したノードタイプの中でもを省いたフィールドもあります。これ以外にもまだたくさんノードタイプはあります。でも</p>
+</code></pre></div><p>No longer needed an explanation, Hello, World!</p>
+<h2 id="bottom-line">Bottom Line</h2>
+<p>I&rsquo;ve left out some of the fields in the node types I&rsquo;ve introduced.
+There are still many other node types.</p>
+<p>Nevertheless, I&rsquo;d say it&rsquo;s significant to actually walk the walk.
+Copy and paste the code shown in section &ldquo;How to walk&rdquo;, and try to walk around on your PC.</p>
 
         </p>
     </div>

@@ -409,25 +409,21 @@ The fields to look at are the function to call and the list of arguments to pass
 
 ```go
 *ast.SelectorExpr {
-.  X: *ast.Ident {/* Omission */}
-.  Sel: *ast.Ident {/* Omission */}
+.  X: *ast.Ident {
+.  .  NamePos: dummy.go:6:2
+.  .  Name: "fmt"
+.  }
+.  Sel: *ast.Ident {
+.  .  NamePos: dummy.go:6:6
+.  .  Name: "Println"
+.  }
 }
 ```
 
+[`*ast.SelectorExpr`](https://pkg.go.dev/go/ast?tab=doc#SelectorExpr) represents an expression followed by a selector.
+Simply put, it means `fmt.Println`.
 
-```go
-*ast.Ident {
-.  NamePos: dummy.go:6:2
-.  Name: "fmt"
-}
-```
-
-```go
-*ast.Ident {
-.  NamePos: dummy.go:6:6
-.  Name: "Println"
-}
-```
+#### *ast.BasicLit
 
 ```go
 *ast.BasicLit {
@@ -437,5 +433,11 @@ The fields to look at are the function to call and the list of arguments to pass
 }
 ```
 
+No longer needed an explanation, Hello, World!
+
 ## Bottom Line
-紹介したノードタイプの中でもを省いたフィールドもあります。これ以外にもまだたくさんノードタイプはあります。でも
+I've left out some of the fields in the node types I've introduced.
+There are still many other node types.
+
+Nevertheless, I'd say it's significant to actually walk the walk.
+Copy and paste the code shown in section "How to walk", and try to walk around on your PC.
