@@ -25,7 +25,7 @@ In addtion, there are 3 main interfaces that implement `ast.Node`:
 
 - [ast.Expr](https://pkg.go.dev/go/ast?tab=doc#Expr) — representing expressions and types node
 - [ast.Stmt](https://pkg.go.dev/go/ast?tab=doc#Stmt) — representing statement node
-- [ast.Decl](https://pkg.go.dev/go/ast?tab=doc#Decl) — representing declaration nodes.
+- [ast.Decl](https://pkg.go.dev/go/ast?tab=doc#Decl) — representing declaration node
 
 {{< figure src="/img/node-interface.png" width="100%" height="auto">}}
 
