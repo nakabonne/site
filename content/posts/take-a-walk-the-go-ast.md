@@ -1,21 +1,22 @@
 ---
 title: "Take a walk the Go AST"
 description: "Deepen your understanding of Go's AST by actually walking through it."
-date: 2020-03-30
+date: 2020-03-31
 tags: ["Golang"]
 draft: false
 images: ["/img/ast-file-tree.png"]
 ---
 
-もしあなたがGoのASTについてcurious aboutした時、何を参照しますか？ドキュメント？ソースコード？
-ドキュメントを読めば抽象的な理解はできますが、API同士の関連などを理解することはできません。
-ソースコードを読めばそれらも理解出来ますが、全部読もうとするとかなり体力を使います。
-なのでこの記事ではその中間となることを目指します。肩の力を抜いてASTを散歩することで私達が普段書いているGoのコードが内部でどのように表現されているかを理解しましょう。
+What do you refer to when you're curious about the Go AST? A document? Source code?
+While reading the documentation helps you understand it in the abstract, you can't see how APIs relate to each other, etc.
+Not to mention, read the entire source code and you'll see it completely, but you should get tired from trying to read the whole stuff.
 
-この記事ではソースコードをパースする方法には触れず、ASTが構築された後から始めます。
-コードがASTに変換される方法について気になる人は、 [Digging deeper into the analysis of Go-code](https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/) にnavigate toしてください。
+Therefore, this article aims to be in the middle of them. Let's take it easy and take a walk through AST to understand how the Go code we usually write is represented internally.
 
-Let’s get started.
+It doesn't delve into how to parse the source code, and starts with the description after the AST is built.
+If you're curious about how the code is converted to the AST, navigate to [Digging deeper into the analysis of Go-code](https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/).
+
+Let’s get started!
 
 ## Interfaces
 First up, let me briefly describe the interface that represents each of the AST nodes.
@@ -28,7 +29,7 @@ In addtion, there are 3 main interfaces that implement `ast.Node`:
 
 {{< figure src="/img/node-interface.png" width="100%" height="auto">}}
 
-定義を見てみても、たしかに全てのNodeはNodeインターフェイスを満たしていることがわかります:
+You can see from the definition that every Node satisfies the `ast.Node` interface:
 
 [ast/ast.go](https://github.com/golang/go/blob/0b7c202e98949b530f7f4011efd454164356ba69/src/go/ast/ast.go#L32-L54)
 
@@ -59,7 +60,7 @@ type Decl interface {
 ```
 
 ## Getting started with walking
-早速歩き始めましょう。私達がASTに変換するコードはこちらです。
+Let's start walking! Take a look at the file we convert to the AST:
 
 ```go
 package hello
@@ -209,19 +210,21 @@ func greet() {
 
 
 ### ast.File
-最初のNodeは、全てのルートであるast.Fileです。
-ast.Nodeを実装しています。
+The first Node to visit is [`*ast.File`](https://pkg.go.dev/go/ast?tab=doc#File), which is the root of all AST nodes.
+It implements only the `ast.Node` interface.
 
 
 {{< figure src="/img/ast-file-tree.png" width="100%" height="auto">}}
 
-Fileは大まかにこれらを子ノードとして持っています。厳密にはCommentsなどもありますが、今回は省略します。まずはPackage Nameから見ていきましょう。
+`ast.File` has references to a package name, import declarations, and function declarations as child nodes.
+To be precise, it has also `Comments` and so on, but let me omit them for simplicity.
+Let's start with Package Name.
 
-Note that fields with a value of nil are omitted. See [the document](https://pkg.go.dev/go/ast) for a complete list of fields for each node type.
+(Note that fields with a nil value are omitted. See [the document](https://pkg.go.dev/go/ast) for a complete list of fields for each node type.)
 
 ### Package Name
 
-#### *ast.Ident
+#### ast.Ident
 
 ```go
 *ast.Ident {
@@ -234,11 +237,11 @@ A package name can be represented by the AST node type [`*ast.Ident`](https://pk
 All identifiers are represented by this structure. It mainly contains its name and a source position within a file set.  
 From the code shown above, we can see that the package name is `hello` and is declared in the first line of `dummy.go`.
 
-We can't dive any deeper into this node, let's go back to the top level.
+We can't dive any deeper into this node, let's go back to the `*ast.File`.
 
 ### Import Declarations
 
-#### *ast.GenDecl
+#### ast.GenDecl
 
 ```go
 *ast.GenDecl {
@@ -251,15 +254,15 @@ We can't dive any deeper into this node, let's go back to the top level.
 .  Rparen: -
 }
 ```
-A declaration of import is represented by the AST node type `ast.GenDecl`, which implements the `ast.Decl` interface.
+A declaration of import is represented by the AST node type [`*ast.GenDecl`](https://pkg.go.dev/go/ast?tab=doc#GenDecl), which implements the `ast.Decl` interface.
 `ast.GenDecl` represents all declarations except for functions; That is, import, const, var, and type.
 
-`Tok` represents a lexical token — which is specifies what the declaration is about depending on its implementation (IMPORT or CONST or TYPE or VAR).  
-This AST Node tells us that the import declaration is on line 3 in dummy.go.
+`Tok` represents a lexical token — which is specifies what the declaration is about (IMPORT or CONST or TYPE or VAR).  
+This AST Node tells us that the import declaration is on line 3 in `dummy.go`.
 
 Let's visit `ast.GenDecl` in depth-first order. Take a look `*ast.ImportSpec`, the next Node.
 
-#### *ast.ImportSpec
+#### ast.ImportSpec
 
 ```go
 *ast.ImportSpec {
@@ -267,11 +270,11 @@ Let's visit `ast.GenDecl` in depth-first order. Take a look `*ast.ImportSpec`, t
 .  EndPos: -
 }
 ```
-An [`*ast.ImportSpec`](https://pkg.go.dev/go/ast?tab=doc#ImportSpec) node corresponds to a single import declaration.
+An [`ast.ImportSpec`](https://pkg.go.dev/go/ast?tab=doc#ImportSpec) node corresponds to a single import declaration.
 It implements the [`ast.Spec`](https://pkg.go.dev/go/ast?tab=doc#Spec) interface.
 Visiting `Path` could make more sense about the import path. Let's go there.
 
-#### *ast.BasicLit
+#### ast.BasicLit
 
 ```go
 *ast.BasicLit {
@@ -281,16 +284,16 @@ Visiting `Path` could make more sense about the import path. Let's go there.
 }
 ```
 
-A [`*ast.BasicLit`](https://pkg.go.dev/go/ast?tab=doc#BasicLit) node represents a literal of basic type.
+An [`ast.BasicLit`](https://pkg.go.dev/go/ast?tab=doc#BasicLit) node represents a literal of basic type.
 It implements the `ast.Expr` interface.
 This contains a type of token and `token.INT`, `token.FLOAT`, `token.IMAG`, `token.CHAR`, or `token.STRING` can be used.  
-From `*ast.ImportSpec` and `*ast.BasicLit`, we can see it has imported package called "fmt".
+From `ast.ImportSpec` and `ast.BasicLit`, we can see it has imported package called "fmt".
 
 We can't dive any deeper, let's get back to the top level again.
 
 ### Function Declarations
 
-#### *ast.FuncDecl
+#### ast.FuncDecl
 
 ```go
 *ast.FuncDecl {
@@ -300,11 +303,11 @@ We can't dive any deeper, let's get back to the top level again.
 }
 ```
 
-A [`*ast.FuncDecl`](https://pkg.go.dev/go/ast?tab=doc#FuncDecl) node represents a function declaration.
+An [`ast.FuncDecl`](https://pkg.go.dev/go/ast?tab=doc#FuncDecl) node represents a function declaration.
 It implements only the `ast.Node` interface.
 Let's take a look at them in order from `Name`, representing a function name.
 
-#### *ast.Ident
+#### ast.Ident
 
 ```go
 *ast.Ident {
@@ -327,7 +330,7 @@ As you know, Go has a concept of scope, which is the extent of source text in wh
 The `Decl` field indicates where the identifier was declared so that it identifies the scope of the identifier.
 Identifiers that point to the identical object share the identical `*ast.Object`.
 
-#### *ast.FuncType
+#### ast.FuncType
 
 ```go
 *ast.FuncType {
@@ -335,9 +338,9 @@ Identifiers that point to the identical object share the identical `*ast.Object`
 .  Params: *ast.FieldList {/* Omission */}
 }
 ```
-Go back to being a parent one generation older, a [`*ast.FuncType`](https://pkg.go.dev/go/ast?tab=doc#FuncType) contains a function signature including parameters, results, and position of "func" keyword.
+Go back to being a parent one generation older, an [`ast.FuncType`](https://pkg.go.dev/go/ast?tab=doc#FuncType) contains a function signature including parameters, results, and position of "func" keyword.
 
-#### *ast.FieldList
+#### ast.FieldList
 
 ```go
 *ast.FieldList {
@@ -347,12 +350,12 @@ Go back to being a parent one generation older, a [`*ast.FuncType`](https://pkg.
 }
 ```
 
-A [`*ast.FieldList`](https://pkg.go.dev/go/ast?tab=doc#FieldList) node represents a list of Fields, enclosed by parentheses or braces.
+An [`ast.FieldList`](https://pkg.go.dev/go/ast?tab=doc#FieldList) node represents a list of Fields, enclosed by parentheses or braces.
 Function parameters would be shown here if they are defined, but this time none, so no information.
 
 `List` field is a slice of [`*ast.Field`](https://pkg.go.dev/go/ast?tab=doc#Field) that contains a pair of identifiers and types.
 It is highly versatile and is used for a variety of Nodes, including [`*ast.StructType`](https://pkg.go.dev/go/ast?tab=doc#StructType), [`*ast.InterfaceType`](https://pkg.go.dev/go/ast?tab=doc#InterfaceType), and here.
-That is, it's needed when mapping a type to an identifier:
+That is, it's needed when mapping a type to an identifier as shown below:
 
 ```go
 foo int
@@ -361,7 +364,7 @@ bar string
 
 Let's loop back to `*ast.FuncDecl` again and dive a bit into `Body`, the last field.
 
-#### *ast.BlockStmt
+#### ast.BlockStmt
 
 ```go
 *ast.BlockStmt {
@@ -373,11 +376,11 @@ Let's loop back to `*ast.FuncDecl` again and dive a bit into `Body`, the last fi
 }
 ```
 
-A [`BlockStmt`](https://pkg.go.dev/go/ast?tab=doc#BlockStmt) node represents a braced statement list.
+An [`ast.BlockStmt`](https://pkg.go.dev/go/ast?tab=doc#BlockStmt) node represents a braced statement list.
 It implements  the `ast.Stmt` interface.
 It does have a list of statements. What an imaginable node!
 
-#### *ast.ExprStmt
+#### ast.ExprStmt
 
 ```go
 *ast.ExprStmt {
@@ -385,10 +388,10 @@ It does have a list of statements. What an imaginable node!
 }
 ```
 
-[`*ast.ExprStmt`](https://pkg.go.dev/go/ast?tab=doc#ExprStmt) represents an expression in a statement list.
+[`ast.ExprStmt`](https://pkg.go.dev/go/ast?tab=doc#ExprStmt) represents an expression in a statement list.
 It implements the `ast.Stmt` interface and contains a single `ast.Expr`.
 
-#### *ast.CallExpr
+#### ast.CallExpr
 
 ```go
 *ast.CallExpr {
@@ -402,10 +405,10 @@ It implements the `ast.Stmt` interface and contains a single `ast.Expr`.
 }
 ```
 
-[`*ast.CallExpr`](https://pkg.go.dev/go/ast?tab=doc#CallExpr) represents an expression that calls a function.
-The fields to look at are the function to call and the list of arguments to pass to it.
+[`ast.CallExpr`](https://pkg.go.dev/go/ast?tab=doc#CallExpr) represents an expression that calls a function.
+The fields to look at are `Fun`, the function to call and `Args`, the list of arguments to pass to it.
 
-#### *ast.SelectorExpr
+#### ast.SelectorExpr
 
 ```go
 *ast.SelectorExpr {
@@ -420,10 +423,10 @@ The fields to look at are the function to call and the list of arguments to pass
 }
 ```
 
-[`*ast.SelectorExpr`](https://pkg.go.dev/go/ast?tab=doc#SelectorExpr) represents an expression followed by a selector.
+[`ast.SelectorExpr`](https://pkg.go.dev/go/ast?tab=doc#SelectorExpr) represents an expression followed by a selector.
 Simply put, it means `fmt.Println`.
 
-#### *ast.BasicLit
+#### ast.BasicLit
 
 ```go
 *ast.BasicLit {
@@ -436,8 +439,7 @@ Simply put, it means `fmt.Println`.
 No longer needed an explanation, Hello, World!
 
 ## Bottom Line
-I've left out some of the fields in the node types I've introduced.
-There are still many other node types.
+I've left out some of the fields in the node types I've introduced, and there are still many other node types.
 
-Nevertheless, I'd say it's significant to actually walk the walk.
-Copy and paste the code shown in section "How to walk", and try to walk around on your PC.
+Nevertheless, I'd say it's significant to actually walk the walk even if it's a bit rough.
+Copy and paste the code shown in section "How to walk", and have a try to walk around on your PC.

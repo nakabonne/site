@@ -6,7 +6,7 @@
     <description>Recent content in Golang on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 31 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://nakabonne.dev/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,11 +14,10 @@
     <item>
       <title>Take a walk the Go AST</title>
       <link>https://nakabonne.dev/posts/take-a-walk-the-go-ast/</link>
-      <pubDate>Mon, 30 Mar 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 31 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>https://nakabonne.dev/posts/take-a-walk-the-go-ast/</guid>
-      <description>もしあなたがGoのASTについてcurious aboutした時、何を参照しますか？ドキュメント？ソースコード？ ドキュメントを読めば抽象的な理解はできますが、API同士の関連などを理解することはできません。 ソースコードを読めばそれらも理解出来ますが、全部読もうとするとかなり体力を使います。 なのでこの記事ではその中間となることを目指します。肩の力を抜いてASTを散歩することで私達が普段書いているGoのコードが内部でどのように表現されているかを理解しましょう。
-この記事ではソースコードをパースする方法には触れず、ASTが構築された後から始めます。 コードがASTに変換される方法について気になる人は、 Digging deeper into the analysis of Go-code にnavigate toしてください。</description>
+      <description>What do you refer to when you&amp;rsquo;re curious about the Go AST?</description>
     </item>
     
     <item>

@@ -42,8 +42,8 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://nakabonne.dev/posts/take-a-walk-the-go-ast/" />
 <meta property="og:image" content="https://nakabonne.dev/img/ast-file-tree.png" />
-<meta property="article:published_time" content="2020-03-30T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-03-30T00:00:00+00:00" /><meta property="og:site_name" content="Ryo Nakao" />
+<meta property="article:published_time" content="2020-03-31T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-03-31T00:00:00+00:00" /><meta property="og:site_name" content="Ryo Nakao" />
 
 </head>
 
@@ -149,17 +149,17 @@
         
 <h1 class="post-title">Take a walk the Go AST</h1>
     
-    <time>March 30, 2020</time>
+    <time>March 31, 2020</time>
     
     <div>
         <p>
-        <p>もしあなたがGoのASTについてcurious aboutした時、何を参照しますか？ドキュメント？ソースコード？
-ドキュメントを読めば抽象的な理解はできますが、API同士の関連などを理解することはできません。
-ソースコードを読めばそれらも理解出来ますが、全部読もうとするとかなり体力を使います。
-なのでこの記事ではその中間となることを目指します。肩の力を抜いてASTを散歩することで私達が普段書いているGoのコードが内部でどのように表現されているかを理解しましょう。</p>
-<p>この記事ではソースコードをパースする方法には触れず、ASTが構築された後から始めます。
-コードがASTに変換される方法について気になる人は、 <a href="https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/">Digging deeper into the analysis of Go-code</a> にnavigate toしてください。</p>
-<p>Let’s get started.</p>
+        <p>What do you refer to when you&rsquo;re curious about the Go AST? A document? Source code?
+While reading the documentation helps you understand it in the abstract, you can&rsquo;t see how APIs relate to each other, etc.
+Not to mention, read the entire source code and you&rsquo;ll see it completely, but you should get tired from trying to read the whole stuff.</p>
+<p>Therefore, this article aims to be in the middle of them. Let&rsquo;s take it easy and take a walk through AST to understand how the Go code we usually write is represented internally.</p>
+<p>It doesn&rsquo;t delve into how to parse the source code, and starts with the description after the AST is built.
+If you&rsquo;re curious about how the code is converted to the AST, navigate to <a href="https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/">Digging deeper into the analysis of Go-code</a>.</p>
+<p>Let’s get started!</p>
 <h2 id="interfaces">Interfaces</h2>
 <p>First up, let me briefly describe the interface that represents each of the AST nodes.
 All AST nodes implement the <a href="https://pkg.go.dev/go/ast?tab=doc#Node"><code>ast.Node</code></a> interface, which just returns a position in the AST.<br>
@@ -173,7 +173,7 @@ In addtion, there are 3 main interfaces that implement <code>ast.Node</code>:</p
     <img src="/img/node-interface.png" width="100%" height="auto"/> 
 </figure>
 
-<p>定義を見てみても、たしかに全てのNodeはNodeインターフェイスを満たしていることがわかります:</p>
+<p>You can see from the definition that every Node satisfies the <code>ast.Node</code> interface:</p>
 <p><a href="https://github.com/golang/go/blob/0b7c202e98949b530f7f4011efd454164356ba69/src/go/ast/ast.go#L32-L54">ast/ast.go</a></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// All node types implement the Node interface.
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Node</span> <span style="color:#66d9ef">interface</span> {
@@ -199,7 +199,7 @@ In addtion, there are 3 main interfaces that implement <code>ast.Node</code>:</p
 	<span style="color:#a6e22e">declNode</span>()
 }
 </code></pre></div><h2 id="getting-started-with-walking">Getting started with walking</h2>
-<p>早速歩き始めましょう。私達がASTに変換するコードはこちらです。</p>
+<p>Let&rsquo;s start walking! Take a look at the file we convert to the AST:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">hello</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -332,16 +332,18 @@ To prevent that from happening, we&rsquo;re going to use <a href="https://pkg.go
 </span><span style="color:#e6db74">`</span>
 </code></pre></div></details>
 <h3 id="astfile">ast.File</h3>
-<p>最初のNodeは、全てのルートであるast.Fileです。
-ast.Nodeを実装しています。</p>
+<p>The first Node to visit is <a href="https://pkg.go.dev/go/ast?tab=doc#File"><code>*ast.File</code></a>, which is the root of all AST nodes.
+It implements only the <code>ast.Node</code> interface.</p>
 <figure>
     <img src="/img/ast-file-tree.png" width="100%" height="auto"/> 
 </figure>
 
-<p>Fileは大まかにこれらを子ノードとして持っています。厳密にはCommentsなどもありますが、今回は省略します。まずはPackage Nameから見ていきましょう。</p>
-<p>Note that fields with a value of nil are omitted. See <a href="https://pkg.go.dev/go/ast">the document</a> for a complete list of fields for each node type.</p>
+<p><code>ast.File</code> has references to a package name, import declarations, and function declarations as child nodes.
+To be precise, it has also <code>Comments</code> and so on, but let me omit them for simplicity.
+Let&rsquo;s start with Package Name.</p>
+<p>(Note that fields with a nil value are omitted. See <a href="https://pkg.go.dev/go/ast">the document</a> for a complete list of fields for each node type.)</p>
 <h3 id="package-name">Package Name</h3>
-<h4 id="astident">*ast.Ident</h4>
+<h4 id="astident">ast.Ident</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {
 .  <span style="color:#a6e22e">NamePos</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">9</span>
 .  <span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;hello&#34;</span>
@@ -349,9 +351,9 @@ ast.Nodeを実装しています。</p>
 </code></pre></div><p>A package name can be represented by the AST node type <a href="https://pkg.go.dev/go/ast?tab=doc#Ident"><code>*ast.Ident</code></a>, which implements the <code>ast.Expr</code> interface.
 All identifiers are represented by this structure. It mainly contains its name and a source position within a file set.<br>
 From the code shown above, we can see that the package name is <code>hello</code> and is declared in the first line of <code>dummy.go</code>.</p>
-<p>We can&rsquo;t dive any deeper into this node, let&rsquo;s go back to the top level.</p>
+<p>We can&rsquo;t dive any deeper into this node, let&rsquo;s go back to the <code>*ast.File</code>.</p>
 <h3 id="import-declarations">Import Declarations</h3>
-<h4 id="astgendecl">*ast.GenDecl</h4>
+<h4 id="astgendecl">ast.GenDecl</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">GenDecl</span> {
 .  <span style="color:#a6e22e">TokPos</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">1</span>
 .  <span style="color:#a6e22e">Tok</span>: <span style="color:#f92672">import</span>
@@ -361,41 +363,41 @@ From the code shown above, we can see that the package name is <code>hello</code
 .  }
 .  <span style="color:#a6e22e">Rparen</span>: <span style="color:#f92672">-</span>
 }
-</code></pre></div><p>A declaration of import is represented by the AST node type <code>ast.GenDecl</code>, which implements the <code>ast.Decl</code> interface.
+</code></pre></div><p>A declaration of import is represented by the AST node type <a href="https://pkg.go.dev/go/ast?tab=doc#GenDecl"><code>*ast.GenDecl</code></a>, which implements the <code>ast.Decl</code> interface.
 <code>ast.GenDecl</code> represents all declarations except for functions; That is, import, const, var, and type.</p>
-<p><code>Tok</code> represents a lexical token — which is specifies what the declaration is about depending on its implementation (IMPORT or CONST or TYPE or VAR).<br>
-This AST Node tells us that the import declaration is on line 3 in dummy.go.</p>
+<p><code>Tok</code> represents a lexical token — which is specifies what the declaration is about (IMPORT or CONST or TYPE or VAR).<br>
+This AST Node tells us that the import declaration is on line 3 in <code>dummy.go</code>.</p>
 <p>Let&rsquo;s visit <code>ast.GenDecl</code> in depth-first order. Take a look <code>*ast.ImportSpec</code>, the next Node.</p>
-<h4 id="astimportspec">*ast.ImportSpec</h4>
+<h4 id="astimportspec">ast.ImportSpec</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">ImportSpec</span> {
 .  <span style="color:#a6e22e">Path</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">BasicLit</span> {<span style="color:#75715e">/* Omission */</span>}
 .  <span style="color:#a6e22e">EndPos</span>: <span style="color:#f92672">-</span>
 }
-</code></pre></div><p>An <a href="https://pkg.go.dev/go/ast?tab=doc#ImportSpec"><code>*ast.ImportSpec</code></a> node corresponds to a single import declaration.
+</code></pre></div><p>An <a href="https://pkg.go.dev/go/ast?tab=doc#ImportSpec"><code>ast.ImportSpec</code></a> node corresponds to a single import declaration.
 It implements the <a href="https://pkg.go.dev/go/ast?tab=doc#Spec"><code>ast.Spec</code></a> interface.
 Visiting <code>Path</code> could make more sense about the import path. Let&rsquo;s go there.</p>
-<h4 id="astbasiclit">*ast.BasicLit</h4>
+<h4 id="astbasiclit">ast.BasicLit</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">BasicLit</span> {
 .  <span style="color:#a6e22e">ValuePos</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">8</span>
 .  <span style="color:#a6e22e">Kind</span>: <span style="color:#a6e22e">STRING</span>
 .  <span style="color:#a6e22e">Value</span>: <span style="color:#e6db74">&#34;\&#34;fmt\&#34;&#34;</span>
 }
-</code></pre></div><p>A <a href="https://pkg.go.dev/go/ast?tab=doc#BasicLit"><code>*ast.BasicLit</code></a> node represents a literal of basic type.
+</code></pre></div><p>An <a href="https://pkg.go.dev/go/ast?tab=doc#BasicLit"><code>ast.BasicLit</code></a> node represents a literal of basic type.
 It implements the <code>ast.Expr</code> interface.
 This contains a type of token and <code>token.INT</code>, <code>token.FLOAT</code>, <code>token.IMAG</code>, <code>token.CHAR</code>, or <code>token.STRING</code> can be used.<br>
-From <code>*ast.ImportSpec</code> and <code>*ast.BasicLit</code>, we can see it has imported package called &ldquo;fmt&rdquo;.</p>
+From <code>ast.ImportSpec</code> and <code>ast.BasicLit</code>, we can see it has imported package called &ldquo;fmt&rdquo;.</p>
 <p>We can&rsquo;t dive any deeper, let&rsquo;s get back to the top level again.</p>
 <h3 id="function-declarations">Function Declarations</h3>
-<h4 id="astfuncdecl">*ast.FuncDecl</h4>
+<h4 id="astfuncdecl">ast.FuncDecl</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">FuncDecl</span> {
 .  <span style="color:#a6e22e">Name</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {<span style="color:#75715e">/* Omission */</span>}
 .  <span style="color:#a6e22e">Type</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">FuncType</span> {<span style="color:#75715e">/* Omission */</span>}
 .  <span style="color:#a6e22e">Body</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">BlockStmt</span> {<span style="color:#75715e">/* Omission */</span>}
 }
-</code></pre></div><p>A <a href="https://pkg.go.dev/go/ast?tab=doc#FuncDecl"><code>*ast.FuncDecl</code></a> node represents a function declaration.
+</code></pre></div><p>An <a href="https://pkg.go.dev/go/ast?tab=doc#FuncDecl"><code>ast.FuncDecl</code></a> node represents a function declaration.
 It implements only the <code>ast.Node</code> interface.
 Let&rsquo;s take a look at them in order from <code>Name</code>, representing a function name.</p>
-<h4 id="astident-1">*ast.Ident</h4>
+<h4 id="astident-1">ast.Ident</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {
 .  <span style="color:#a6e22e">NamePos</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">6</span>
 .  <span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;greet&#34;</span>
@@ -411,27 +413,27 @@ It represents the object to which the identifier refers, but why is this needed?
 As you know, Go has a concept of scope, which is the extent of source text in which the identifier denotes the specified constant, type, variable, function, label, or package.</p>
 <p>The <code>Decl</code> field indicates where the identifier was declared so that it identifies the scope of the identifier.
 Identifiers that point to the identical object share the identical <code>*ast.Object</code>.</p>
-<h4 id="astfunctype">*ast.FuncType</h4>
+<h4 id="astfunctype">ast.FuncType</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">FuncType</span> {
 .  <span style="color:#a6e22e">Func</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">1</span>
 .  <span style="color:#a6e22e">Params</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">FieldList</span> {<span style="color:#75715e">/* Omission */</span>}
 }
-</code></pre></div><p>Go back to being a parent one generation older, a <a href="https://pkg.go.dev/go/ast?tab=doc#FuncType"><code>*ast.FuncType</code></a> contains a function signature including parameters, results, and position of &ldquo;func&rdquo; keyword.</p>
-<h4 id="astfieldlist">*ast.FieldList</h4>
+</code></pre></div><p>Go back to being a parent one generation older, an <a href="https://pkg.go.dev/go/ast?tab=doc#FuncType"><code>ast.FuncType</code></a> contains a function signature including parameters, results, and position of &ldquo;func&rdquo; keyword.</p>
+<h4 id="astfieldlist">ast.FieldList</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">FieldList</span> {
 .  <span style="color:#a6e22e">Opening</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">11</span>
 .  <span style="color:#a6e22e">List</span>: <span style="color:#66d9ef">nil</span>
 .  <span style="color:#a6e22e">Closing</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">12</span>
 }
-</code></pre></div><p>A <a href="https://pkg.go.dev/go/ast?tab=doc#FieldList"><code>*ast.FieldList</code></a> node represents a list of Fields, enclosed by parentheses or braces.
+</code></pre></div><p>An <a href="https://pkg.go.dev/go/ast?tab=doc#FieldList"><code>ast.FieldList</code></a> node represents a list of Fields, enclosed by parentheses or braces.
 Function parameters would be shown here if they are defined, but this time none, so no information.</p>
 <p><code>List</code> field is a slice of <a href="https://pkg.go.dev/go/ast?tab=doc#Field"><code>*ast.Field</code></a> that contains a pair of identifiers and types.
 It is highly versatile and is used for a variety of Nodes, including <a href="https://pkg.go.dev/go/ast?tab=doc#StructType"><code>*ast.StructType</code></a>, <a href="https://pkg.go.dev/go/ast?tab=doc#InterfaceType"><code>*ast.InterfaceType</code></a>, and here.
-That is, it&rsquo;s needed when mapping a type to an identifier:</p>
+That is, it&rsquo;s needed when mapping a type to an identifier as shown below:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">foo</span> <span style="color:#66d9ef">int</span>
 <span style="color:#a6e22e">bar</span> <span style="color:#66d9ef">string</span>
 </code></pre></div><p>Let&rsquo;s loop back to <code>*ast.FuncDecl</code> again and dive a bit into <code>Body</code>, the last field.</p>
-<h4 id="astblockstmt">*ast.BlockStmt</h4>
+<h4 id="astblockstmt">ast.BlockStmt</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">BlockStmt</span> {
 .  <span style="color:#a6e22e">Lbrace</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">14</span>
 .  <span style="color:#a6e22e">List</span>: []<span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Stmt</span> (<span style="color:#a6e22e">len</span> = <span style="color:#ae81ff">1</span>) {
@@ -439,16 +441,16 @@ That is, it&rsquo;s needed when mapping a type to an identifier:</p>
 .  }
 .  <span style="color:#a6e22e">Rbrace</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">7</span>:<span style="color:#ae81ff">1</span>
 }
-</code></pre></div><p>A <a href="https://pkg.go.dev/go/ast?tab=doc#BlockStmt"><code>BlockStmt</code></a> node represents a braced statement list.
+</code></pre></div><p>An <a href="https://pkg.go.dev/go/ast?tab=doc#BlockStmt"><code>ast.BlockStmt</code></a> node represents a braced statement list.
 It implements  the <code>ast.Stmt</code> interface.
 It does have a list of statements. What an imaginable node!</p>
-<h4 id="astexprstmt">*ast.ExprStmt</h4>
+<h4 id="astexprstmt">ast.ExprStmt</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">ExprStmt</span> {
 .  <span style="color:#a6e22e">X</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">CallExpr</span> {<span style="color:#75715e">/* Omission */</span>}
 }
-</code></pre></div><p><a href="https://pkg.go.dev/go/ast?tab=doc#ExprStmt"><code>*ast.ExprStmt</code></a> represents an expression in a statement list.
+</code></pre></div><p><a href="https://pkg.go.dev/go/ast?tab=doc#ExprStmt"><code>ast.ExprStmt</code></a> represents an expression in a statement list.
 It implements the <code>ast.Stmt</code> interface and contains a single <code>ast.Expr</code>.</p>
-<h4 id="astcallexpr">*ast.CallExpr</h4>
+<h4 id="astcallexpr">ast.CallExpr</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">CallExpr</span> {
 .  <span style="color:#a6e22e">Fun</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">SelectorExpr</span> {<span style="color:#75715e">/* Omission */</span>}
 .  <span style="color:#a6e22e">Lparen</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">13</span>
@@ -458,9 +460,9 @@ It implements the <code>ast.Stmt</code> interface and contains a single <code>as
 .  <span style="color:#a6e22e">Ellipsis</span>: <span style="color:#f92672">-</span>
 .  <span style="color:#a6e22e">Rparen</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">28</span>
 }
-</code></pre></div><p><a href="https://pkg.go.dev/go/ast?tab=doc#CallExpr"><code>*ast.CallExpr</code></a> represents an expression that calls a function.
-The fields to look at are the function to call and the list of arguments to pass to it.</p>
-<h4 id="astselectorexpr">*ast.SelectorExpr</h4>
+</code></pre></div><p><a href="https://pkg.go.dev/go/ast?tab=doc#CallExpr"><code>ast.CallExpr</code></a> represents an expression that calls a function.
+The fields to look at are <code>Fun</code>, the function to call and <code>Args</code>, the list of arguments to pass to it.</p>
+<h4 id="astselectorexpr">ast.SelectorExpr</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">SelectorExpr</span> {
 .  <span style="color:#a6e22e">X</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {
 .  .  <span style="color:#a6e22e">NamePos</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">2</span>
@@ -471,9 +473,9 @@ The fields to look at are the function to call and the list of arguments to pass
 .  .  <span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;Println&#34;</span>
 .  }
 }
-</code></pre></div><p><a href="https://pkg.go.dev/go/ast?tab=doc#SelectorExpr"><code>*ast.SelectorExpr</code></a> represents an expression followed by a selector.
+</code></pre></div><p><a href="https://pkg.go.dev/go/ast?tab=doc#SelectorExpr"><code>ast.SelectorExpr</code></a> represents an expression followed by a selector.
 Simply put, it means <code>fmt.Println</code>.</p>
-<h4 id="astbasiclit-1">*ast.BasicLit</h4>
+<h4 id="astbasiclit-1">ast.BasicLit</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">BasicLit</span> {
 .  <span style="color:#a6e22e">ValuePos</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">14</span>
 .  <span style="color:#a6e22e">Kind</span>: <span style="color:#a6e22e">STRING</span>
@@ -481,10 +483,9 @@ Simply put, it means <code>fmt.Println</code>.</p>
 }
 </code></pre></div><p>No longer needed an explanation, Hello, World!</p>
 <h2 id="bottom-line">Bottom Line</h2>
-<p>I&rsquo;ve left out some of the fields in the node types I&rsquo;ve introduced.
-There are still many other node types.</p>
-<p>Nevertheless, I&rsquo;d say it&rsquo;s significant to actually walk the walk.
-Copy and paste the code shown in section &ldquo;How to walk&rdquo;, and try to walk around on your PC.</p>
+<p>I&rsquo;ve left out some of the fields in the node types I&rsquo;ve introduced, and there are still many other node types.</p>
+<p>Nevertheless, I&rsquo;d say it&rsquo;s significant to actually walk the walk even if it&rsquo;s a bit rough.
+Copy and paste the code shown in section &ldquo;How to walk&rdquo;, and have a try to walk around on your PC.</p>
 
         </p>
     </div>
