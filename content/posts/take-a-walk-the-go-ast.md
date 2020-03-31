@@ -217,6 +217,8 @@ ast.Nodeを実装しています。
 
 Fileは大まかにこれらを子ノードとして持っています。厳密にはCommentsなどもありますが、今回は省略します。まずはPackage Nameから見ていきましょう。
 
+Note that fields with a value of nil are omitted. See [the document](https://pkg.go.dev/go/ast) for a complete list of fields for each node type.
+
 ### Package Name
 
 #### *ast.Ident
@@ -231,6 +233,8 @@ Fileは大まかにこれらを子ノードとして持っています。厳密�
 A package name can be represented by the AST node type [`*ast.Ident`](https://pkg.go.dev/go/ast?tab=doc#Ident), which implements the `ast.Expr` interface.
 All identifiers are represented by this structure. It mainly contains its name and a source position within a file set.  
 From the code shown above, we can see that the package name is `hello` and is declared in the first line of `dummy.go`.
+
+We can't dive any deeper into this node, let's go back to the top level.
 
 ### Import Declarations
 
@@ -253,6 +257,8 @@ A declaration of import is represented by the AST node type `ast.GenDecl`, which
 `Tok` represents a lexical token — which is specifies what the declaration is about depending on its implementation (IMPORT or CONST or TYPE or VAR).  
 This AST Node tells us that the import declaration is on line 3 in dummy.go.
 
+Let's visit `ast.GenDecl` in depth-first order. Take a look `*ast.ImportSpec`, the next Node.
+
 #### *ast.ImportSpec
 
 ```go
@@ -261,10 +267,11 @@ This AST Node tells us that the import declaration is on line 3 in dummy.go.
 .  EndPos: -
 }
 ```
+An [`*ast.ImportSpec`](https://pkg.go.dev/go/ast?tab=doc#ImportSpec) node corresponds to a single import declaration.
+It implements the [`ast.Spec`](https://pkg.go.dev/go/ast?tab=doc#Spec) interface.
+Visiting `Path` could make more sense about the import path. Let's go there.
 
-[`*ast.ImportSpec`](https://pkg.go.dev/go/ast?tab=doc#ImportSpec) implements the [`ast.Spec`](https://pkg.go.dev/go/ast?tab=doc#Spec) interface.
-
-*ast.BasicLit
+#### *ast.BasicLit
 
 ```go
 *ast.BasicLit {
@@ -274,7 +281,16 @@ This AST Node tells us that the import declaration is on line 3 in dummy.go.
 }
 ```
 
-### Func Declarations
+A [`*ast.BasicLit`](https://pkg.go.dev/go/ast?tab=doc#BasicLit) node represents a literal of basic type.
+It implements the `ast.Expr` interface.
+This contains a type of token and `token.INT`, `token.FLOAT`, `token.IMAG`, `token.CHAR`, or `token.STRING` can be used.  
+From `*ast.ImportSpec` and `*ast.BasicLit`, we can see it has imported package called "fmt".
+
+We can't dive any deeper, let's get back to the top level again.
+
+### Function Declarations
+
+#### *ast.FuncDecl
 
 ```go
 *ast.FuncDecl {
@@ -284,7 +300,11 @@ This AST Node tells us that the import declaration is on line 3 in dummy.go.
 }
 ```
 
-*ast.Ident
+A [`*ast.FuncDecl`](https://pkg.go.dev/go/ast?tab=doc#FuncDecl) node represents a function declaration.
+It implements only the `ast.Node` interface.
+Let's take a look at them in order from `Name`, representing a function name.
+
+#### *ast.Ident
 
 ```go
 *ast.Ident {
@@ -298,19 +318,25 @@ This AST Node tells us that the import declaration is on line 3 in dummy.go.
 }
 ```
 
-*ast.FuncType
+The second time this has appeared, let me skip the basic explanation.
+
+Noteworthy is the [`*ast.Object`](https://pkg.go.dev/go/ast?tab=doc#Object).
+It represents the object to which the identifier refers, but why is this needed?
+As you know, Go has a concept of scope, which is scoped with blocks
+The `Decl` field indicates where the identifier was declared so that it identifies the scope of the identifier.
+
+#### *ast.FuncType
 
 ```go
 *ast.FuncType {
 .  Func: dummy.go:5:1
-.  Params: *ast.FieldList {
-.  .  Opening: dummy.go:5:11
-.  .  Closing: dummy.go:5:12
-.  }
+.  Params: *ast.FieldList {/* Omission */}
 }
 ```
 
-*ast.FieldList
+A [`*ast.FuncType`](https://pkg.go.dev/go/ast?tab=doc#FuncType) contains a function signature including parameters, results, and position of "func" keyword.
+
+#### *ast.FieldList
 
 ```go
 *ast.FieldList {
@@ -377,3 +403,6 @@ This AST Node tells us that the import declaration is on line 3 in dummy.go.
 .  Value: "\"Hello, World\""
 }
 ```
+
+## Bottom Line
+紹介したノードタイプの中でもを省いたフィールドもあります。これ以外にもまだたくさんノードタイプはあります。でも
