@@ -296,7 +296,7 @@ In addtion, there are 3 main interfaces that implement <code>ast.Node</code>:</p
 }
 </code></pre></div></details>
 <h4 id="how-to-walk">How to walk</h4>
-<p>All we have todo is traverse this AST node in depth-first order.
+<p>All we have to do is traverse this AST node in depth-first order.
 Let&rsquo;s print each Node one by one by calling <a href="https://pkg.go.dev/go/ast?tab=doc#Inspect"><code>ast.Inspect()</code></a> recursively.</p>
 <p>Also, printing AST directly then we will typically see stuff that is not human readable.
 To prevent that from happening, we&rsquo;re going to use <a href="https://pkg.go.dev/go/ast?tab=doc#Print"><code>ast.Print</code></a>, a powerful API for human reading of AST:</p>

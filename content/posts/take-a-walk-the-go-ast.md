@@ -166,7 +166,7 @@ Nothing fancy — an overly simple Hello, World program. The AST built on this i
 </details>
 
 #### How to walk
-All we have todo is traverse this AST node in depth-first order.
+All we have to do is traverse this AST node in depth-first order.
 Let's print each Node one by one by calling [`ast.Inspect()`](https://pkg.go.dev/go/ast?tab=doc#Inspect) recursively.
 
 Also, printing AST directly then we will typically see stuff that is not human readable. 
