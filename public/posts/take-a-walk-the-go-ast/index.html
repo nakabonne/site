@@ -408,30 +408,48 @@ Let&rsquo;s take a look at them in order from <code>Name</code>, representing a 
 </code></pre></div><p>The second time this has appeared, let me skip the basic explanation.</p>
 <p>Noteworthy is the <a href="https://pkg.go.dev/go/ast?tab=doc#Object"><code>*ast.Object</code></a>.
 It represents the object to which the identifier refers, but why is this needed?
-As you know, Go has a concept of scope, which is scoped with blocks
-The <code>Decl</code> field indicates where the identifier was declared so that it identifies the scope of the identifier.</p>
+As you know, Go has a concept of scope, which is the extent of source text in which the identifier denotes the specified constant, type, variable, function, label, or package.</p>
+<p>The <code>Decl</code> field indicates where the identifier was declared so that it identifies the scope of the identifier.
+Identifiers that point to the identical object share the identical <code>*ast.Object</code>.</p>
 <h4 id="astfunctype">*ast.FuncType</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">FuncType</span> {
 .  <span style="color:#a6e22e">Func</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">1</span>
 .  <span style="color:#a6e22e">Params</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">FieldList</span> {<span style="color:#75715e">/* Omission */</span>}
 }
-</code></pre></div><p>A <a href="https://pkg.go.dev/go/ast?tab=doc#FuncType"><code>*ast.FuncType</code></a> contains a function signature including parameters, results, and position of &ldquo;func&rdquo; keyword.</p>
+</code></pre></div><p>Go back to being a parent one generation older, a <a href="https://pkg.go.dev/go/ast?tab=doc#FuncType"><code>*ast.FuncType</code></a> contains a function signature including parameters, results, and position of &ldquo;func&rdquo; keyword.</p>
 <h4 id="astfieldlist">*ast.FieldList</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">FieldList</span> {
 .  <span style="color:#a6e22e">Opening</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">11</span>
+.  <span style="color:#a6e22e">List</span>: <span style="color:#66d9ef">nil</span>
 .  <span style="color:#a6e22e">Closing</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">12</span>
 }
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">BlockStmt</span> {
+</code></pre></div><p>A <a href="https://pkg.go.dev/go/ast?tab=doc#FieldList"><code>*ast.FieldList</code></a> node represents a list of Fields, enclosed by parentheses or braces.
+Function parameters would be shown here if they are defined, but this time none, so no information.</p>
+<p><code>List</code> field is a slice of <a href="https://pkg.go.dev/go/ast?tab=doc#Field"><code>*ast.Field</code></a> that contains a pair of identifiers and types.
+It is highly versatile and is used for a variety of Nodes, including <a href="https://pkg.go.dev/go/ast?tab=doc#StructType"><code>*ast.StructType</code></a>, <a href="https://pkg.go.dev/go/ast?tab=doc#InterfaceType"><code>*ast.InterfaceType</code></a>, and here.
+That is, it&rsquo;s needed when mapping a type to an identifier:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">foo</span> <span style="color:#66d9ef">int</span>
+<span style="color:#a6e22e">bar</span> <span style="color:#66d9ef">string</span>
+</code></pre></div><p>Let&rsquo;s loop back to <code>*ast.FuncDecl</code> again and dive a bit into <code>Body</code>, the last field.</p>
+<h4 id="astblockstmt">*ast.BlockStmt</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">BlockStmt</span> {
 .  <span style="color:#a6e22e">Lbrace</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">14</span>
 .  <span style="color:#a6e22e">List</span>: []<span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Stmt</span> (<span style="color:#a6e22e">len</span> = <span style="color:#ae81ff">1</span>) {
 .  .  <span style="color:#ae81ff">0</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">ExprStmt</span> {<span style="color:#75715e">/* Omission */</span>}
 .  }
 .  <span style="color:#a6e22e">Rbrace</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">7</span>:<span style="color:#ae81ff">1</span>
 }
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">ExprStmt</span> {
+</code></pre></div><p>A <a href="https://pkg.go.dev/go/ast?tab=doc#BlockStmt"><code>BlockStmt</code></a> node represents a braced statement list.
+It implements  the <code>ast.Stmt</code> interface.
+It does have a list of statements. What an imaginable node!</p>
+<h4 id="astexprstmt">*ast.ExprStmt</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">ExprStmt</span> {
 .  <span style="color:#a6e22e">X</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">CallExpr</span> {<span style="color:#75715e">/* Omission */</span>}
 }
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">CallExpr</span> {
+</code></pre></div><p><a href="https://pkg.go.dev/go/ast?tab=doc#ExprStmt"><code>*ast.ExprStmt</code></a> represents an expression in a statement list.
+It implements the <code>ast.Stmt</code> interface and contains a single <code>ast.Expr</code>.</p>
+<h4 id="astcallexpr">*ast.CallExpr</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">CallExpr</span> {
 .  <span style="color:#a6e22e">Fun</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">SelectorExpr</span> {<span style="color:#75715e">/* Omission */</span>}
 .  <span style="color:#a6e22e">Lparen</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">13</span>
 .  <span style="color:#a6e22e">Args</span>: []<span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Expr</span> (<span style="color:#a6e22e">len</span> = <span style="color:#ae81ff">1</span>) {
@@ -440,7 +458,10 @@ The <code>Decl</code> field indicates where the identifier was declared so that 
 .  <span style="color:#a6e22e">Ellipsis</span>: <span style="color:#f92672">-</span>
 .  <span style="color:#a6e22e">Rparen</span>: <span style="color:#a6e22e">dummy</span>.<span style="color:#66d9ef">go</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">28</span>
 }
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">SelectorExpr</span> {
+</code></pre></div><p><a href="https://pkg.go.dev/go/ast?tab=doc#CallExpr"><code>*ast.CallExpr</code></a> represents an expression that calls a function.
+The fields to look at are the function to call and the list of arguments to pass to it.</p>
+<h4 id="astselectorexpr">*ast.SelectorExpr</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">SelectorExpr</span> {
 .  <span style="color:#a6e22e">X</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {<span style="color:#75715e">/* Omission */</span>}
 .  <span style="color:#a6e22e">Sel</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">ast</span>.<span style="color:#a6e22e">Ident</span> {<span style="color:#75715e">/* Omission */</span>}
 }

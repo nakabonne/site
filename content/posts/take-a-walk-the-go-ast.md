@@ -322,8 +322,10 @@ The second time this has appeared, let me skip the basic explanation.
 
 Noteworthy is the [`*ast.Object`](https://pkg.go.dev/go/ast?tab=doc#Object).
 It represents the object to which the identifier refers, but why is this needed?
-As you know, Go has a concept of scope, which is scoped with blocks
+As you know, Go has a concept of scope, which is the extent of source text in which the identifier denotes the specified constant, type, variable, function, label, or package.
+
 The `Decl` field indicates where the identifier was declared so that it identifies the scope of the identifier.
+Identifiers that point to the identical object share the identical `*ast.Object`.
 
 #### *ast.FuncType
 
@@ -333,18 +335,33 @@ The `Decl` field indicates where the identifier was declared so that it identifi
 .  Params: *ast.FieldList {/* Omission */}
 }
 ```
-
-A [`*ast.FuncType`](https://pkg.go.dev/go/ast?tab=doc#FuncType) contains a function signature including parameters, results, and position of "func" keyword.
+Go back to being a parent one generation older, a [`*ast.FuncType`](https://pkg.go.dev/go/ast?tab=doc#FuncType) contains a function signature including parameters, results, and position of "func" keyword.
 
 #### *ast.FieldList
 
 ```go
 *ast.FieldList {
 .  Opening: dummy.go:5:11
+.  List: nil
 .  Closing: dummy.go:5:12
 }
 ```
 
+A [`*ast.FieldList`](https://pkg.go.dev/go/ast?tab=doc#FieldList) node represents a list of Fields, enclosed by parentheses or braces.
+Function parameters would be shown here if they are defined, but this time none, so no information.
+
+`List` field is a slice of [`*ast.Field`](https://pkg.go.dev/go/ast?tab=doc#Field) that contains a pair of identifiers and types.
+It is highly versatile and is used for a variety of Nodes, including [`*ast.StructType`](https://pkg.go.dev/go/ast?tab=doc#StructType), [`*ast.InterfaceType`](https://pkg.go.dev/go/ast?tab=doc#InterfaceType), and here.
+That is, it's needed when mapping a type to an identifier:
+
+```go
+foo int
+bar string
+```
+
+Let's loop back to `*ast.FuncDecl` again and dive a bit into `Body`, the last field.
+
+#### *ast.BlockStmt
 
 ```go
 *ast.BlockStmt {
@@ -356,11 +373,22 @@ A [`*ast.FuncType`](https://pkg.go.dev/go/ast?tab=doc#FuncType) contains a funct
 }
 ```
 
+A [`BlockStmt`](https://pkg.go.dev/go/ast?tab=doc#BlockStmt) node represents a braced statement list.
+It implements  the `ast.Stmt` interface.
+It does have a list of statements. What an imaginable node!
+
+#### *ast.ExprStmt
+
 ```go
 *ast.ExprStmt {
 .  X: *ast.CallExpr {/* Omission */}
 }
 ```
+
+[`*ast.ExprStmt`](https://pkg.go.dev/go/ast?tab=doc#ExprStmt) represents an expression in a statement list.
+It implements the `ast.Stmt` interface and contains a single `ast.Expr`.
+
+#### *ast.CallExpr
 
 ```go
 *ast.CallExpr {
@@ -373,6 +401,11 @@ A [`*ast.FuncType`](https://pkg.go.dev/go/ast?tab=doc#FuncType) contains a funct
 .  Rparen: dummy.go:6:28
 }
 ```
+
+[`*ast.CallExpr`](https://pkg.go.dev/go/ast?tab=doc#CallExpr) represents an expression that calls a function.
+The fields to look at are the function to call and the list of arguments to pass to it.
+
+#### *ast.SelectorExpr
 
 ```go
 *ast.SelectorExpr {
