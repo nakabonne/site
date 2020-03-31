@@ -442,4 +442,5 @@ No longer needed an explanation, Hello, World!
 I've left out some of the fields in the node types I've introduced, and there are still many other node types.
 
 Nevertheless, I'd say it's significant to actually walk the walk even if it's a bit rough.
+And above all, it’s quite a bit of fun.
 Copy and paste the code shown in section "How to walk", and have a try to walk around on your PC.
