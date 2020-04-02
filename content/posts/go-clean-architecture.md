@@ -22,7 +22,7 @@ you may refer to various [articles](https://8thlight.com/blog/uncle-bob/2012/08/
 
 ## Sample App
 
-[nakabonne/cleanarchitecture-sample.git](https://github.com/nakabonne/cleanarchitecture-sample)
+[![nakabonne/cleanarchitecture-sample - GitHub](https://gh-card.dev/repos/nakabonne/cleanarchitecture-sample.svg)](https://github.com/nakabonne/cleanarchitecture-sample)
 
 It just can be used to register user by posting to `/users` and is based on [manuelkiessling/go-cleanarchitecture](https://github.com/manuelkiessling/go-cleanarchitecture) and using gorm as an ORM.
 

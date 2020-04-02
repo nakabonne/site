@@ -10,7 +10,7 @@ Now, the architecture called Service Mesh is attracting attention in the Microse
 There are various products for realization, but I made a small control-plane called sxds.  
 In this article, I will introduce the means to start small Service Mesh referring to sxds.
 
-[nakabonne/sxds.git](https://github.com/nakabonne/sxds)
+[![nakabonne/sxds - GitHub](https://gh-card.dev/repos/nakabonne/sxds.svg)](https://github.com/nakabonne/sxds)
 
 ### Target reader
 
