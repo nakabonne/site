@@ -18,7 +18,7 @@
       
       <guid>https://nakabonne.dev/posts/depth-of-module/</guid>
       <description>Click here for Japanese version
-This article summarizes the concept of deep module described in the book “A Philosophy of Software Design” written by Professor John Ousterhout at Stanford University, and is written with permission of him. However, this is mainly describing my opinion rather than giving detailed contents of this book.</description>
+This article summarizes the concept of deep module described in the book “A Philosophy of Software Design” written by Professor John Ousterhout at Stanford University, and is written with permission of him.</description>
     </item>
     
     <item>
@@ -28,8 +28,7 @@ This article summarizes the concept of deep module described in the book “A Ph
       
       <guid>https://nakabonne.dev/posts/go-clean-architecture/</guid>
       <description>Click here for Japanese version
-What is Clean Architecture? It could be thought an architecture pattern that dissociates interest by realizing:
- Make domain logic independent Make framework independent Make UI independent Make any external agency independent Make domain logic easier to test  you may refer to various articles for further details, and we will focus on discussing about implementation patterns.</description>
+What is Clean Architecture? It could be thought an architecture pattern that dissociates interest by realizing:</description>
     </item>
     
   </channel>

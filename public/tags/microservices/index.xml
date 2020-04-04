@@ -17,8 +17,7 @@
       <pubDate>Tue, 18 Dec 2018 10:08:02 +0000</pubDate>
       
       <guid>https://nakabonne.dev/posts/realization-of-distributed-tracing-by-envoy/</guid>
-      <description>Necessity of distributed tracing Since distributed architecture such as Microservices are handled across multiple services, it’s difficult to keep track of communication between services. For that reason,
- It becomes difficult to investigate the cause when a failure occurs It becomes difficult to investigate the cause of performance degradation  Distributed tracing solves these problems by visualizing communication.</description>
+      <description>Necessity of distributed tracing Since distributed architecture such as Microservices are handled across multiple services, it’s difficult to keep track of communication between services.</description>
     </item>
     
     <item>
@@ -28,8 +27,7 @@
       
       <guid>https://nakabonne.dev/posts/a-choice-to-start-small-service-mesh/</guid>
       <description>Now, the architecture called Service Mesh is attracting attention in the Microservice industry.
-There are various products for realization, but I made a small control-plane called sxds.
-In this article, I will introduce the means to start small Service Mesh referring to sxds.</description>
+There are various products for realization, but I made a small control-plane called sxds.</description>
     </item>
     
     <item>
@@ -38,8 +36,7 @@ In this article, I will introduce the means to start small Service Mesh referrin
       <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://nakabonne.dev/posts/why-was-grpc-born/</guid>
-      <description>The term gRPC became very famous, and articles such as “Introducing gRPC in house” and “How to build gRPC server” can now overflow.
-  By doing this, the hurdle for introducing gRPC has come down, and it has become possible to create a production ready gRPC server relatively easily.</description>
+      <description>The term gRPC became very famous, and articles such as “Introducing gRPC in house” and “How to build gRPC server” can now overflow.</description>
     </item>
     
   </channel>
