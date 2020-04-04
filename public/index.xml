@@ -17,7 +17,7 @@
       <pubDate>Tue, 31 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>https://nakabonne.dev/posts/take-a-walk-the-go-ast/</guid>
-      <description>What do you refer to when you&amp;rsquo;re curious about the Go AST?</description>
+      <description>What do you refer to when you&amp;rsquo;re curious about the Go AST? A document? Source code? While reading the documentation helps you understand it in the abstract, you can&amp;rsquo;t see how APIs relate to each other, etc. Not to mention, read the entire source code and you&amp;rsquo;ll see it completely, but you should get tired from trying to read the whole stuff.</description>
     </item>
     
     <item>
@@ -26,7 +26,7 @@
       <pubDate>Sun, 29 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/</guid>
-      <description>The analysis of source code at the syntactic level can help you with your coding in a variety of ways.</description>
+      <description>The analysis of source code at the syntactic level can help you with your coding in a variety of ways. For that, the text is almost always converted to AST first to make it easier to handle in most languages.</description>
     </item>
     
     <item>
@@ -36,7 +36,7 @@
       
       <guid>https://nakabonne.dev/posts/things-that-could-drive-me-into-a-nervous-breakdown/</guid>
       <description>Photo by Ric Rodrigues from Pexels
-Nowadays, I have room in my heart for thinking about what could push me past my breaking point.</description>
+Nowadays, I have room in my heart for thinking about what could push me past my breaking point. I can see what I’m seeking and what is what’s necessary to live a fulfilling and healthy life, at least than before — I will walk you through what got started to make my heart empty and how I realized that.</description>
     </item>
     
     <item>
@@ -45,7 +45,9 @@ Nowadays, I have room in my heart for thinking about what could push me past my 
       <pubDate>Sat, 11 May 2019 02:19:59 +0000</pubDate>
       
       <guid>https://nakabonne.dev/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</guid>
-      <description>Unfortunately, as mentioned earlier I was not able to get into Google Summer of Code 2019.</description>
+      <description>Unfortunately, as mentioned earlier I was not able to get into Google Summer of Code 2019.
+  Despite things never worked out as my expect, I do not despaired at all. Why?
+One of the potential reasons is that I was able to take the first big step toward wonderful OSS committer.</description>
     </item>
     
     <item>
@@ -55,7 +57,7 @@ Nowadays, I have room in my heart for thinking about what could push me past my 
       
       <guid>https://nakabonne.dev/posts/depth-of-module/</guid>
       <description>Click here for Japanese version
-This article summarizes the concept of deep module described in the book “A Philosophy of Software Design” written by Professor John Ousterhout at Stanford University, and is written with permission of him.</description>
+This article summarizes the concept of deep module described in the book “A Philosophy of Software Design” written by Professor John Ousterhout at Stanford University, and is written with permission of him. However, this is mainly describing my opinion rather than giving detailed contents of this book.</description>
     </item>
     
     <item>
@@ -64,7 +66,8 @@ This article summarizes the concept of deep module described in the book “A Ph
       <pubDate>Tue, 18 Dec 2018 10:08:02 +0000</pubDate>
       
       <guid>https://nakabonne.dev/posts/realization-of-distributed-tracing-by-envoy/</guid>
-      <description>Necessity of distributed tracing Since distributed architecture such as Microservices are handled across multiple services, it’s difficult to keep track of communication between services.</description>
+      <description>Necessity of distributed tracing Since distributed architecture such as Microservices are handled across multiple services, it’s difficult to keep track of communication between services. For that reason,
+ It becomes difficult to investigate the cause when a failure occurs It becomes difficult to investigate the cause of performance degradation  Distributed tracing solves these problems by visualizing communication.</description>
     </item>
     
     <item>
@@ -73,7 +76,9 @@ This article summarizes the concept of deep module described in the book “A Ph
       <pubDate>Sat, 24 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>https://nakabonne.dev/posts/a-choice-to-start-small-service-mesh/</guid>
-      <description>Now, the architecture called Service Mesh is attracting attention in the Microservice industry.</description>
+      <description>Now, the architecture called Service Mesh is attracting attention in the Microservice industry.
+There are various products for realization, but I made a small control-plane called sxds.
+In this article, I will introduce the means to start small Service Mesh referring to sxds.</description>
     </item>
     
     <item>
@@ -83,7 +88,8 @@ This article summarizes the concept of deep module described in the book “A Ph
       
       <guid>https://nakabonne.dev/posts/go-clean-architecture/</guid>
       <description>Click here for Japanese version
-What is Clean Architecture? It could be thought an architecture pattern that dissociates interest by realizing:</description>
+What is Clean Architecture? It could be thought an architecture pattern that dissociates interest by realizing:
+ Make domain logic independent Make framework independent Make UI independent Make any external agency independent Make domain logic easier to test  you may refer to various articles for further details, and we will focus on discussing about implementation patterns.</description>
     </item>
     
     <item>
@@ -92,7 +98,8 @@ What is Clean Architecture? It could be thought an architecture pattern that dis
       <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://nakabonne.dev/posts/why-was-grpc-born/</guid>
-      <description>The term gRPC became very famous, and articles such as “Introducing gRPC in house” and “How to build gRPC server” can now overflow.</description>
+      <description>The term gRPC became very famous, and articles such as “Introducing gRPC in house” and “How to build gRPC server” can now overflow.
+  By doing this, the hurdle for introducing gRPC has come down, and it has become possible to create a production ready gRPC server relatively easily.</description>
     </item>
     
     <item>
@@ -102,7 +109,9 @@ What is Clean Architecture? It could be thought an architecture pattern that dis
       
       <guid>https://nakabonne.dev/about/</guid>
       <description>Hi there! I&amp;rsquo;m Ryo Nakao.
-I&amp;rsquo;m a software engineer, quite interested in reducing the cycle time between an idea and usable software.</description>
+I&amp;rsquo;m a software engineer, quite interested in reducing the cycle time between an idea and usable software.
+I can be found online at:
+ Github LinkedIn Twitter (Mostly Japanese) Blog(ja)  </description>
     </item>
     
   </channel>

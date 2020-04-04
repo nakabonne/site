@@ -6,7 +6,9 @@ author = "Ryo Nakao"
 title = "Ryo Nakao"
 enableRobotsTXT = true
 paginate = 4 # Set the number of posts to show before overflowing to the next page.
-summaryLength = 10 # Configure how long the post summary should be on the homepage.
+summaryLength = 40 # Configure how long the post summary should be on the homepage.
+
+#googleAnalytics = ""
 
 [taxonomies]
   tag = "tags"
