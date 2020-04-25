@@ -13,3 +13,5 @@ I can be found online at:
 - [LinkedIn](https://www.linkedin.com/in/nakabonne)
 - [Twitter](https://twitter.com/nakabonne) (Mostly Japanese)
 - [Blog(ja)](http://nakawatch.hatenablog.com)
+
+You can also feel free to email me at `me@nakabonne.dev`
