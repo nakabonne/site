@@ -14,4 +14,4 @@ I can be found online at:
 - [Twitter](https://twitter.com/nakabonne) (Mostly Japanese)
 - [Blog(ja)](http://nakawatch.hatenablog.com)
 
-You can also feel free to email me at `me@nakabonne.dev`
+You can also feel free to email me at `ryo@nakao.dev`
