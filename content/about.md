@@ -7,6 +7,8 @@ Hi there! I'm Ryo Nakao.
 
 I'm a software engineer, quite interested in reducing the cycle time between an idea and usable software.  
 
+Writing helps me clear up my thoughts, that's why I keep blogging.
+
 I can be found online at:
 
 - [Github](https://github.com/nakabonne)
