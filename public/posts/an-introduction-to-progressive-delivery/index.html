@@ -30,8 +30,6 @@
     
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://nakabonne.dev/tags/index.xml" title="Ryo Nakao" />
-    
     
 <script type="application/javascript">
 var doNotTrack = false;
@@ -49,15 +47,16 @@ if (!doNotTrack) {
     <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://nakabonne.dev/img/icon.png"/>
 
-<meta name="twitter:title" content="Tags"/>
-<meta name="twitter:description" content="a random walk through topics that interest me"/>
+<meta name="twitter:title" content="An Introduction to Progressive Delivery"/>
+<meta name="twitter:description" content="Learn about Progressive Delivery, the term which describes the way to improve delivery times for new product features."/>
 
-    <meta property="og:title" content="Tags" />
-<meta property="og:description" content="a random walk through topics that interest me" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://nakabonne.dev/tags/" />
+    <meta property="og:title" content="An Introduction to Progressive Delivery" />
+<meta property="og:description" content="Learn about Progressive Delivery, the term which describes the way to improve delivery times for new product features." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nakabonne.dev/posts/an-introduction-to-progressive-delivery/" />
 <meta property="og:image" content="https://nakabonne.dev/img/icon.png"/>
-<meta property="og:updated_time" content="2020-06-13T00:00:00+00:00" /><meta property="og:site_name" content="Ryo Nakao" />
+<meta property="article:published_time" content="2020-06-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-06-13T00:00:00+00:00" /><meta property="og:site_name" content="Ryo Nakao" />
 
 </head>
 
@@ -161,25 +160,100 @@ if (!doNotTrack) {
 </nav>
         <div id="content" class="content-container">
         
-
-<h1>Tags</h1>
+<h1 class="post-title">An Introduction to Progressive Delivery</h1>
+    
+    <time>June 13, 2020</time>
+    
+    <div>
+        <p>
+        <p>As reported by DORA&rsquo;s <a href="https://services.google.com/fh/files/misc/state-of-devops-2019.pdf">The Accelerate State of DevOps Report</a>, elite performers deploy code to production a bunch of times a day,</p>
+<p>The more you deploy a lot, the more likely you are to win the market,
+while it&rsquo;s clear that most incidents are caused by code changes.
+Frequent deployments come with significant risk.</p>
+<p>James Governor at RedMonk who invented the term Progressive Delivery says:</p>
+<blockquote>
+<p>The elite performers are shipping a lot more code and with higher quality.
+&ndash; &ldquo;<a href="https://www.infoq.com/presentations/progressive-delivery/">An Introduction to Progressive Delivery</a>&quot;, James Governor at Qcon 2019</p>
+</blockquote>
+<p>That is, what we want to end up with is a way to deploy a lot without breaking anything.
+I&rsquo;d say Progressive Delivery is the closest solution to what&rsquo;s being looking for, that&rsquo;s why I will now walk you through what it is.</p>
+<h2 id="what-is-progressive-delivery">What is Progressive Delivery?</h2>
+<p>In a nutshell, it automates rollouts and rollbacks based on metrics and more.
+This is obviously not enough, so let me take it a bit further.</p>
+<p>This is an excerpt from <a href="https://www.cloudbees.com/blog/progressive-delivery-kubernetes-blue-green-and-canary-deployments">Progressive Delivery in Kubernetes: Blue-Green and Canary Deployments</a> written by Carlos Sanchez:</p>
+<blockquote>
+<p>Progressive delivery is the next step after continuous delivery, where new versions are deployed to a subset of users and are evaluated in terms of correctness and performance before rolling them to the totality of the users and rolled back if not matching some key metrics.</p>
+</blockquote>
+<p>I guess that explains it pretty well. That&rsquo;s not only an overview, but also shows that it is Continuous Delivery++.</p>
+<p>Here&rsquo;s another short and coherent explanation:</p>
+<blockquote>
+<p>Progressive Delivery is Continuous Delivery with fine-granted control over the blast radius.</p>
+<p>Building blocks:</p>
 <ul>
-    
-        <li><a href="https://nakabonne.dev/tags/devops/">devops</a> 1</li>
-    
-        <li><a href="https://nakabonne.dev/tags/golang/">Golang</a> 4</li>
-    
-        <li><a href="https://nakabonne.dev/tags/microservices/">Microservices</a> 3</li>
-    
-        <li><a href="https://nakabonne.dev/tags/oss/">OSS</a> 1</li>
-    
-        <li><a href="https://nakabonne.dev/tags/philosophy/">Philosophy</a> 2</li>
-    
-        <li><a href="https://nakabonne.dev/tags/software-design/">Software Design</a> 2</li>
-    
+<li>User segmentaition</li>
+<li>Traffic management</li>
+<li>Observability</li>
+<li>Automation</li>
+</ul>
+<p>&ndash; &ldquo;<a href="https://www.slideshare.net/weaveworks/flagger-istio-progressive-delivery-operator">Flagger: Istio Progressive Delivery Operator</a>&quot;, Stefan Prodan</p>
+</blockquote>
+<p>I really like the expression &ldquo;blast radius&rdquo;, which is sometimes used to describe the range of failures.</p>
+<p>TODO: こんな感じの図を作る
+<figure>
+    <img src="https://images.ctfassets.net/zw48pl1isxmc/6Blb2fE7j83mIPpT8GTmRL/e1c331719b92643147a49e9b577e7e9f/progressive-delivery.png" width="100%" height="auto"/> 
+</figure>
+</p>
+<p>TODO: これを自分の言葉で</p>
+<p>Progressive delivery provides the ability to gradually release your feature to progressively larger audiences starting with your internal teams, then beta testers, and followed by percentages of your production traffic.</p>
+<p>If you detect errors, performance spikes, or user backlash, just roll back - all without redeploying code. Since you aren&rsquo;t going from 0% to 100% rollout, if you detect an issue at 1% of your traffic, you&rsquo;ve only potentially impacted 1% of revenue or 1% of customer happiness.</p>
+<p>Progressive delivery makes your release process more resilient. Additionally, the use of experimentation (or A/B testing) as a part of the progressive delivery process enables you to not only reduce risk but also iterate and determine the best possible experience for your end-users.</p>
+<h2 id="benefits">Benefits</h2>
+<h3 id="easier-to-test">Easier to test</h3>
+<p>The main benefit for lots of people would be this.
+By automating rollbacks, developers can run tests in production with less risk.
+It enables to easily find bugs that can&rsquo;t be found without running it in a production environment.
+As a result, Progressive Delivery allows development teams to release features quickly with minimal risk.</p>
+<h3 id="social-autonomy">Social Autonomy</h3>
+<p>TODO: これ参考に <a href="https://redmonk.com/jgovernor/2018/08/06/towards-progressive-delivery/">https://redmonk.com/jgovernor/2018/08/06/towards-progressive-delivery/</a></p>
+<h2 id="how-to-analyze">How to analyze.</h2>
+<p>Let&rsquo;s get a bit more specific. 上記を実現するために分析というフェーズが中核を担っていることが分かると思います。これからその説明をしていきます。</p>
+<p>First up, let me briefly describe the deployment strategies. The industry has agreed upon high-level definitions of various kinds of deployment strategies.
+While different people interpret it slightly differently, it would be almost like this:</p>
+<ul>
+<li><code>Canary</code>: The new version gradually replaces the old version with verification</li>
+<li><code>Blue/Green</code>: Switching the live traffic to the new version once it&rsquo;s fully tested</li>
+<li><code>Rolling Update</code>: Slowly replaces the old version with the new version</li>
+<li><code>Recreate</code>: Deletes the old version before bring up the new version</li>
+</ul>
+<p>Although Progressive Delivery doesn&rsquo;t depend on specific deployment strategies, the canonical use case for Progressive Delivery in my opinion is Canary analysis;
+thus let&rsquo;s take a look how to analyze Canary so as to dig deeper into Progressive Delivery.</p>
+<h3 id="static-rules-vs-dynamic-data">Static Rules vs Dynamic Data</h3>
+<p>Notionの内容書くhttps://www.notion.so/cyberagent/Harness-Continuous-Verification-daf93d012d6942fd86aefa69737bbccf</p>
+<p>TODO: 以下の具体的な実現方法は別記事でいいかも</p>
+<h3 id="flaggerhttpsflaggerapp"><a href="https://flagger.app/">Flagger</a></h3>
+<h3 id="argo-rolloutshttpsargoprojgithubioargo-rollouts"><a href="https://argoproj.github.io/argo-rollouts/">Argo Rollouts</a></h3>
+<h3 id="harness-continuous-verificationhttpsdocsharnessiocategorygurgsl2gqt-continuous-verification"><a href="https://docs.harness.io/category/gurgsl2gqt-continuous-verification">Harness Continuous Verification</a></h3>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>こういった課題がある</p>
+<ul>
+<li>Kubernetes 上で実現したい場合、Istio、Linkerd、Contour、Ambassador などのそこそこリッチなサービスメッシュやイングレスゲートウェイとセットで導入することになる</li>
+<li>素の Envoy を横に並べてフロントプロキシとして利用しているような事例がよくある</li>
+<li>Progressive Delivery を始めようとすると、突然サービスメッシュがIngress Gatewayのソリューションが必要になる。選定含めおおごとになりがち</li>
 </ul>
 
-<div class="page-footer"></div>
+        </p>
+    </div>
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/devops">#devops</a>
+        
+      
+    </div>
+
 
         
 

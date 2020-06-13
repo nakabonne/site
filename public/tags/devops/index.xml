@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>devops on Ryo Nakao</title>
+    <link>https://nakabonne.dev/tags/devops/</link>
+    <description>Recent content in devops on Ryo Nakao</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 13 Jun 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://nakabonne.dev/tags/devops/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>An Introduction to Progressive Delivery</title>
+      <link>https://nakabonne.dev/posts/an-introduction-to-progressive-delivery/</link>
+      <pubDate>Sat, 13 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://nakabonne.dev/posts/an-introduction-to-progressive-delivery/</guid>
+      <description>As reported by DORA&amp;rsquo;s The Accelerate State of DevOps Report, elite performers deploy code to production a bunch of times a day,</description>
+    </item>
+    
+  </channel>
+</rss>
