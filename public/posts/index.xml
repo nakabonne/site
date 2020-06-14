@@ -6,7 +6,7 @@
     <description>Recent content in Posts on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 13 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://nakabonne.dev/posts/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>An Introduction to Progressive Delivery</title>
       <link>https://nakabonne.dev/posts/an-introduction-to-progressive-delivery/</link>
-      <pubDate>Sat, 13 Jun 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 14 Jun 2020 00:00:00 +0000</pubDate>
       
       <guid>https://nakabonne.dev/posts/an-introduction-to-progressive-delivery/</guid>
       <description>As reported by DORA&amp;rsquo;s The Accelerate State of DevOps Report, elite performers deploy code to production a bunch of times a day,</description>

@@ -1,9 +1,10 @@
 ---
 title: "An Introduction to Progressive Delivery"
-description: "Learn about Progressive Delivery, the term which describes the way to improve delivery times for new product features."
-date: 2020-06-13
+description: "Learn about Progressive Delivery, the term which describes the way to improve deliveries for new product features."
+date: 2020-06-14
 tags: ["devops"]
 draft: false
+images: ["/img/BlastRadius.jpg"]
 ---
 
 As reported by DORA's [The Accelerate State of DevOps Report](https://services.google.com/fh/files/misc/state-of-devops-2019.pdf), elite performers deploy code to production a bunch of times a day,
@@ -21,7 +22,7 @@ That is, what we want to end up with is a way to deploy a lot without breaking a
 I'd say Progressive Delivery is the closest solution to what's being looking for, that's why I will now walk you through what it is.
 
 ## What is Progressive Delivery?
-In a nutshell, it automates rollouts and rollbacks based on metrics and more.
+In a nutshell, it is a set of gradual deployments, analysis and automated rollbacks (as well as rollouts).
 This is obviously not enough, so let me take it a bit further.
 
 This is an excerpt from [Progressive Delivery in Kubernetes: Blue-Green and Canary Deployments](https://www.cloudbees.com/blog/progressive-delivery-kubernetes-blue-green-and-canary-deployments) written by Carlos Sanchez:
@@ -44,57 +45,40 @@ Here's another short and coherent explanation:
 
 I really like the expression "blast radius", which is sometimes used to describe the range of failures.
 
-TODO: こんな感じの図を作る
-{{< figure src="https://images.ctfassets.net/zw48pl1isxmc/6Blb2fE7j83mIPpT8GTmRL/e1c331719b92643147a49e9b577e7e9f/progressive-delivery.png" width="100%" height="auto">}}
-
-TODO: これを自分の言葉で
-
-Progressive delivery provides the ability to gradually release your feature to progressively larger audiences starting with your internal teams, then beta testers, and followed by percentages of your production traffic.
-
-If you detect errors, performance spikes, or user backlash, just roll back - all without redeploying code. Since you aren't going from 0% to 100% rollout, if you detect an issue at 1% of your traffic, you've only potentially impacted 1% of revenue or 1% of customer happiness.
-
-Progressive delivery makes your release process more resilient. Additionally, the use of experimentation (or A/B testing) as a part of the progressive delivery process enables you to not only reduce risk but also iterate and determine the best possible experience for your end-users.
+{{< figure src="/img/BlastRadius.jpg" width="100%" height="auto">}}
 
 ## Benefits
-### Easier to test
+### Testing in production
 The main benefit for lots of people would be this.
-By automating rollbacks, developers can run tests in production with less risk.
-It enables to easily find bugs that can't be found without running it in a production environment.
-As a result, Progressive Delivery allows development teams to release features quickly with minimal risk.
+Automated rollbacks makes it possible to perform tests in production with less risk.
+That lowers tha bar for finding bugs that have to be executed in a production environment to be found.
 
-### Social Autonomy
-TODO: これ参考に https://redmonk.com/jgovernor/2018/08/06/towards-progressive-delivery/
+We often cannot completely simulate live, real-world software in a test and dev environment. 
+Because of that, it's been mentioned in [a variety of places](https://medium.com/@copyconstruct/testing-in-production-the-safe-way-18ca102d0ef1) that production testing has become a necessary part of continuous delivery.
 
-## How to analyze.
-Let's get a bit more specific. 上記を実現するために分析というフェーズが中核を担っていることが分かると思います。これからその説明をしていきます。
+Accordingly, you can see Progressive Delivery allows us to release features quickly with minimal risk.
 
-First up, let me briefly describe the deployment strategies. The industry has agreed upon high-level definitions of various kinds of deployment strategies.
-While different people interpret it slightly differently, it would be almost like this:
+### Beyond alpha thinking
+We can now go forward and backward in our releases using automated analysis processes.
+That makes it much easier to release different versions for different regions and user segments.
 
-- `Canary`: The new version gradually replaces the old version with verification
-- `Blue/Green`: Switching the live traffic to the new version once it's fully tested
-- `Rolling Update`: Slowly replaces the old version with the new version
-- `Recreate`: Deletes the old version before bring up the new version
-
-Although Progressive Delivery doesn't depend on specific deployment strategies, the canonical use case for Progressive Delivery in my opinion is Canary analysis;
-thus let's take a look how to analyze Canary so as to dig deeper into Progressive Delivery.
-
-### Static Rules vs Dynamic Data
-
-Notionの内容書くhttps://www.notion.so/cyberagent/Harness-Continuous-Verification-daf93d012d6942fd86aefa69737bbccf
-
-TODO: 以下の具体的な実現方法は別記事でいいかも
-
-### [Flagger](https://flagger.app/)
-
-### [Argo Rollouts](https://argoproj.github.io/argo-rollouts/)
-
-### [Harness Continuous Verification](https://docs.harness.io/category/gurgsl2gqt-continuous-verification)
+That means Progressive delivery has the potential to take us beyond simple alpha, beta and GA thinking.
 
 
 ## Wrapping up
+While I didn't describe the specific process, we are currently facing a few challenges. The main challenges I consider are:
 
-こういった課題がある
-- Kubernetes 上で実現したい場合、Istio、Linkerd、Contour、Ambassador などのそこそこリッチなサービスメッシュやイングレスゲートウェイとセットで導入することになる
-- 素の Envoy を横に並べてフロントプロキシとして利用しているような事例がよくある
-- Progressive Delivery を始めようとすると、突然サービスメッシュがIngress Gatewayのソリューションが必要になる。選定含めおおごとになりがち
+- In many instances, it requires Service Mesh which is crucial for traffic management
+- What you can analyze the dynamic deployment by defining static rules is limited
+
+The continuous delivery area is still a kind of chaos.
+I believe it's big step in the right direction to verbalize what many people have in mind.
+I hope to write about the elements that make it up such as analyses in the near future.
+
+### Links:
+- [Towards Progressive Delivery - RedMonk](https://redmonk.com/jgovernor/2018/08/06/towards-progressive-delivery/)
+- [Progressive Delivery - InfoQ](https://www.infoq.com/presentations/progressive-delivery/)
+- [Flagger: Istio Progressive Delivery Operator - SlideShare](https://www.slideshare.net/weaveworks/flagger-istio-progressive-delivery-operator)
+- [Progressive Delivery in Kubernetes: Blue-Green and Canary Deployments](https://www.cloudbees.com/blog/progressive-delivery-kubernetes-blue-green-and-canary-deployments)
+- [What is Progressive Delivery? - Split Glossary](https://www.split.io/glossary/progressive-delivery/)
+- [Progressive Delivery - Optimizely](https://www.optimizely.com/optimization-glossary/progressive-delivery/)
