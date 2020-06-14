@@ -50,7 +50,7 @@ I really like the expression "blast radius", which is sometimes used to describe
 ## Benefits
 ### Testing in production
 The main benefit for lots of people would be this.
-Automated rollbacks makes it possible to perform tests in production with less risk.
+Automated rollbacks make it possible to perform tests in production with less risk.
 That lowers tha bar for finding bugs that have to be executed in a production environment to be found.
 
 We often cannot completely simulate live, real-world software in a test and dev environment. 
@@ -72,7 +72,7 @@ While I didn't describe the specific process, we are currently facing a few chal
 - What you can analyze the dynamic deployment by defining static rules is limited
 
 The continuous delivery area is still a kind of chaos.
-I believe it's big step in the right direction to verbalize what many people have in mind.
+I believe it's a big step in the right direction to verbalize what many people have in mind.
 I hope to write about the elements that make it up such as analyses in the near future.
 
 ### Links:
