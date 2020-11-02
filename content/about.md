@@ -12,6 +12,7 @@ Writing helps me clear up my thoughts, that's why I keep blogging.
 ## Projects
 The most noteworthy projects I’ve written in the past or currently maintaining are:
 - ***[ali](https://github.com/nakabonne/ali)***: A load testing tool aimed to perform real-time analysis
+- ***[gosivy](https://github.com/nakabonne/gosivy)***: Real-time visualization tool for Go process metrics
 - ***[PipeCD](https://github.com/pipe-cd/pipe)***: Continuous Delivery for Declarative Kubernetes, Serverless and Infrastructure Applications
 - ***[golintui](https://github.com/nakabonne/golintui)***: A simple terminal UI for Go linters
 
