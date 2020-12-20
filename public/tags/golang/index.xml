@@ -6,10 +6,19 @@
     <description>Recent content in Golang on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 31 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 20 Dec 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://nakabonne.dev/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Understanding how AES encryption works</title>
+      <link>https://nakabonne.dev/posts/understanding-how-aes-encryption-works/</link>
+      <pubDate>Sun, 20 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://nakabonne.dev/posts/understanding-how-aes-encryption-works/</guid>
+      <description>I recently had the opportunity to encrypt/decrypt stuff using AES, but I didn&amp;rsquo;t know it inside out well. I couldn’t help but be curious about how it is working, and I realized my mind could only be satisfied by digging deeper into its implementation.</description>
+    </item>
     
     <item>
       <title>Take a walk the Go AST</title>

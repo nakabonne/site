@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+    
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no"/>
+
+    <title>Ryo Nakao</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    
+    
+    <link rel="stylesheet" href="https://nakabonne.dev/css/main.min.03322cbe6bddfc28e7b17b84bc5446282a510b14b57be3371ba1f68ef1ab9ce8.css"/>
+
+    
+    
+    
+
+    
+    
+ 
+    
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-162006077-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://nakabonne.dev/img/aes-add-round-key.jpg"/>
+
+<meta name="twitter:title" content="Understanding how AES encryption works"/>
+<meta name="twitter:description" content="Deepen your understanding of AES implementation using golang."/>
+
+    <meta property="og:title" content="Understanding how AES encryption works" />
+<meta property="og:description" content="Deepen your understanding of AES implementation using golang." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nakabonne.dev/posts/understanding-how-aes-encryption-works/" />
+<meta property="og:image" content="https://nakabonne.dev/img/aes-add-round-key.jpg" />
+<meta property="article:published_time" content="2020-12-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-20T00:00:00+00:00" /><meta property="og:site_name" content="Ryo Nakao" />
+
+</head>
+
+    <body>
+        
+<nav>
+  <header>
+    <div class="site-title">
+        <a href="/">Ryo Nakao</a>
+    </div>  
+</header>
+  <div class="nav-menu">
+  
+    <a class="color-link nav-link" href="/about/">About</a>
+  
+    <a class="color-link nav-link" href="/tags/">Tags</a>
+  
+  <a class="color-link nav-link" href="https://nakabonne.dev/index.xml" target="_blank" rel="noopener" type="application/rss+xml">RSS</a>
+</div>
+
+<footer class="footer">
+	<div class="social-icons">
+        
+
+    
+
+    
+    <a class="social-icon" href="https://twitter.com/nakabonne" target="_blank" rel="noopener" title="Twitter">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M8.991284,24.971612 C19.180436,24.971612 24.752372,16.530224 24.752372,9.210524 C24.752372,8.970656 24.747512,8.731868 24.736496,8.494376 C25.818008,7.712564 26.758256,6.737 27.5,5.62622 C26.507372,6.067076 25.439252,6.364292 24.318752,6.498212 C25.462472,5.812628 26.340512,4.727444 26.754584,3.434036 C25.684088,4.068536 24.499004,4.53002 23.23724,4.778528 C22.226468,3.701876 20.786828,3.028388 19.193828,3.028388 C16.134404,3.028388 13.653536,5.509256 13.653536,8.567492 C13.653536,9.0023 13.702244,9.424904 13.797176,9.830552 C9.19346,9.599108 5.11106,7.39472 2.3792,4.04294 C1.903028,4.861364 1.629032,5.812628 1.629032,6.827072 C1.629032,8.74904 2.606972,10.445612 4.094024,11.438132 C3.185528,11.41016 2.331788,11.160464 1.585184,10.745096 C1.583888,10.768208 1.583888,10.791428 1.583888,10.815728 C1.583888,13.49888 3.493652,15.738584 6.028088,16.246508 C5.562932,16.373084 5.07326,16.44134 4.56782,16.44134 C4.210988,16.44134 3.863876,16.406024 3.526484,16.34144 C4.231724,18.542264 6.276596,20.143796 8.701412,20.18894 C6.805148,21.674696 4.416836,22.56008 1.821488,22.56008 C1.374476,22.56008 0.93362,22.534592 0.5,22.4834 C2.951708,24.054476 5.862524,24.971612 8.991284,24.971612"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.linkedin.com/in/nakabonne" target="_blank" rel="noopener" title="LinkedIn">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M2,3.654102 C2,2.69908141 2.79442509,1.92397846 3.77383592,1.92397846 L24.2261641,1.92397846 C25.2058917,1.92397846 26,2.69908141 26,3.654102 L26,24.3462148 C26,25.3015521 25.2058917,26.0760215 24.2261641,26.0760215 L3.77383592,26.0760215 C2.79442509,26.0760215 2,25.3015521 2,24.3465315 L2,3.65378524 L2,3.654102 Z M9.27526132,22.1415901 L9.27526132,11.2356668 L5.65030092,11.2356668 L5.65030092,22.1415901 L9.27557808,22.1415901 L9.27526132,22.1415901 Z M7.46341463,9.74691162 C8.72727273,9.74691162 9.51409566,8.90940767 9.51409566,7.86284447 C9.49033893,6.79252455 8.72727273,5.97846056 7.48748812,5.97846056 C6.24675325,5.97846056 5.43649034,6.79252455 5.43649034,7.86284447 C5.43649034,8.90940767 6.22299652,9.74691162 7.4396579,9.74691162 L7.46309788,9.74691162 L7.46341463,9.74691162 Z M11.2815965,22.1415901 L14.9062401,22.1415901 L14.9062401,16.0519481 C14.9062401,15.7263225 14.9299968,15.4000634 15.0256573,15.1675641 C15.2876148,14.5159962 15.8840672,13.8416218 16.8856509,13.8416218 C18.1970225,13.8416218 18.7218879,14.8416218 18.7218879,16.3078872 L18.7218879,22.1415901 L22.3465315,22.1415901 L22.3465315,15.8885017 C22.3465315,12.5388027 20.5584416,10.9800443 18.1735825,10.9800443 C16.2182452,10.9800443 15.3595185,12.072854 14.8824834,12.8172315 L14.9065569,12.8172315 L14.9065569,11.2359835 L11.2819132,11.2359835 C11.3291099,12.2591067 11.2815965,22.1419069 11.2815965,22.1419069 L11.2815965,22.1415901 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <a class="social-icon" href="https://github.com/nakabonne" target="_blank" rel="noopener" title="GitHub">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M13.9988029,1.32087331 C6.82105037,1.32087331 1,7.14112562 1,14.3212723 C1,20.0649109 4.72454649,24.9370678 9.89038951,26.6560892 C10.5408085,26.7757983 10.7778323,26.374374 10.7778323,26.0296121 C10.7778323,25.7215609 10.7666595,24.9035493 10.760275,23.8189856 C7.14426471,24.6042767 6.38131925,22.0760223 6.38131925,22.0760223 C5.78995672,20.5740732 4.93762853,20.1742451 4.93762853,20.1742451 C3.75729765,19.3682044 5.02701126,19.3841656 5.02701126,19.3841656 C6.33183953,19.4759425 7.01817121,20.7241085 7.01817121,20.7241085 C8.17775254,22.7104801 10.0611744,22.1366749 10.8017741,21.8038838 C10.919887,20.9643246 11.2558703,20.3913175 11.6269683,20.066507 C8.74038491,19.7385043 5.70536235,18.6228163 5.70536235,13.6413251 C5.70536235,12.2223743 6.21213051,11.0611968 7.04370914,10.1530044 C6.90963504,9.82420367 6.46351945,8.50181809 7.17139875,6.71256734 C7.17139875,6.71256734 8.26234691,6.36301702 10.7459099,8.04532771 C11.78259,7.75642995 12.8950858,7.61277914 14.000399,7.60719272 C15.1049142,7.61277914 16.2166119,7.75642995 17.2548881,8.04532771 C19.736855,6.36301702 20.8262071,6.71256734 20.8262071,6.71256734 C21.5356825,8.50181809 21.0895669,9.82420367 20.9562909,10.1530044 C21.7894656,11.0611968 22.2922435,12.2223743 22.2922435,13.6413251 C22.2922435,18.6355852 19.2524325,19.734514 16.3570705,20.0561322 C16.8231376,20.4575564 17.2389269,21.2508282 17.2389269,22.4638795 C17.2389269,24.2012564 17.2229657,25.603448 17.2229657,26.0296121 C17.2229657,26.3775663 17.4575954,26.7821827 18.116793,26.6552912 C23.2786458,24.9322794 27,20.0633148 27,14.3212723 C27,7.14112562 21.1789496,1.32087331 13.9988029,1.32087331"></path>
+        </svg>
+    </a>
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+</div>
+
+
+
+
+	<script src="https://nakabonne.dev/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+</footer>
+
+</nav>
+        <div id="content" class="content-container">
+        
+<h1 class="post-title">Understanding how AES encryption works</h1>
+    
+    <time>December 20, 2020</time>
+    
+    <div>
+        <p>
+        <p>I recently had the opportunity to encrypt/decrypt stuff using AES, but I didn&rsquo;t know it inside out well. I couldn’t help but be curious about how it is working, and I realized my mind could only be satisfied by digging deeper into its implementation.
+This post walks you through how AES encryption works by reading core implementation written in Go.</p>
+<h2 id="what-is-aes-encryption">What is AES encryption?</h2>
+<p>The Advanced Encryption Standard (AES) is a symmetric block cipher, an alternative to the DES. Cryptographers from around the world proposed algorithms, from which the Rijndael algorithm was selected in 2000. Hence we&rsquo;ll take a look the implementation of this Rijndael.</p>
+<h2 id="rijndael">Rijndael</h2>
+<p>Rijndael is a block cipher algorithm. A block cipher is a cryptographic algorithm that processes a specific number of bits at a time.
+The number of bits (called block length) to be processed at a time depends on the algorithm, AES is 128-bits (16-bytes). Most plaintext we encrypt is longer than this block length, so we typically use this block cipher algorithm repeatedly.
+Keep in mind this post goes into some details on only on one block&rsquo;s process to focus more on the core algorithm.</p>
+<h2 id="digging-deeper-into-the-implementation">Digging deeper into the implementation</h2>
+<p>The Go language officially provides the <a href="https://golang.org/pkg/crypto/aes/">crypto/aes</a> package, which makes use of Go Assembly to leverage Intel’s hardware support for AES if it&rsquo;s built for amd64.
+It otherwise uses the implementation written in pure Go. Let&rsquo;s take a look at the pure Go implementation that the human mind relatively can work in.</p>
+<p>The public method <code>aesCipher.Encrypt</code> defined in <a href="https://github.com/golang/go/blob/55b58018f41e6de63bdaa8f3d9a284077d4e88c1/src/crypto/aes/cipher.go#L54-L65">aes/cipher.go</a> looks to implement a block cipher:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// The AES block size in bytes.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">BlockSize</span> = <span style="color:#ae81ff">16</span>
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">aesCipher</span>) <span style="color:#a6e22e">Encrypt</span>(<span style="color:#a6e22e">dst</span>, <span style="color:#a6e22e">src</span> []<span style="color:#66d9ef">byte</span>) {
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">src</span>) &lt; <span style="color:#a6e22e">BlockSize</span> {
+		panic(<span style="color:#e6db74">&#34;crypto/aes: input not full block&#34;</span>)
+	}
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">dst</span>) &lt; <span style="color:#a6e22e">BlockSize</span> {
+		panic(<span style="color:#e6db74">&#34;crypto/aes: output not full block&#34;</span>)
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">subtle</span>.<span style="color:#a6e22e">InexactOverlap</span>(<span style="color:#a6e22e">dst</span>[:<span style="color:#a6e22e">BlockSize</span>], <span style="color:#a6e22e">src</span>[:<span style="color:#a6e22e">BlockSize</span>]) {
+		panic(<span style="color:#e6db74">&#34;crypto/aes: invalid buffer overlap&#34;</span>)
+	}
+	<span style="color:#a6e22e">encryptBlockGo</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">enc</span>, <span style="color:#a6e22e">dst</span>, <span style="color:#a6e22e">src</span>)
+}
+</code></pre></div><p>This method does the two validations that check if:</p>
+<ul>
+<li>the given plaintext is equal to 16-bytes, the block length of AES</li>
+<li><code>dst</code> and <code>src</code> share memory at any index</li>
+</ul>
+<p>It seems to leave the core implementation to <code>encryptBlockGo</code> defined in <a href="https://github.com/golang/go/blob/55b58018f41e6de63bdaa8f3d9a284077d4e88c1/src/crypto/aes/block.go#L43-L87">aes/block.go</a>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Encrypt one block from src into dst, using the expanded key xk.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">encryptBlockGo</span>(<span style="color:#a6e22e">xk</span> []<span style="color:#66d9ef">uint32</span>, <span style="color:#a6e22e">dst</span>, <span style="color:#a6e22e">src</span> []<span style="color:#66d9ef">byte</span>) {
+	<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">src</span>[<span style="color:#ae81ff">15</span>] <span style="color:#75715e">// early bounds check
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s0</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">Uint32</span>(<span style="color:#a6e22e">src</span>[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">4</span>])
+	<span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">Uint32</span>(<span style="color:#a6e22e">src</span>[<span style="color:#ae81ff">4</span>:<span style="color:#ae81ff">8</span>])
+	<span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">Uint32</span>(<span style="color:#a6e22e">src</span>[<span style="color:#ae81ff">8</span>:<span style="color:#ae81ff">12</span>])
+	<span style="color:#a6e22e">s3</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">Uint32</span>(<span style="color:#a6e22e">src</span>[<span style="color:#ae81ff">12</span>:<span style="color:#ae81ff">16</span>])
+
+	<span style="color:#75715e">// First round just XORs input with key.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s0</span> ^= <span style="color:#a6e22e">xk</span>[<span style="color:#ae81ff">0</span>]
+	<span style="color:#a6e22e">s1</span> ^= <span style="color:#a6e22e">xk</span>[<span style="color:#ae81ff">1</span>]
+	<span style="color:#a6e22e">s2</span> ^= <span style="color:#a6e22e">xk</span>[<span style="color:#ae81ff">2</span>]
+	<span style="color:#a6e22e">s3</span> ^= <span style="color:#a6e22e">xk</span>[<span style="color:#ae81ff">3</span>]
+
+	<span style="color:#75715e">// Middle rounds shuffle using tables.
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Number of rounds is set by length of expanded key.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">nr</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">xk</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">4</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#75715e">// - 2: one above, one more below
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">k</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">4</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">t0</span>, <span style="color:#a6e22e">t1</span>, <span style="color:#a6e22e">t2</span>, <span style="color:#a6e22e">t3</span> <span style="color:#66d9ef">uint32</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">r</span> &lt; <span style="color:#a6e22e">nr</span>; <span style="color:#a6e22e">r</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">t0</span> = <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">0</span>] ^ <span style="color:#a6e22e">te0</span>[uint8(<span style="color:#a6e22e">s0</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>)] ^ <span style="color:#a6e22e">te1</span>[uint8(<span style="color:#a6e22e">s1</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span>)] ^ <span style="color:#a6e22e">te2</span>[uint8(<span style="color:#a6e22e">s2</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span>)] ^ <span style="color:#a6e22e">te3</span>[uint8(<span style="color:#a6e22e">s3</span>)]
+		<span style="color:#a6e22e">t1</span> = <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] ^ <span style="color:#a6e22e">te0</span>[uint8(<span style="color:#a6e22e">s1</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>)] ^ <span style="color:#a6e22e">te1</span>[uint8(<span style="color:#a6e22e">s2</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span>)] ^ <span style="color:#a6e22e">te2</span>[uint8(<span style="color:#a6e22e">s3</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span>)] ^ <span style="color:#a6e22e">te3</span>[uint8(<span style="color:#a6e22e">s0</span>)]
+		<span style="color:#a6e22e">t2</span> = <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>] ^ <span style="color:#a6e22e">te0</span>[uint8(<span style="color:#a6e22e">s2</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>)] ^ <span style="color:#a6e22e">te1</span>[uint8(<span style="color:#a6e22e">s3</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span>)] ^ <span style="color:#a6e22e">te2</span>[uint8(<span style="color:#a6e22e">s0</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span>)] ^ <span style="color:#a6e22e">te3</span>[uint8(<span style="color:#a6e22e">s1</span>)]
+		<span style="color:#a6e22e">t3</span> = <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">3</span>] ^ <span style="color:#a6e22e">te0</span>[uint8(<span style="color:#a6e22e">s3</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>)] ^ <span style="color:#a6e22e">te1</span>[uint8(<span style="color:#a6e22e">s0</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span>)] ^ <span style="color:#a6e22e">te2</span>[uint8(<span style="color:#a6e22e">s1</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span>)] ^ <span style="color:#a6e22e">te3</span>[uint8(<span style="color:#a6e22e">s2</span>)]
+		<span style="color:#a6e22e">k</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">4</span>
+		<span style="color:#a6e22e">s0</span>, <span style="color:#a6e22e">s1</span>, <span style="color:#a6e22e">s2</span>, <span style="color:#a6e22e">s3</span> = <span style="color:#a6e22e">t0</span>, <span style="color:#a6e22e">t1</span>, <span style="color:#a6e22e">t2</span>, <span style="color:#a6e22e">t3</span>
+	}
+
+	<span style="color:#75715e">// Last round uses s-box directly and XORs to produce output.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s0</span> = uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t0</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">24</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t1</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">16</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t2</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">8</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t3</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])
+	<span style="color:#a6e22e">s1</span> = uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t1</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">24</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t2</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">16</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t3</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">8</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t0</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])
+	<span style="color:#a6e22e">s2</span> = uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t2</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">24</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t3</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">16</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t0</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">8</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t1</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])
+	<span style="color:#a6e22e">s3</span> = uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t3</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">24</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t0</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">16</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t1</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">8</span> | uint32(<span style="color:#a6e22e">sbox0</span>[<span style="color:#a6e22e">t2</span><span style="color:#f92672">&amp;</span><span style="color:#ae81ff">0xff</span>])
+
+	<span style="color:#a6e22e">s0</span> ^= <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">0</span>]
+	<span style="color:#a6e22e">s1</span> ^= <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]
+	<span style="color:#a6e22e">s2</span> ^= <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>]
+	<span style="color:#a6e22e">s3</span> ^= <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">3</span>]
+
+	<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">dst</span>[<span style="color:#ae81ff">15</span>] <span style="color:#75715e">// early bounds check
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">PutUint32</span>(<span style="color:#a6e22e">dst</span>[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">4</span>], <span style="color:#a6e22e">s0</span>)
+	<span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">PutUint32</span>(<span style="color:#a6e22e">dst</span>[<span style="color:#ae81ff">4</span>:<span style="color:#ae81ff">8</span>], <span style="color:#a6e22e">s1</span>)
+	<span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">PutUint32</span>(<span style="color:#a6e22e">dst</span>[<span style="color:#ae81ff">8</span>:<span style="color:#ae81ff">12</span>], <span style="color:#a6e22e">s2</span>)
+	<span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">PutUint32</span>(<span style="color:#a6e22e">dst</span>[<span style="color:#ae81ff">12</span>:<span style="color:#ae81ff">16</span>], <span style="color:#a6e22e">s3</span>)
+}
+</code></pre></div><p>Don&rsquo;t be afraid of it. We&rsquo;ll focus on the significant parts.</p>
+<p>The input (means plaintext) to a single block is 16-bytes as we can see above. The input is first divided into four lines, separated by four bytes.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">s0</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">Uint32</span>(<span style="color:#a6e22e">src</span>[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">4</span>])
+<span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">Uint32</span>(<span style="color:#a6e22e">src</span>[<span style="color:#ae81ff">4</span>:<span style="color:#ae81ff">8</span>])
+<span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">Uint32</span>(<span style="color:#a6e22e">src</span>[<span style="color:#ae81ff">8</span>:<span style="color:#ae81ff">12</span>])
+<span style="color:#a6e22e">s3</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">Uint32</span>(<span style="color:#a6e22e">src</span>[<span style="color:#ae81ff">12</span>:<span style="color:#ae81ff">16</span>])
+</code></pre></div><p>This illustrates how the input is handled in the AES encryption process. It is definitely the key to understand to keep this format in mind.</p>
+<figure>
+    <img src="/img/aes-divided-input.jpg" width="100%" height="auto"/> 
+</figure>
+
+<p>And the next part which is something iterating, is the most core implementation.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Middle rounds shuffle using tables.
+</span><span style="color:#75715e">// Number of rounds is set by length of expanded key.
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">nr</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">xk</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">4</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#75715e">// - 2: one above, one more below
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">k</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">4</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">t0</span>, <span style="color:#a6e22e">t1</span>, <span style="color:#a6e22e">t2</span>, <span style="color:#a6e22e">t3</span> <span style="color:#66d9ef">uint32</span>
+<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">r</span> &lt; <span style="color:#a6e22e">nr</span>; <span style="color:#a6e22e">r</span><span style="color:#f92672">++</span> {
+	<span style="color:#a6e22e">t0</span> = <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">0</span>] ^ <span style="color:#a6e22e">te0</span>[uint8(<span style="color:#a6e22e">s0</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>)] ^ <span style="color:#a6e22e">te1</span>[uint8(<span style="color:#a6e22e">s1</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span>)] ^ <span style="color:#a6e22e">te2</span>[uint8(<span style="color:#a6e22e">s2</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span>)] ^ <span style="color:#a6e22e">te3</span>[uint8(<span style="color:#a6e22e">s3</span>)]
+	<span style="color:#a6e22e">t1</span> = <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] ^ <span style="color:#a6e22e">te0</span>[uint8(<span style="color:#a6e22e">s1</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>)] ^ <span style="color:#a6e22e">te1</span>[uint8(<span style="color:#a6e22e">s2</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span>)] ^ <span style="color:#a6e22e">te2</span>[uint8(<span style="color:#a6e22e">s3</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span>)] ^ <span style="color:#a6e22e">te3</span>[uint8(<span style="color:#a6e22e">s0</span>)]
+	<span style="color:#a6e22e">t2</span> = <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>] ^ <span style="color:#a6e22e">te0</span>[uint8(<span style="color:#a6e22e">s2</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>)] ^ <span style="color:#a6e22e">te1</span>[uint8(<span style="color:#a6e22e">s3</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span>)] ^ <span style="color:#a6e22e">te2</span>[uint8(<span style="color:#a6e22e">s0</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span>)] ^ <span style="color:#a6e22e">te3</span>[uint8(<span style="color:#a6e22e">s1</span>)]
+	<span style="color:#a6e22e">t3</span> = <span style="color:#a6e22e">xk</span>[<span style="color:#a6e22e">k</span><span style="color:#f92672">+</span><span style="color:#ae81ff">3</span>] ^ <span style="color:#a6e22e">te0</span>[uint8(<span style="color:#a6e22e">s3</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">24</span>)] ^ <span style="color:#a6e22e">te1</span>[uint8(<span style="color:#a6e22e">s0</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">16</span>)] ^ <span style="color:#a6e22e">te2</span>[uint8(<span style="color:#a6e22e">s1</span><span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">8</span>)] ^ <span style="color:#a6e22e">te3</span>[uint8(<span style="color:#a6e22e">s2</span>)]
+	<span style="color:#a6e22e">k</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">4</span>
+	<span style="color:#a6e22e">s0</span>, <span style="color:#a6e22e">s1</span>, <span style="color:#a6e22e">s2</span>, <span style="color:#a6e22e">s3</span> = <span style="color:#a6e22e">t0</span>, <span style="color:#a6e22e">t1</span>, <span style="color:#a6e22e">t2</span>, <span style="color:#a6e22e">t3</span>
+}
+</code></pre></div><p>Rijndael encrypts a block by repeating a process called a round.
+In a round, there are four processes: SubBytes, ShiftRows, MixColumns, and AddRoundKey. As commented out in the snippet, the number of rounds depends on the key length.</p>
+<h3 id="subbytes">SubBytes</h3>
+<p>The conversion is done 1-byte at a time based on a conversion table called S-box which has 256 values.
+Below illustrates to perform <code>sbox[s0[1]]</code> well:</p>
+<figure>
+    <img src="/img/aes-sbox.jpg" width="100%" height="auto"/> 
+</figure>
+
+<p>Unlike DES, we can see that all bytes have been converted at this point.
+This post doesn&rsquo;t cover AES’s S-Box as it is mentioned in many places and much better than I could do.</p>
+<h3 id="shiftrows">ShiftRows</h3>
+<p>The next step is to process the rows that are grouped into 4-byte units and shifted regularly to the left.
+The number of bytes to be shifted depends on the line, as shown below:</p>
+<figure>
+    <img src="/img/aes-shift-rows.jpg" width="100%" height="auto"/> 
+</figure>
+
+<h3 id="mixcolumns">MixColumns</h3>
+<p>In the previous step, it dealt with rows, but the next is to process the bytes in columns.</p>
+<figure>
+    <img src="/img/aes-mix-columns.jpg" width="100%" height="auto"/> 
+</figure>
+
+<p>It involves multiplication operations in a finite field, hence this step is a bit tough to describe. See <a href="https://en.wikipedia.org/wiki/Rijndael_MixColumns">Wikipedia</a> for more details.</p>
+<h3 id="addroundkey">AddRoundKey</h3>
+<p>Finally, it XORs the output of MixColumns with the round key. The following figure shows the execution of <code>s0[1] ^ xk[4]</code> (the <code>^</code> denotes an XOR operation in Go).</p>
+<figure>
+    <img src="/img/aes-add-round-key.jpg" width="100%" height="auto"/> 
+</figure>
+
+<h2 id="bottom-line">Bottom Line</h2>
+<p>While this post has only shown you the encryption process, these processes are fully reversible with an Inverse MixColumns, ShiftRows, SubBytes. How beautiful!
+I&rsquo;ll keep reading the implementation to deepen my understanding of cryptography.</p>
+
+        </p>
+    </div>
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/golang">#Golang</a>
+        
+      
+    </div>
+
+
+        
+
+<link rel="stylesheet" type="text/css" href="/css/katex.min.css">
+<script type="text/javascript" src="/js/katex.min.js"></script>
+<script type="text/javascript" src="/js/auto-render.min.js"onload="renderMathInElement(document.body);"></script>
+
+        </div>
+        
+<footer class="footer-mobile">
+	<div class="social-icons">
+        
+
+    
+
+    
+    <a class="social-icon" href="https://twitter.com/nakabonne" target="_blank" rel="noopener" title="Twitter">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M8.991284,24.971612 C19.180436,24.971612 24.752372,16.530224 24.752372,9.210524 C24.752372,8.970656 24.747512,8.731868 24.736496,8.494376 C25.818008,7.712564 26.758256,6.737 27.5,5.62622 C26.507372,6.067076 25.439252,6.364292 24.318752,6.498212 C25.462472,5.812628 26.340512,4.727444 26.754584,3.434036 C25.684088,4.068536 24.499004,4.53002 23.23724,4.778528 C22.226468,3.701876 20.786828,3.028388 19.193828,3.028388 C16.134404,3.028388 13.653536,5.509256 13.653536,8.567492 C13.653536,9.0023 13.702244,9.424904 13.797176,9.830552 C9.19346,9.599108 5.11106,7.39472 2.3792,4.04294 C1.903028,4.861364 1.629032,5.812628 1.629032,6.827072 C1.629032,8.74904 2.606972,10.445612 4.094024,11.438132 C3.185528,11.41016 2.331788,11.160464 1.585184,10.745096 C1.583888,10.768208 1.583888,10.791428 1.583888,10.815728 C1.583888,13.49888 3.493652,15.738584 6.028088,16.246508 C5.562932,16.373084 5.07326,16.44134 4.56782,16.44134 C4.210988,16.44134 3.863876,16.406024 3.526484,16.34144 C4.231724,18.542264 6.276596,20.143796 8.701412,20.18894 C6.805148,21.674696 4.416836,22.56008 1.821488,22.56008 C1.374476,22.56008 0.93362,22.534592 0.5,22.4834 C2.951708,24.054476 5.862524,24.971612 8.991284,24.971612"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.linkedin.com/in/nakabonne" target="_blank" rel="noopener" title="LinkedIn">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M2,3.654102 C2,2.69908141 2.79442509,1.92397846 3.77383592,1.92397846 L24.2261641,1.92397846 C25.2058917,1.92397846 26,2.69908141 26,3.654102 L26,24.3462148 C26,25.3015521 25.2058917,26.0760215 24.2261641,26.0760215 L3.77383592,26.0760215 C2.79442509,26.0760215 2,25.3015521 2,24.3465315 L2,3.65378524 L2,3.654102 Z M9.27526132,22.1415901 L9.27526132,11.2356668 L5.65030092,11.2356668 L5.65030092,22.1415901 L9.27557808,22.1415901 L9.27526132,22.1415901 Z M7.46341463,9.74691162 C8.72727273,9.74691162 9.51409566,8.90940767 9.51409566,7.86284447 C9.49033893,6.79252455 8.72727273,5.97846056 7.48748812,5.97846056 C6.24675325,5.97846056 5.43649034,6.79252455 5.43649034,7.86284447 C5.43649034,8.90940767 6.22299652,9.74691162 7.4396579,9.74691162 L7.46309788,9.74691162 L7.46341463,9.74691162 Z M11.2815965,22.1415901 L14.9062401,22.1415901 L14.9062401,16.0519481 C14.9062401,15.7263225 14.9299968,15.4000634 15.0256573,15.1675641 C15.2876148,14.5159962 15.8840672,13.8416218 16.8856509,13.8416218 C18.1970225,13.8416218 18.7218879,14.8416218 18.7218879,16.3078872 L18.7218879,22.1415901 L22.3465315,22.1415901 L22.3465315,15.8885017 C22.3465315,12.5388027 20.5584416,10.9800443 18.1735825,10.9800443 C16.2182452,10.9800443 15.3595185,12.072854 14.8824834,12.8172315 L14.9065569,12.8172315 L14.9065569,11.2359835 L11.2819132,11.2359835 C11.3291099,12.2591067 11.2815965,22.1419069 11.2815965,22.1419069 L11.2815965,22.1415901 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <a class="social-icon" href="https://github.com/nakabonne" target="_blank" rel="noopener" title="GitHub">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M13.9988029,1.32087331 C6.82105037,1.32087331 1,7.14112562 1,14.3212723 C1,20.0649109 4.72454649,24.9370678 9.89038951,26.6560892 C10.5408085,26.7757983 10.7778323,26.374374 10.7778323,26.0296121 C10.7778323,25.7215609 10.7666595,24.9035493 10.760275,23.8189856 C7.14426471,24.6042767 6.38131925,22.0760223 6.38131925,22.0760223 C5.78995672,20.5740732 4.93762853,20.1742451 4.93762853,20.1742451 C3.75729765,19.3682044 5.02701126,19.3841656 5.02701126,19.3841656 C6.33183953,19.4759425 7.01817121,20.7241085 7.01817121,20.7241085 C8.17775254,22.7104801 10.0611744,22.1366749 10.8017741,21.8038838 C10.919887,20.9643246 11.2558703,20.3913175 11.6269683,20.066507 C8.74038491,19.7385043 5.70536235,18.6228163 5.70536235,13.6413251 C5.70536235,12.2223743 6.21213051,11.0611968 7.04370914,10.1530044 C6.90963504,9.82420367 6.46351945,8.50181809 7.17139875,6.71256734 C7.17139875,6.71256734 8.26234691,6.36301702 10.7459099,8.04532771 C11.78259,7.75642995 12.8950858,7.61277914 14.000399,7.60719272 C15.1049142,7.61277914 16.2166119,7.75642995 17.2548881,8.04532771 C19.736855,6.36301702 20.8262071,6.71256734 20.8262071,6.71256734 C21.5356825,8.50181809 21.0895669,9.82420367 20.9562909,10.1530044 C21.7894656,11.0611968 22.2922435,12.2223743 22.2922435,13.6413251 C22.2922435,18.6355852 19.2524325,19.734514 16.3570705,20.0561322 C16.8231376,20.4575564 17.2389269,21.2508282 17.2389269,22.4638795 C17.2389269,24.2012564 17.2229657,25.603448 17.2229657,26.0296121 C17.2229657,26.3775663 17.4575954,26.7821827 18.116793,26.6552912 C23.2786458,24.9322794 27,20.0633148 27,14.3212723 C27,7.14112562 21.1789496,1.32087331 13.9988029,1.32087331"></path>
+        </svg>
+    </a>
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+</div>
+
+
+
+
+	<script src="https://nakabonne.dev/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+</footer>
+
+    </body>
+</html>
