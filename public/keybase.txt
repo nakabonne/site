@@ -1,0 +1,72 @@
+==================================================================
+https://keybase.io/nakabonne
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://nakabonne.dev
+  * I am nakabonne (https://keybase.io/nakabonne) on keybase.
+  * I have a public key with fingerprint CCF2 8332 E6CB 777E C33A  54EF 4192 AC2E EF55 8144
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101b92cd6b3005acc79f727ea32a94f807e0d396a2d4d343af62e4641b038aa21c10a",
+      "fingerprint": "ccf28332e6cb777ec33a54ef4192ac2eef558144",
+      "host": "keybase.io",
+      "key_id": "4192ac2eef558144",
+      "kid": "0101b92cd6b3005acc79f727ea32a94f807e0d396a2d4d343af62e4641b038aa21c10a",
+      "uid": "86ffa4e8d5169cc58f3617eb48673019",
+      "username": "nakabonne"
+    },
+    "service": {
+      "hostname": "nakabonne.dev",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1609382279,
+  "expire_in": 157680000,
+  "prev": "0ebf279bb2fc3151e449c10628e7f11ac041310938ebad7b82ef65ce152eab05",
+  "seqno": 6,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+
+owGtUm1QVFUY3t0gYRtIIRQFGrl8yJd4vz/WHKckiwEdxsBaMbdz754L18W7sHdZ
+QIsZ1IGQUQQaBKxkjHCkxoYvxzKwFkhK1NAMUcwUxGBEgSjKRuleJv80/ez8OXPe
+8zzP+zzvvAd9ntJ56V+s/DT+QVpRgv7cGK+zTHBluxDebi1ATLsQG5y/YJYVKk6L
+TbIiJgTFUIzncMFK8wSKUkAQGE5kcAYCAgccKbIoA1ErwdEAt5JWgiSASOOQpEmM
+RwkWABwTMBQgcYgoyRnQke2QZKcqKwgizhIEDmmBZxgGCgQBKBKKJMbhQMAhFCmK
+xUhSJWbaFY2hmuOBAuMlu1pTH5Z5e/+B/599587LsbQoAhKyVgqjOUGgWJGgMQby
+JEszBIpxGlCBDhnsgCpaBjbA22UZIu/EIWrZJQlQm6wW5d+QeCt0qexsh91pF+xZ
+6lem05mtmDSqsyBbw+ZB3vKPioWXZKs6SZXhgg5FssuICVORglPSZDEa5QgWxxku
+DoH52ZIDWiQNQTE0i6pH66O2U8cDeRHfwnA8j4sCgVEYJElOTUzjLGREDAMCSmIE
+pqlBHlgZnsWhSFMCxCgcAh6lEC1YjmxHTLTqE2SomoqUIQNnrkNNbSw1EB46vZcu
+ZHGoR9/0Hnz0XF5hlyn1wZPt8zRoq6czei98UjEcefZxVHFHSMM4SwYfbFyWc+/d
+vrHt16ZiqEbvsdHw3RdWP/yq6qXItO9qBtprD1w9ezea8Grzvzmr9BKRy0aaiXTq
+c5Bcn/KwpajT9ULzpdM9iWjMomMTa1d9Vt/QGuo3ldB62LzmYrnncFKlqbv7xKS9
+MiBwtuejir6S211xg9L+k71vLL0z8ltU5oY7jpJSd5B/+eZNoDu1uGFFdMDWV4fF
+M60h62fORAzWm/XG3+/1XLWl3H9L2jhTPbOSDvLVf1Dr43bWJbb/aNzidyNTqTb0
+2Mq//Gb2UFDP0La9C56ONaRVHQIFHkfy0fykiOrEE+HLk7nKVJ/cuBTf13J21ob1
+1o7HmB/9Na5ELg4dKH6zw+blj611D506da0l4WVk6nHaST4zeOLCxSXvuYtXEk0z
+S59zNQ12dgabn5deuV4xMnm6zG/EjMCt7j9bfvbe4dLtH/16jVhEHY8smxFh54rV
+7rlbdQNDkWHrIs7vKXo9oCbhLBb/a/9Y1JW8qYr+2LrrbV0Lkj6+T98SAmcLiRib
+l/5DnzBD876f8m5bpv19muoyPkHfP1oevtPQnj7XP5Bc88veEt+qb435AZ4226r2
+S5sub2vL+sN7oe/yt/eVbV4vXymcPFB691hgBFcXG5CEfv8oPWj6Zvvx7V9sIJ8x
+N14unJxbcp68sdsu/WAcVjoai6tjheij7Ma/AQ==
+=/dYd
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/nakabonne
+
+==================================================================
