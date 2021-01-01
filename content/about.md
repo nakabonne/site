@@ -22,7 +22,7 @@ I’ve done a couple of (hopefully) interesting things over the last few years. 
 A load testing tool aimed to perform real-time analysis
 
 #### ***[pbgopy](https://github.com/nakabonne/pbgopy)***
-Copy and paste between devices*
+Copy and paste between devices
 
 #### ***[gosivy](https://github.com/nakabonne/gosivy)***
 Real-time visualization tool for Go process metrics
