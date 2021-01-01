@@ -18,17 +18,23 @@ Writing helps me clear up my thoughts, that's why I keep blogging.
 # Projects
 I’ve done a couple of (hopefully) interesting things over the last few years. The noteworthy projects I’ve written are:
 
-#### *[ali](https://github.com/nakabonne/ali) - A load testing tool aimed to perform real-time analysis*
+#### ***[ali](https://github.com/nakabonne/ali)***
+A load testing tool aimed to perform real-time analysis
 
-#### *[pbgopy](https://github.com/nakabonne/pbgopy) - Copy and paste between devices*
+#### ***[pbgopy](https://github.com/nakabonne/pbgopy)***
+Copy and paste between devices*
 
-#### *[gosivy](https://github.com/nakabonne/gosivy) - Real-time visualization tool for Go process metrics*
+#### ***[gosivy](https://github.com/nakabonne/gosivy)***
+Real-time visualization tool for Go process metrics
 
-#### *[PipeCD](https://github.com/pipe-cd/pipe) - A unified continuous delivery system*
+#### ***[PipeCD](https://github.com/pipe-cd/pipe)***
+A unified continuous delivery system
 
-#### *[golintui](https://github.com/nakabonne/golintui) - A simple terminal UI for Go linters*
+#### ***[golintui](https://github.com/nakabonne/golintui)***
+A simple terminal UI for Go linters
 
-#### *[nestif](https://github.com/nakabonne/nestif) - Detect deeply nested if statements in Go source code*
+#### ***[nestif](https://github.com/nakabonne/nestif)***
+Detect deeply nested if statements in Go source code
 
 # Contact
 I can be found online at:
