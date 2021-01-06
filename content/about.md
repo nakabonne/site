@@ -11,7 +11,7 @@ Writing helps me clear up my thoughts, that's why I keep blogging.
 
 # What I value
 
-- Fun - that's the reason why I live
+- Joy - that's the reason why I live
 - Curiosity - no greater pleasure than understanding
 - Simplicity - solve complicated things in a simple way
 
