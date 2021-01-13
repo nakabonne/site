@@ -13,7 +13,7 @@ Writing helps me clear up my thoughts, that's why I keep blogging.
 
 - Joy - that's the reason why I live
 - Curiosity - no greater pleasure than understanding
-- Simplicity - solve complicated things in a simple way
+- Simplicity - always looking for the simplest solution
 
 # Projects
 I’ve done a couple of (hopefully) interesting things over the last few years. The noteworthy projects I’ve written are:
