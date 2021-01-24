@@ -1,7 +1,7 @@
 ---
 title: "Visualize Go process metrics"
 description: "An introduction to a tool to tracks Go process's metrics and plot their evolution over time right into your terminal."
-date: 2021-01-23
+date: 2021-01-24
 tags: ["Golang"]
 draft: false
 images: ["/img/gosivy-screenshot.png"]
