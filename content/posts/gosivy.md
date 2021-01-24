@@ -9,7 +9,7 @@ images: ["/img/gosivy-screenshot.png"]
 
 
 One day, it became necessary to have a tool to easily observe resource consumption trends of a Go process. I'm aware that there are tons of APM tools out there; also, Go has enough profiling tools including `pprof`. I poked around the internet but nothing worked as well as I would like.
-I just wanted to see how the CPU usage, heap usage, and the number of Goroutines evolve over time without any tedious settings while debugging a Go application. Therefore, I settled on making a new tool myself and finally released it with the name [Gosivy](https://github.com/nakabonne/gosivy).
+I just wanted to see how the CPU usage, heap usage, and the number of Goroutines evolve over time without any tedious settings. Therefore, I settled on making a new tool myself and finally released it with the name [Gosivy](https://github.com/nakabonne/gosivy).
 
 {{< figure src="/img/gosivy-demo.gif" width="100%" height="auto">}}
 
