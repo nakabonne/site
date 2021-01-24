@@ -6,10 +6,19 @@
     <description>Recent content on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 24 Jan 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://nakabonne.dev/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Visualize Go process metrics</title>
+      <link>https://nakabonne.dev/posts/gosivy/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://nakabonne.dev/posts/gosivy/</guid>
+      <description>One day, it became necessary to have a tool to easily observe resource consumption trends of a Go process. I&amp;rsquo;m aware that there are tons of APM tools out there; also, Go has enough profiling tools including pprof.</description>
+    </item>
     
     <item>
       <title>Understanding how AES encryption works</title>
