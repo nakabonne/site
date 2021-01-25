@@ -107,9 +107,9 @@ That is, the agent calculates the runtime statics when only you're looking at th
 Also, because processes communicate via their TCP sockets, both local and remote hosts can be accessed via exactly the same interface.
 
 ## Roadmap
-Originally, this tool was made for making debugging the tool named [ali](https://github.com/nakabonne/ali) easier; honestly, it already has enough facilities for that.
+Originally, this tool was made for making debugging the tool named [ali](https://github.com/nakabonne/ali) easier; so honestly, it already has enough facilities for that.
 However, I talked a little bit with the author of statsviz on the [Gopher's slack](https://gophers.slack.com/); seems like he feels some possibilities in this tool that explicitly distinguishes visualization and metrics collection.
-Gosivy is designed to make the part of visualization pluggable. Besides, recently, a couple of powerful tools such as [go-echarts](https://github.com/go-echarts/go-echarts), so I'm looking into making it possible to plot various kinds of places.
+Gosivy is designed to make the part of visualization pluggable. Besides, recently, a couple of powerful tools such as [go-echarts](https://github.com/go-echarts/go-echarts) are launched, hence I'm looking into making it possible to plot various kinds of places.
 
 ## Thanks
 Gosivy has been built on many great ideas. [@arl](https://github.com/arl) definitely inspired me. Thank you for making a great tool!
