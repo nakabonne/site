@@ -1,6 +1,6 @@
 ---
 title: "Visualize Go process metrics in real-time"
-description: "An introduction to a tool to tracks Go process's metrics and plot their evolution over time right into your terminal."
+description: "An introduction to a tool to track Go process's metrics and plot their evolution over time right into your terminal."
 date: 2021-01-24
 tags: ["Golang"]
 draft: false
