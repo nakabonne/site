@@ -12,7 +12,7 @@ Writing helps me clear up my thoughts, that's why I keep blogging.
 # What I value
 
 - Joy - that's the reason why I live
-- Curiosity - no greater pleasure than understanding
+- Curiosity - no greater pleasure than learning something new
 - Simplicity - always looking for the simplest solution
 
 # Projects
