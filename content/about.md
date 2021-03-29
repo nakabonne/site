@@ -33,8 +33,8 @@ A unified continuous delivery system
 #### ***[golintui](https://github.com/nakabonne/golintui)***
 A simple terminal UI for Go linters
 
-#### ***[nestif](https://github.com/nakabonne/nestif)***
-Detect deeply nested if statements in Go source code
+#### ***[rhack](https://github.com/nakabonne/rhack)***
+Temporary edits Rust libraries that your project depends on
 
 # Contact
 I can be found online at:
