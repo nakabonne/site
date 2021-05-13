@@ -5,11 +5,11 @@ draft: false
 
 Hi there! I'm Ryo Nakao.
 
-I'm a software engineer, quite interested in reducing the cycle time between an idea and usable software.
+I'm a software engineer with a couple of years of experience working on [fancy projects](https://github.com/nakabonne); also am a maintainer of [PipeCD](https://github.com/pipe-cd/pipe).
 
 Writing helps me clear up my thoughts, that's why I keep blogging.
 
-# What I value
+What I value are:
 
 - Joy - that's the reason why I live
 - Curiosity - no greater pleasure than learning something new
@@ -27,14 +27,11 @@ Copy and paste between devices
 #### ***[gosivy](https://github.com/nakabonne/gosivy)***
 Real-time visualization tool for Go process metrics
 
-#### ***[PipeCD](https://github.com/pipe-cd/pipe)***
-A unified continuous delivery system
+#### ***[rhack](https://github.com/nakabonne/rhack)***
+Temporary edits Rust libraries that your project depends on
 
 #### ***[golintui](https://github.com/nakabonne/golintui)***
 A simple terminal UI for Go linters
-
-#### ***[rhack](https://github.com/nakabonne/rhack)***
-Temporary edits Rust libraries that your project depends on
 
 # Contact
 I can be found online at:
