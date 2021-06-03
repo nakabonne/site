@@ -27,6 +27,9 @@ Copy and paste between devices
 #### ***[gosivy](https://github.com/nakabonne/gosivy)***
 Real-time visualization tool for Go process metrics
 
+#### ***[tstorage](https://github.com/nakabonne/tstorage)***
+A fast time-series data storage engine
+
 #### ***[rhack](https://github.com/nakabonne/rhack)***
 Temporary edits Rust libraries that your project depends on
 
