@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 Jun 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://nakabonne.dev/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Fixed/Variable-length encoding in Go</title>
+      <link>https://nakabonne.dev/posts/binary-encoding-go/</link>
+      <pubDate>Fri, 18 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://nakabonne.dev/posts/binary-encoding-go/</guid>
+      <description>This post covers how to use the standard encoding/binary package to encode binary according to a custom format, and how it works.</description>
+    </item>
     
     <item>
       <title>Visualize Go process metrics in real-time</title>
