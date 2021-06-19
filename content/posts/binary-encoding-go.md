@@ -163,6 +163,14 @@ However, in most cases, the actual value should be smaller than this. In the cas
 To prevent this, you can use variable length encoding.
 
 Like for instance, the integer 10 is 1010 in binary, which can be represented in 4 bits. However, if it is represented as a 64-bit unsigned integer value type, fixed-length encoding will force the end to be filled with zeros and consume 8 bytes.
+
+```bash
+# Original bits
+1010
+# with 60 zero-padded bytes.
+1010000000000000000000000000000000000000000000000000000000000000
+```
+
 If we encode 10 using `PutUint64` we used right before, we can see that it consumes 8 bytes.
 
 ```go
@@ -210,52 +218,39 @@ data := &Data{
 ```
 
 The ID is 100 and the Value is 10, so each of these can be represented by 1 byte; Timestamp is a bit larger, at 1600000000, and requires 5 bytes.
-In total, the value of the `Data` struct can be represented in 7 bytes. The fixed length encoding consumes 14 bytes, so we can save 7 bytes. There is one caveat, though.
-
-With fixed length encoding, the size of each value is known in advance, but with variable length encoding, the size of each value is not known. Therefore, it is necessary to embed the size in the encoded data so that it is known at decoding time. Rearrange the format so that the size can be read before the value is read, as shown below.
+In total, the value of the `Data` struct can be represented in 7 bytes. The fixed length encoding consumes 14 bytes, so we can save 7 bytes.
 
 ```
-0   1   2   3   4   5   6   7   8   9   10 (bytes)
-+---+---+---+-------------------+---+---+
-|len|ID |len|     Timestamp     |len|Val|
-+---+---+---+-------------------+---+---+
+0   1   2   3   4   5   6   7 (bytes)
++---+-------------------+---+
+|ID |      Timestamp    |Val|
++---+-------------------+---+
 ```
 
+(6/19 updates: fixed not to embed the sizes into the binary. Thank you [@tgulacsi](https://www.reddit.com/r/golang/comments/o2qep2/fixedvariablelength_encoding_in_go/h2aqze2?utm_source=share&utm_medium=web2x&context=3)!)
 
-Since we use one byte for each value to embed the size, the encoding result will be successful if the total size is 10 bytes.
-
-The implementation of variable length encoding is as follows.
+You can implement as:
 
 ```go
 data := &Data{
 	ID: 100, Timestamp: 1600000000, Value: 10,
 }
-buf := make([]byte, 10)
+buf := make([]byte, 7)
 
-idLen := binary.PutUvarint(buf[1:], uint64(data.ID))
-binary.PutVarint(buf, int64(idLen)) // IDの実データの直前にサイズを挿入
+n := binary.PutUvarint(buf, uint64(data.ID))
+n += binary.PutUvarint(buf[n:], data.Timestamp)
+n += binary.PutVarint(buf[n:], int64(data.Value))
 
-tsLen := binary.PutUvarint(buf[1+idLen+1:], data.Timestamp)
-binary.PutVarint(buf[1+idLen:], int64(tsLen)) // Timestampの実データの直前にサイズを挿入
-
-valueLen := binary.PutVarint(buf[1+idLen+1+tsLen+1:], int64(data.Value))
-binary.PutVarint(buf[1+idLen+1+tsLen:], int64(valueLen)) // Valueの実データの直前にサイズを挿入
-
-total := 1 + idLen + 1 + tsLen + 1 + valueLen
-fmt.Printf("encoded binary length: %d\n", len(buf[:total]))
-// encoded binary length: 10
+fmt.Printf("encoded binary length: %d\n", len(buf[:n]))
+// encoded binary length: 7
 ```
 
-You can see that it has been safely reduced to 10 bytes. Now let's decode it.
+You can see that it has been safely reduced to 7 bytes. Now let's decode it.
 
 ```go
-idLen, _ := binary.Varint(buf[0:1])
-id, _ := binary.Uvarint(buf[1 : 1+idLen])
-
-tsLen, _ := binary.Varint(buf[1+idLen : 1+idLen+1])
-ts, _ := binary.Uvarint(buf[1+idLen+1 : 1+idLen+1+tsLen])
-
-value, _ := binary.Varint(buf[1+idLen+1+tsLen+1:])
+id, idLen := binary.Uvarint(buf)
+ts, tsLen := binary.Uvarint(buf[idLen:])
+value, _ := binary.Varint(buf[idLen+tsLen:])
 
 decodedData := &Data{
 	ID:        uint32(id),
@@ -268,7 +263,9 @@ fmt.Printf("ID: %d, Timestamp: %d, Value: %d\n", decodedData.ID, decodedData.Tim
 
 It was able to decode it back to the original. Now you can make a recoverable binary with a smaller size than the fixed-length encoding.
 
-But why is it possible to decode a variable-length bytes into a fixed-length numeric type, such as uint64 or int32?
+But doesn't the call to `binary.Uvarint` in the first line look odd to you?
+Even though it passes the encoded bytes slice as it is, it terminates reading at the appropriate position and returns the decoded `id`.
+How does it determine the end bit without specifying the byte size?
 
 This uses an encoding technique called [Varints (Variable Integers)](https://developers.google.com/protocol-buffers/docs/encoding#varints), which is used internally by Protocol Buffer.
 
