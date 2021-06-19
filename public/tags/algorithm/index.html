@@ -30,6 +30,8 @@
     
  
     
+    <link rel="alternate" type="application/rss+xml" href="https://nakabonne.dev/tags/algorithm/index.xml" title="Ryo Nakao" />
+    
     
 <script type="application/javascript">
 var doNotTrack = false;
@@ -45,18 +47,17 @@ if (!doNotTrack) {
 </script>
 
     <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://nakabonne.dev/img/gosivy-screenshot.png"/>
+<meta name="twitter:image" content="https://nakabonne.dev/img/icon.png"/>
 
-<meta name="twitter:title" content="Visualize Go process metrics in real-time"/>
-<meta name="twitter:description" content="An introduction to a tool to track Go process&#39;s metrics and plot their evolution over time right into your terminal."/>
+<meta name="twitter:title" content="Algorithm"/>
+<meta name="twitter:description" content="a random walk through topics that interest me"/>
 
-    <meta property="og:title" content="Visualize Go process metrics in real-time" />
-<meta property="og:description" content="An introduction to a tool to track Go process&#39;s metrics and plot their evolution over time right into your terminal." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://nakabonne.dev/posts/gosivy/" />
-<meta property="og:image" content="https://nakabonne.dev/img/gosivy-screenshot.png" />
-<meta property="article:published_time" content="2021-01-24T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-01-24T00:00:00+00:00" /><meta property="og:site_name" content="Ryo Nakao" />
+    <meta property="og:title" content="Algorithm" />
+<meta property="og:description" content="a random walk through topics that interest me" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://nakabonne.dev/tags/algorithm/" />
+<meta property="og:image" content="https://nakabonne.dev/img/icon.png"/>
+<meta property="og:updated_time" content="2021-06-18T00:00:00+00:00" /><meta property="og:site_name" content="Ryo Nakao" />
 
 </head>
 
@@ -160,101 +161,45 @@ if (!doNotTrack) {
 </nav>
         <div id="content" class="content-container">
         
-<h1 class="post-title">Visualize Go process metrics in real-time</h1>
+
+  <h1>Tagged "Algorithm"</h1>
+  
+  
     
-    <time>January 24, 2021</time>
+    <article>
+            <h2>
+                <a href="https://nakabonne.dev/posts/binary-encoding-go/">
+                    Fixed/Variable-length encoding in Go
+                </a>
+            </h2>
+            <div>
+                <p>
+                This post covers how to use the standard encoding/binary package to encode binary according to a custom format, and how it works.
+                </p>
+            </div>
+            <div class="post-footer">
+            <time>June 18, 2021</time>
+            </div> 
+        </article>
     
-    <div>
-        <p>
-        <p>One day, it became necessary to have a tool to easily observe resource consumption trends of a Go process. I&rsquo;m aware that there are tons of APM tools out there; also, Go has enough profiling tools including <code>pprof</code>. I poked around the internet but nothing worked as well as I would like.
-I just wanted to see how the CPU usage, heap usage, and the number of Goroutines evolve over time without any tedious settings. Therefore, I settled on making a new tool myself and finally released it with the name <a href="https://github.com/nakabonne/gosivy">Gosivy</a>.</p>
-<figure>
-    <img src="/img/gosivy-demo.gif" width="100%" height="auto"/> 
-</figure>
-
-<p>I mentioned nothing worked as well as I would like, but honestly, I found out <a href="https://github.com/arl/statsviz">statsviz</a>, a web-based visualization tool published by <a href="https://github.com/arl">@arl</a>.
-This is pretty neat; you can draw a fancy chart by just adding a couple of code lines. I love this one. While it is designed to be simple and comes with a great UI, I worried about a couple of things:</p>
-<ul>
-<li>Regardless of you&rsquo;re looking at the chart, stop-the-world has occurred in the target process every second</li>
-<li>It is designed to make the target process not only calculate the resource consumption but also visualization the charts.</li>
-<li>It requires some kind of browser because of web-based UI</li>
-</ul>
-<p>Overall, I felt like the target process&rsquo; load is too heavy, that&rsquo;s why I settled on building a new tool that can be used as easily as statsviz and puts as little load on the target process as possible.</p>
-<p>This post mainly goes into some details on how to use it.</p>
-<h2 id="usage">Usage</h2>
-<p>First up, you head to the repository page and grab the <code>gosivy</code> binary with the way you like.</p>
-<p><a href="https://github.com/nakabonne/gosivy"><img src="https://gh-card.dev/repos/nakabonne/gosivy.svg?fullname=" alt="nakabonne/gosivy - GitHub"></a></p>
-<p>The tracking can be done by running the agent inside the target process. Fot that, you need to import the <code>github.com/nakabonne/gosivy/agent</code> package into the application you want to visualize metrics. Then execute that modified application.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;github.com/nakabonne/gosivy/agent&#34;</span>
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">Listen</span>(<span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">Options</span>{}); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		panic(<span style="color:#a6e22e">err</span>)
-	}
-	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">Close</span>()
-}
-</code></pre></div><p>Now you just need to launch <code>gosivy</code> process you just installed.</p>
-<pre><code>$ gosivy
-</code></pre><p>After that, you will see Go process metrics&rsquo; evolution over time in real-time. Keep in mind that you run the <code>gosivy</code> process as the same user as the target application.</p>
-<p>You may wonder why it can run without any arguments. It&rsquo;s because Gosivy automatically detects processes where the agent runs on, and starts using the process that is found out first as an argument.
-Thus, if multiple agents are running, you need to explicitly specify PID of the process you want to diagnose. You can list all PID of processes where the agent runs on with <code>-l</code> option:</p>
-<pre><code class="language-console" data-lang="console">$ gosivy -l
-PID   Exec Path
-15788 foo  /path/to/foo
-16841 bar  /path/to/bar
-</code></pre><p>Then give it as an argument.</p>
-<pre><code>$ gosivy 15788
-</code></pre><h3 id="remote-mode">Remote mode</h3>
-<p>You are also able to observe from another host if you know the address of the target process.</p>
-<p>You specify the address where the agent listens:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;github.com/nakabonne/gosivy/agent&#34;</span>
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">Listen</span>(<span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">Options</span>{
-		<span style="color:#a6e22e">Addr</span>: <span style="color:#e6db74">&#34;:9090&#34;</span>,
-	})
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		panic(<span style="color:#a6e22e">err</span>)
-	}
-	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">Close</span>()
-}
-</code></pre></div><p>Give the address accessible from the <code>gosivy</code> process as an argument; then it will draw the same as the local mode.</p>
-<pre><code>$ gosivy host.xz:9090
-</code></pre><h2 id="how-it-works">How it works</h2>
-<p>This tool is designed based on <a href="https://github.com/google/gops">gops</a>. The figure below nicely illustrates how this tool visualizes:</p>
-<figure>
-    <img src="/img/gosivy-arch.jpg" width="100%" height="auto"/> 
-</figure>
-
-<p>The <code>gosivy</code> process collects metrics by scraping from the agent, so the target process does nothing as long as you don&rsquo;t start the <code>gosivy</code> process.
-That is, the agent calculates the runtime statics when only you&rsquo;re looking at the chart.</p>
-<p>Also, because processes communicate via their TCP sockets, both local and remote hosts can be accessed via exactly the same interface.</p>
-<h2 id="roadmap">Roadmap</h2>
-<p>Originally, this tool was made for making debugging the tool named <a href="https://github.com/nakabonne/ali">ali</a> easier; so honestly, it already has enough facilities for that.
-However, I talked a little bit with the author of statsviz on the <a href="https://gophers.slack.com/">Gopher&rsquo;s slack</a>; seems like he feels some possibilities in this tool that explicitly distinguishes visualization and metrics collection.
-Gosivy is designed to make the part of visualization pluggable. Besides, recently, a couple of powerful tools such as <a href="https://github.com/go-echarts/go-echarts">go-echarts</a> are launched, hence I&rsquo;m looking into making it possible to plot various kinds of places.</p>
-<h2 id="thanks">Thanks</h2>
-<p>Gosivy has been built on many great ideas. <a href="https://github.com/arl">@arl</a> definitely inspired me. Thank you for making a great tool!
-Also, Gosivy is based on <a href="https://github.com/google/gops">gops</a>&lsquo;s design philosophy. A big &ldquo;thank you!&rdquo; goes out to all those who inspired me!</p>
-
-        </p>
-    </div>
+  
     
-
-    <div class="page-footer">
-        
-        <hr class="footer-divider">
-        
-            <a class="tag" href="/tags/golang">#Golang</a>
-        
-            <a class="tag" href="/tags/oss">#OSS</a>
-        
-      
-    </div>
+    <article>
+            <h2>
+                <a href="https://nakabonne.dev/posts/understanding-how-aes-encryption-works/">
+                    Understanding how AES encryption works
+                </a>
+            </h2>
+            <div>
+                <p>
+                I recently had the opportunity to encrypt/decrypt stuff using AES, but I didn&rsquo;t know it inside out well. I couldn’t help but be curious about how it is working, and I realized my mind could only be satisfied by digging deeper into its implementation.
+                </p>
+            </div>
+            <div class="post-footer">
+            <time>December 20, 2020</time>
+            </div> 
+        </article>
+    
 
 
         

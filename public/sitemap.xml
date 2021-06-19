@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://nakabonne.dev/tags/algorithm/</loc>
+    <lastmod>2021-06-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://nakabonne.dev/posts/binary-encoding-go/</loc>
     <lastmod>2021-06-18T00:00:00+00:00</lastmod>
   </url>
@@ -25,6 +30,11 @@
   <url>
     <loc>https://nakabonne.dev/tags/</loc>
     <lastmod>2021-06-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nakabonne.dev/tags/oss/</loc>
+    <lastmod>2021-01-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -69,11 +79,6 @@
   
   <url>
     <loc>https://nakabonne.dev/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</loc>
-    <lastmod>2019-05-11T02:19:59+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nakabonne.dev/tags/oss/</loc>
     <lastmod>2019-05-11T02:19:59+00:00</lastmod>
   </url>
   

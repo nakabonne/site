@@ -2,7 +2,7 @@
 title: "Fixed/Variable-length encoding in Go"
 description: "It covers how to use the standard encoding/binary package to encode binary according to a custom format, and how it works"
 date: 2021-06-18
-tags: ["Golang"]
+tags: ["Golang", "Algorithm"]
 draft: false
 ---
 

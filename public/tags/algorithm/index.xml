@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Algorithm on Ryo Nakao</title>
+    <link>https://nakabonne.dev/tags/algorithm/</link>
+    <description>Recent content in Algorithm on Ryo Nakao</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 18 Jun 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://nakabonne.dev/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Fixed/Variable-length encoding in Go</title>
+      <link>https://nakabonne.dev/posts/binary-encoding-go/</link>
+      <pubDate>Fri, 18 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://nakabonne.dev/posts/binary-encoding-go/</guid>
+      <description>This post covers how to use the standard encoding/binary package to encode binary according to a custom format, and how it works.</description>
+    </item>
+    
+    <item>
+      <title>Understanding how AES encryption works</title>
+      <link>https://nakabonne.dev/posts/understanding-how-aes-encryption-works/</link>
+      <pubDate>Sun, 20 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://nakabonne.dev/posts/understanding-how-aes-encryption-works/</guid>
+      <description>I recently had the opportunity to encrypt/decrypt stuff using AES, but I didn&amp;rsquo;t know it inside out well. I couldn’t help but be curious about how it is working, and I realized my mind could only be satisfied by digging deeper into its implementation.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -2,7 +2,7 @@
 title: "Understanding how AES encryption works"
 description: "Deepen your understanding of AES implementation using golang."
 date: 2020-12-20
-tags: ["Golang"]
+tags: ["Algorithm", "Golang"]
 draft: false
 images: ["/img/aes-add-round-key.jpg"]
 ---
