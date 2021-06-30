@@ -7,7 +7,7 @@ Hugo:
 
 ```console
 ❯ hugo version
-Hugo Static Site Generator v0.68.3/extended darwin/amd64 BuildDate: unknown
+hugo v0.84.3+extended darwin/amd64 BuildDate=unknown
 ```
 
 **Note** that the generated files may make a difference if the version is even slightly different.
