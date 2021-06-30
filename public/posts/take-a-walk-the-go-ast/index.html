@@ -20,7 +20,7 @@
     
     
     
-    <link rel="stylesheet" href="https://nakabonne.dev/css/main.min.03322cbe6bddfc28e7b17b84bc5446282a510b14b57be3371ba1f68ef1ab9ce8.css"/>
+    <link rel="stylesheet" href="https://nakabonne.dev/css/main.min.364181395f068614d02615981b918adfd0601b252899e92b7dd17982855dd4e8.css"/>
 
     
     
@@ -43,7 +43,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://nakabonne.dev/img/ast-file-tree.png"/>
 
@@ -53,10 +52,10 @@ if (!doNotTrack) {
     <meta property="og:title" content="Take a walk the Go AST" />
 <meta property="og:description" content="Deepen your understanding of Go&#39;s AST by actually walking through it." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://nakabonne.dev/posts/take-a-walk-the-go-ast/" />
-<meta property="og:image" content="https://nakabonne.dev/img/ast-file-tree.png" />
-<meta property="article:published_time" content="2020-03-31T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-03-31T00:00:00+00:00" /><meta property="og:site_name" content="Ryo Nakao" />
+<meta property="og:url" content="https://nakabonne.dev/posts/take-a-walk-the-go-ast/" /><meta property="og:image" content="https://nakabonne.dev/img/ast-file-tree.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-03-31T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-03-31T00:00:00&#43;00:00" /><meta property="og:site_name" content="Ryo Nakao" />
+
 
 </head>
 
@@ -154,7 +153,7 @@ if (!doNotTrack) {
 
 
 
-	<script src="https://nakabonne.dev/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://nakabonne.dev/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
 
 </nav>
@@ -182,8 +181,7 @@ In addtion, there are 3 main interfaces that implement <code>ast.Node</code>:</p
 <li><a href="https://pkg.go.dev/go/ast?tab=doc#Stmt">ast.Stmt</a> — representing statement node</li>
 <li><a href="https://pkg.go.dev/go/ast?tab=doc#Decl">ast.Decl</a> — representing declaration node</li>
 </ul>
-<figure>
-    <img src="/img/node-interface.png" width="100%" height="auto"/> 
+<figure><img src="/img/node-interface.png" width="100%" height="auto"/>
 </figure>
 
 <p>You can see from the definition that every Node satisfies the <code>ast.Node</code> interface:</p>
@@ -347,8 +345,7 @@ To prevent that from happening, we&rsquo;re going to use <a href="https://pkg.go
 <h3 id="astfile">ast.File</h3>
 <p>The first Node to visit is <a href="https://pkg.go.dev/go/ast?tab=doc#File"><code>*ast.File</code></a>, which is the root of all AST nodes.
 It implements only the <code>ast.Node</code> interface.</p>
-<figure>
-    <img src="/img/ast-file-tree.png" width="100%" height="auto"/> 
+<figure><img src="/img/ast-file-tree.png" width="100%" height="auto"/>
 </figure>
 
 <p><code>ast.File</code> has references to a package name, import declarations, and function declarations as child nodes.
@@ -600,7 +597,7 @@ Copy and paste the code shown in section &ldquo;How to walk&rdquo;, and have a t
 
 
 
-	<script src="https://nakabonne.dev/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://nakabonne.dev/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
 
     </body>

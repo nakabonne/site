@@ -20,7 +20,7 @@
     
     
     
-    <link rel="stylesheet" href="https://nakabonne.dev/css/main.min.03322cbe6bddfc28e7b17b84bc5446282a510b14b57be3371ba1f68ef1ab9ce8.css"/>
+    <link rel="stylesheet" href="https://nakabonne.dev/css/main.min.364181395f068614d02615981b918adfd0601b252899e92b7dd17982855dd4e8.css"/>
 
     
     
@@ -43,7 +43,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://nakabonne.dev/img/icon.png"/>
 
@@ -53,10 +52,10 @@ if (!doNotTrack) {
     <meta property="og:title" content="Realization of distributed tracing by Envoy" />
 <meta property="og:description" content="Necessity of distributed tracing Since distributed architecture such as Microservices are handled across multiple services, it’s difficult…" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://nakabonne.dev/posts/realization-of-distributed-tracing-by-envoy/" />
-<meta property="og:image" content="https://nakabonne.dev/img/icon.png"/>
-<meta property="article:published_time" content="2018-12-18T10:08:02+00:00" />
-<meta property="article:modified_time" content="2018-12-18T10:08:02+00:00" /><meta property="og:site_name" content="Ryo Nakao" />
+<meta property="og:url" content="https://nakabonne.dev/posts/realization-of-distributed-tracing-by-envoy/" /><meta property="og:image" content="https://nakabonne.dev/img/icon.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-18T10:08:02&#43;00:00" />
+<meta property="article:modified_time" content="2018-12-18T10:08:02&#43;00:00" /><meta property="og:site_name" content="Ryo Nakao" />
+
 
 </head>
 
@@ -154,7 +153,7 @@ if (!doNotTrack) {
 
 
 
-	<script src="https://nakabonne.dev/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://nakabonne.dev/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
 
 </nav>
@@ -188,8 +187,7 @@ People call an architecture that solves the problem unique to Microservices by m
 However, it’s necessary to implement implementation to propagate <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/headers">specific identifiers</a> within the application in order to properly propagate contexts such as parent-child relationships between spans. This will be described later.</p>
 <h3 id="envoys-tracing-architecture">Envoy’s tracing architecture</h3>
 <p>Depending on the trace provider you use, in most cases it will be an architecture consisting of the following components. Some providers provide storage, others need to operate on their own.</p>
-<figure>
-    <img src="https://cdn-images-1.medium.com/max/800/1*Tu2WZtoFf26CTGCHAKYqCg.png" width="100%" height="auto"/> 
+<figure><img src="https://cdn-images-1.medium.com/max/800/1*Tu2WZtoFf26CTGCHAKYqCg.png" width="100%" height="auto"/>
 </figure>
 
 <p>Generally, spans are associated by propagating unique identifier within a trace.<br>
@@ -211,22 +209,22 @@ Also, It’s better to read documents of provider you use since necessary identi
 <li><a href="https://datadoghq.com/">DataDog</a></li>
 </ul>
 <p>According to the <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/trace/v2/trace.proto">document</a>, specify the collector cluster to send the span. For example Zipkin, define as follows.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">static_resources</span>:
-  <span style="color:#66d9ef">clusters</span>:
-  - <span style="color:#66d9ef">name</span>: zipkin
-    <span style="color:#66d9ef">connect_timeout</span>: 1s
-    <span style="color:#66d9ef">type</span>: static
-    <span style="color:#66d9ef">lb_policy</span>: round_robin
-    <span style="color:#66d9ef">hosts</span>:
-    - <span style="color:#66d9ef">socket_address</span>:
-        <span style="color:#66d9ef">address</span>: <span style="color:#ae81ff">10.5.0.2</span>
-        <span style="color:#66d9ef">port_value</span>: <span style="color:#ae81ff">9411</span>
-<span style="color:#66d9ef">tracing</span>:
-  <span style="color:#66d9ef">http</span>:
-    <span style="color:#66d9ef">name</span>: envoy.zipkin
-    <span style="color:#66d9ef">config</span>:
-      <span style="color:#66d9ef">collector_cluster</span>: zipkin
-      <span style="color:#66d9ef">collector_endpoint</span>: <span style="color:#e6db74">&#34;/api/v1/spans&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">static_resources</span>:
+  <span style="color:#f92672">clusters</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">zipkin</span>
+    <span style="color:#f92672">connect_timeout</span>: <span style="color:#ae81ff">1s</span>
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">static</span>
+    <span style="color:#f92672">lb_policy</span>: <span style="color:#ae81ff">round_robin</span>
+    <span style="color:#f92672">hosts</span>:
+    - <span style="color:#f92672">socket_address</span>:
+        <span style="color:#f92672">address</span>: <span style="color:#ae81ff">10.5.0.2</span>
+        <span style="color:#f92672">port_value</span>: <span style="color:#ae81ff">9411</span>
+<span style="color:#f92672">tracing</span>:
+  <span style="color:#f92672">http</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">envoy.zipkin</span>
+    <span style="color:#f92672">config</span>:
+      <span style="color:#f92672">collector_cluster</span>: <span style="color:#ae81ff">zipkin</span>
+      <span style="color:#f92672">collector_endpoint</span>: <span style="color:#e6db74">&#34;/api/v1/spans&#34;</span>
 </code></pre></div><h3 id="hands-on">Hands-on</h3>
 <p>Envoy offers a number of official <a href="https://www.envoyproxy.io/docs/envoy/latest/start/start#sandboxes">sandboxes</a>. I’d like to deepen the understanding of the flow of distributed tracing while using <a href="https://github.com/envoyproxy/envoy/tree/master/examples/jaeger-tracing">jaeger-tracing</a> in this time.</p>
 <h4 id="start-services">Start services</h4>
@@ -257,8 +255,7 @@ Hello from behind Envoy (service 1)! hostname: 580a7e50d809 resolvedhostname: 17
 <h4 id="visualization">Visualization</h4>
 <p>Point your browser to <a href="http://localhost:16686">http://localhost:16686</a>.<br>
 You should see multiple spans which are displayed as one trace.</p>
-<figure>
-    <img src="https://cdn-images-1.medium.com/max/800/1*fmQ07BJCOL9ptDsflViHsA.png" width="100%" height="auto"/> 
+<figure><img src="https://cdn-images-1.medium.com/max/800/1*fmQ07BJCOL9ptDsflViHsA.png" width="100%" height="auto"/>
 </figure>
 
 <h4 id="modify-implementation">Modify implementation</h4>
@@ -272,8 +269,7 @@ The notable implementation is the following part, it propagates the received ide
     ret <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;http://localhost:9000/trace/2&#34;</span>, headers<span style="color:#f92672">=</span>headers)
 </code></pre></div><p>For Zipkin compatible providers, this identifier is detailed in the repository <a href="https://github.com/openzipkin/b3-propagation">B3 Propagation</a>.<br>
 Let’s try commenting out this line and send a request again.</p>
-<figure>
-    <img src="https://cdn-images-1.medium.com/max/800/1*rlSZ3Aknoul83EDz7tTQBw.png" width="100%" height="auto"/> 
+<figure><img src="https://cdn-images-1.medium.com/max/800/1*rlSZ3Aknoul83EDz7tTQBw.png" width="100%" height="auto"/>
 </figure>
 
 <p>You could see that the spans are recognized as separate traces. We were able to confirm that it’s impossible to fetch a trace correctly unless the identifier is propagated between spans.</p>
@@ -383,7 +379,7 @@ The reaction to the project surpassed their wildest imagination when Lyft releas
 
 
 
-	<script src="https://nakabonne.dev/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://nakabonne.dev/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
 
     </body>

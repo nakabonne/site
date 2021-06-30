@@ -20,7 +20,7 @@
     
     
     
-    <link rel="stylesheet" href="https://nakabonne.dev/css/main.min.03322cbe6bddfc28e7b17b84bc5446282a510b14b57be3371ba1f68ef1ab9ce8.css"/>
+    <link rel="stylesheet" href="https://nakabonne.dev/css/main.min.364181395f068614d02615981b918adfd0601b252899e92b7dd17982855dd4e8.css"/>
 
     
     
@@ -43,7 +43,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://nakabonne.dev/img/icon.png"/>
 
@@ -53,10 +52,10 @@ if (!doNotTrack) {
     <meta property="og:title" content="Fixed/Variable-length encoding in Go" />
 <meta property="og:description" content="It covers how to use the standard encoding/binary package to encode binary according to a custom format, and how it works" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://nakabonne.dev/posts/binary-encoding-go/" />
-<meta property="og:image" content="https://nakabonne.dev/img/icon.png"/>
-<meta property="article:published_time" content="2021-06-18T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-06-18T00:00:00+00:00" /><meta property="og:site_name" content="Ryo Nakao" />
+<meta property="og:url" content="https://nakabonne.dev/posts/binary-encoding-go/" /><meta property="og:image" content="https://nakabonne.dev/img/icon.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-18T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-06-18T00:00:00&#43;00:00" /><meta property="og:site_name" content="Ryo Nakao" />
+
 
 </head>
 
@@ -154,7 +153,7 @@ if (!doNotTrack) {
 
 
 
-	<script src="https://nakabonne.dev/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://nakabonne.dev/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
 
 </nav>
@@ -276,7 +275,7 @@ To prevent this, you can use variable length encoding.</p>
 <p>Like for instance, the integer 10 is 1010 in binary, which can be represented in 4 bits. However, if it is represented as a 64-bit unsigned integer value type, fixed-length encoding will force the end to be filled with zeros and consume 8 bytes.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Original bits</span>
 <span style="color:#ae81ff">1010</span>
-<span style="color:#75715e"># with 60 zero-padded bytes.</span> 
+<span style="color:#75715e"># with 60 zero-padded bytes.</span>
 <span style="color:#ae81ff">1010000000000000000000000000000000000000000000000000000000000000</span>
 </code></pre></div><p>If we encode 10 using <code>PutUint64</code> we used right before, we can see that it consumes 8 bytes.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">8</span>)
@@ -478,7 +477,7 @@ msb is 1 msb is 0 so it quits
 
 
 
-	<script src="https://nakabonne.dev/js/main.min.fa5c2b23e07b5d9bfad267a52b4b24fdb053e6fb7524993383594926a3ac270c.js" integrity="sha256-+lwrI+B7XZv60melK0sk/bBT5vt1JJkzg1lJJqOsJww="></script>
+	<script src="https://nakabonne.dev/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
 </footer>
 
     </body>

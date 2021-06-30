@@ -43,6 +43,7 @@ I can be found online at:
 - [Twitter](https://twitter.com/nakabonne)
 - [Reddit](https://www.reddit.com/user/nakabonne)
 - [Keybase](https://keybase.io/nakabonne)
+- [Zenn(ja)](https://zenn.dev/nakabonne)
 - [Blog(ja)](https://ja.nakabonne.dev)
 
 You can also feel free to email me at `ryo@nakao.dev`

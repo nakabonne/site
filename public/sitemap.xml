@@ -1,124 +1,76 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://nakabonne.dev/tags/algorithm/</loc>
     <lastmod>2021-06-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/binary-encoding-go/</loc>
     <lastmod>2021-06-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/tags/golang/</loc>
     <lastmod>2021-06-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/</loc>
     <lastmod>2021-06-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/</loc>
     <lastmod>2021-06-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/tags/</loc>
     <lastmod>2021-06-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/tags/oss/</loc>
     <lastmod>2021-01-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/gosivy/</loc>
     <lastmod>2021-01-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/understanding-how-aes-encryption-works/</loc>
     <lastmod>2020-12-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/an-introduction-to-progressive-delivery/</loc>
     <lastmod>2020-06-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/tags/devops/</loc>
     <lastmod>2020-06-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/take-a-walk-the-go-ast/</loc>
     <lastmod>2020-03-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/digging-deeper-into-the-analysis-of-go-code/</loc>
     <lastmod>2020-03-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/tags/philosophy/</loc>
     <lastmod>2019-06-04T05:54:14+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/things-that-could-drive-me-into-a-nervous-breakdown/</loc>
     <lastmod>2019-06-04T05:54:14+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/incredible-reasons-i-make-a-recommendation-to-apply-to-gsoc-despite-never-got-accepted/</loc>
     <lastmod>2019-05-11T02:19:59+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/depth-of-module/</loc>
     <lastmod>2019-01-17T11:33:43+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/tags/software-design/</loc>
     <lastmod>2019-01-17T11:33:43+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/tags/microservices/</loc>
     <lastmod>2018-12-18T10:08:02+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/realization-of-distributed-tracing-by-envoy/</loc>
     <lastmod>2018-12-18T10:08:02+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/a-choice-to-start-small-service-mesh/</loc>
     <lastmod>2018-11-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/go-clean-architecture/</loc>
     <lastmod>2018-10-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/posts/why-was-grpc-born/</loc>
     <lastmod>2018-10-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nakabonne.dev/about/</loc>
   </url>
-  
 </urlset>

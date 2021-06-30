@@ -6,11 +6,7 @@
     <description>Recent content in devops on Ryo Nakao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://nakabonne.dev/tags/devops/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://nakabonne.dev/tags/devops/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>An Introduction to Progressive Delivery</title>
       <link>https://nakabonne.dev/posts/an-introduction-to-progressive-delivery/</link>
