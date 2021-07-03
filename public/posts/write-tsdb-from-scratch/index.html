@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+    
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no"/>
+
+    <title>Ryo Nakao</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    
+    
+    <link rel="stylesheet" href="https://nakabonne.dev/css/main.min.364181395f068614d02615981b918adfd0601b252899e92b7dd17982855dd4e8.css"/>
+
+    
+    
+    
+
+    
+    
+ 
+    
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-162006077-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://nakabonne.dev/img/icon.png"/>
+
+<meta name="twitter:title" content="Write a time-series database engine from scratch"/>
+<meta name="twitter:description" content="It covers how to make a time-series database engine from scratch"/>
+
+    <meta property="og:title" content="Write a time-series database engine from scratch" />
+<meta property="og:description" content="It covers how to make a time-series database engine from scratch" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nakabonne.dev/posts/write-tsdb-from-scratch/" /><meta property="og:image" content="https://nakabonne.dev/img/icon.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-07-01T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-07-01T00:00:00&#43;00:00" /><meta property="og:site_name" content="Ryo Nakao" />
+
+
+</head>
+
+    <body>
+        
+<nav>
+  <header>
+    <div class="site-title">
+        <a href="/">Ryo Nakao</a>
+    </div>  
+</header>
+  <div class="nav-menu">
+  
+    <a class="color-link nav-link" href="/about/">About</a>
+  
+    <a class="color-link nav-link" href="/tags/">Tags</a>
+  
+  <a class="color-link nav-link" href="https://nakabonne.dev/index.xml" target="_blank" rel="noopener" type="application/rss+xml">RSS</a>
+</div>
+
+<footer class="footer">
+	<div class="social-icons">
+        
+
+    
+
+    
+    <a class="social-icon" href="https://twitter.com/nakabonne" target="_blank" rel="noopener" title="Twitter">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M8.991284,24.971612 C19.180436,24.971612 24.752372,16.530224 24.752372,9.210524 C24.752372,8.970656 24.747512,8.731868 24.736496,8.494376 C25.818008,7.712564 26.758256,6.737 27.5,5.62622 C26.507372,6.067076 25.439252,6.364292 24.318752,6.498212 C25.462472,5.812628 26.340512,4.727444 26.754584,3.434036 C25.684088,4.068536 24.499004,4.53002 23.23724,4.778528 C22.226468,3.701876 20.786828,3.028388 19.193828,3.028388 C16.134404,3.028388 13.653536,5.509256 13.653536,8.567492 C13.653536,9.0023 13.702244,9.424904 13.797176,9.830552 C9.19346,9.599108 5.11106,7.39472 2.3792,4.04294 C1.903028,4.861364 1.629032,5.812628 1.629032,6.827072 C1.629032,8.74904 2.606972,10.445612 4.094024,11.438132 C3.185528,11.41016 2.331788,11.160464 1.585184,10.745096 C1.583888,10.768208 1.583888,10.791428 1.583888,10.815728 C1.583888,13.49888 3.493652,15.738584 6.028088,16.246508 C5.562932,16.373084 5.07326,16.44134 4.56782,16.44134 C4.210988,16.44134 3.863876,16.406024 3.526484,16.34144 C4.231724,18.542264 6.276596,20.143796 8.701412,20.18894 C6.805148,21.674696 4.416836,22.56008 1.821488,22.56008 C1.374476,22.56008 0.93362,22.534592 0.5,22.4834 C2.951708,24.054476 5.862524,24.971612 8.991284,24.971612"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.linkedin.com/in/nakabonne" target="_blank" rel="noopener" title="LinkedIn">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M2,3.654102 C2,2.69908141 2.79442509,1.92397846 3.77383592,1.92397846 L24.2261641,1.92397846 C25.2058917,1.92397846 26,2.69908141 26,3.654102 L26,24.3462148 C26,25.3015521 25.2058917,26.0760215 24.2261641,26.0760215 L3.77383592,26.0760215 C2.79442509,26.0760215 2,25.3015521 2,24.3465315 L2,3.65378524 L2,3.654102 Z M9.27526132,22.1415901 L9.27526132,11.2356668 L5.65030092,11.2356668 L5.65030092,22.1415901 L9.27557808,22.1415901 L9.27526132,22.1415901 Z M7.46341463,9.74691162 C8.72727273,9.74691162 9.51409566,8.90940767 9.51409566,7.86284447 C9.49033893,6.79252455 8.72727273,5.97846056 7.48748812,5.97846056 C6.24675325,5.97846056 5.43649034,6.79252455 5.43649034,7.86284447 C5.43649034,8.90940767 6.22299652,9.74691162 7.4396579,9.74691162 L7.46309788,9.74691162 L7.46341463,9.74691162 Z M11.2815965,22.1415901 L14.9062401,22.1415901 L14.9062401,16.0519481 C14.9062401,15.7263225 14.9299968,15.4000634 15.0256573,15.1675641 C15.2876148,14.5159962 15.8840672,13.8416218 16.8856509,13.8416218 C18.1970225,13.8416218 18.7218879,14.8416218 18.7218879,16.3078872 L18.7218879,22.1415901 L22.3465315,22.1415901 L22.3465315,15.8885017 C22.3465315,12.5388027 20.5584416,10.9800443 18.1735825,10.9800443 C16.2182452,10.9800443 15.3595185,12.072854 14.8824834,12.8172315 L14.9065569,12.8172315 L14.9065569,11.2359835 L11.2819132,11.2359835 C11.3291099,12.2591067 11.2815965,22.1419069 11.2815965,22.1419069 L11.2815965,22.1415901 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <a class="social-icon" href="https://github.com/nakabonne" target="_blank" rel="noopener" title="GitHub">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M13.9988029,1.32087331 C6.82105037,1.32087331 1,7.14112562 1,14.3212723 C1,20.0649109 4.72454649,24.9370678 9.89038951,26.6560892 C10.5408085,26.7757983 10.7778323,26.374374 10.7778323,26.0296121 C10.7778323,25.7215609 10.7666595,24.9035493 10.760275,23.8189856 C7.14426471,24.6042767 6.38131925,22.0760223 6.38131925,22.0760223 C5.78995672,20.5740732 4.93762853,20.1742451 4.93762853,20.1742451 C3.75729765,19.3682044 5.02701126,19.3841656 5.02701126,19.3841656 C6.33183953,19.4759425 7.01817121,20.7241085 7.01817121,20.7241085 C8.17775254,22.7104801 10.0611744,22.1366749 10.8017741,21.8038838 C10.919887,20.9643246 11.2558703,20.3913175 11.6269683,20.066507 C8.74038491,19.7385043 5.70536235,18.6228163 5.70536235,13.6413251 C5.70536235,12.2223743 6.21213051,11.0611968 7.04370914,10.1530044 C6.90963504,9.82420367 6.46351945,8.50181809 7.17139875,6.71256734 C7.17139875,6.71256734 8.26234691,6.36301702 10.7459099,8.04532771 C11.78259,7.75642995 12.8950858,7.61277914 14.000399,7.60719272 C15.1049142,7.61277914 16.2166119,7.75642995 17.2548881,8.04532771 C19.736855,6.36301702 20.8262071,6.71256734 20.8262071,6.71256734 C21.5356825,8.50181809 21.0895669,9.82420367 20.9562909,10.1530044 C21.7894656,11.0611968 22.2922435,12.2223743 22.2922435,13.6413251 C22.2922435,18.6355852 19.2524325,19.734514 16.3570705,20.0561322 C16.8231376,20.4575564 17.2389269,21.2508282 17.2389269,22.4638795 C17.2389269,24.2012564 17.2229657,25.603448 17.2229657,26.0296121 C17.2229657,26.3775663 17.4575954,26.7821827 18.116793,26.6552912 C23.2786458,24.9322794 27,20.0633148 27,14.3212723 C27,7.14112562 21.1789496,1.32087331 13.9988029,1.32087331"></path>
+        </svg>
+    </a>
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+</div>
+
+
+
+
+	<script src="https://nakabonne.dev/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+</footer>
+
+</nav>
+        <div id="content" class="content-container">
+        
+<h1 class="post-title">Write a time-series database engine from scratch</h1>
+    
+    <time>July 1, 2021</time>
+    
+    <div>
+        <p>
+        <p>This blog post walks you through how to implement a time-series database engine based on what I&rsquo;ve learned from my experience of writing a lightweight one from scratch.</p>
+<p>While it is written in Go, it mostly covers language-agnostic.</p>
+<h2 id="motivation">Motivation</h2>
+<p>I&rsquo;ve been working on a couple of tools that handle a tremendous amount of time-series data.
+One of them, <a href="https://github.com/nakabonne/ali">Ali</a>, is a load testing tool that can plot metrics in real-time on the client side.
+It requires a certain query performance while the results like latency and any other measurements are being written endlessly for each request.
+In other words, it&rsquo;s kind of like making a push monitoring system with simple query feature on a single host.</p>
+<p>It was simply appending data points to a variable length array on the heap in previous implementation, which naturally led to the problem of increasing memory usage over time:</p>
+<figure><img src="/img/ali-v0.6.1-memory-benchmark.png"
+         alt="Ali&amp;rsquo;s heap usage measured by nakabonne/gosivy" width="100%" height="auto"/><figcaption>
+            <p>Ali&rsquo;s heap usage measured by <a href="https://github.com/nakabonne/gosivy">nakabonne/gosivy</a></p>
+        </figcaption>
+</figure>
+
+<p>I little poked around a storage engine that could be used as a library from the Go program to address this issue.</p>
+<h2 id="characteristics-of-time-series-data">Characteristics of time-series data</h2>
+<p>We first need to understand time series data to sort out the problem that needs to be solved,</p>
+<p>Time series data is a collection of multiple values with a time stamp. It is usually used to observe data as it changes over time.
+Each one is called a data point, and is often represented as a tuple with a timestamp and a value. This time series data has the characteristics as:</p>
+<h3 id="tremendous-amount-of-data">Tremendous amount of data</h3>
+<p>Due to the nature of time series data, a single data point is rarely meaningful, and it is only when a large amount of data is collected that it becomes effective.
+It&rsquo;s not uncommon in the financial industry for data capture requirements to exceed 1000000/s, as the data is often written over a short period of time.</p>
+<p>In <a href="https://github.com/nakabonne/ali">Ali</a>&rsquo;s use case, the request rate specified by the user is directly related to the write performance requirement
+(although basically the upper limit of the number of file descriptors is the bottleneck).</p>
+<p>To deal with this, we need to focus on optimizing the writing process anyway. We also need to do something to minimize the disk space consumed as much as possible.</p>
+<h3 id="append-only">Append-only</h3>
+<p>Each and every data point is immutable as well as basically never updated.
+Also, it typically performs delete operations in batches on less recent data, not specifying a specific data point.</p>
+<h3 id="ordered-by-time">Ordered by time</h3>
+<p>It can be considered as already being indexed by time as the data is stored sorted by timestamps.
+With it you can build up indexes without any overhead.</p>
+<h3 id="accessed-in-bulk">Accessed in bulk</h3>
+<p>When reading out, it&rsquo;s mostly retrieves multiple data points with consecutive timestamps by specifying a time period.
+You can improve the locality when reading by focusing on this.</p>
+<h3 id="most-recent-first">Most recent first</h3>
+<p>In many use cases, we tend to read and use recent data points. This is likely to affect the choice of cache algorithm.</p>
+<h3 id="high-cardinality">High cardinality</h3>
+<p>Time series data tends to have a higher cardinality. This is especially true in the context of system monitoring, for example.
+In the age of cloud natives, we are getting more opportunities to monitor environments with dynamically changing hosts and networks, etc.</p>
+<p>In that sense, there are few kind of metrics that are exactly the same; creating a file for each metric will cause various kinds of problems such as inode limitations.</p>
+<h2 id="existing-solution">Existing Solution</h2>
+<p>In general, we found that time series data is write-heavy, and there are many opportunities to read/write data sequentially within a time range.</p>
+<p>Google&rsquo;s <a href="https://github.com/google/leveldb">LevelDB</a> is well known as a key-value storage engine, and <a href="https://github.com/syndtr/goleveldb">a couple of implementations in Go</a> have been published.
+This LevelDB is implemented based on LSM trees, which only writes sequentially to the tails; it works well with appended-only time series data.
+What it&rsquo;s sorted by key also makes it suitable for time-series data that is timestamp-based. In fact, the early storage engines of Prometheus and InfluxDB were also based on LevelDB.</p>
+<p>However, there are a couple of waste things.As we will see later, time series data is monotonous and can be encoded to a smaller size by taking advantage of this characteristic.
+Since we deal with time series data which is huge in quantity, we would like to leverage this.</p>
+<p>Also, because all data points are immutable and no update process is required, all writes can be done sequentially.
+Despite this, I was a little concerned about the Write amplification that occurs when merging SSTables and so on.</p>
+<h2 id="tstorage">tstorage</h2>
+<p>So, I settled on writing a database engine library called tstorage myself.</p>
+<p><a href="https://github.com/nakabonne/tstorage"><img src="https://gh-card.dev/repos/nakabonne/tstorage.svg?fullname=" alt="nakabonne/tstorage - GitHub"></a></p>
+<p>It is a lightweight engine that uses local disks and is implemented entirely in pure Go.</p>
+<p>This post covers how I implemented this, along with an explanation of the knowledge I needed to create it.</p>
+<h2 id="what-is-a-database-engine">What is a database engine?</h2>
+<p>A typical DBMS handles requests from clients and controls communication between nodes for clustering.
+It also parses queries, makes execution plans, and reads/writes data from/to disk based on those plans.
+A database engine is a component that performs only the last read/write part. This is the part of the Storage Engine in the figure below.</p>
+<figure><img src="/img/database-internals-storage-engine.png"
+         alt="Database Internals, Alex Petrov, 2019, Chapter1, Figure 1-1. Architecure of database management system" width="50%" height="auto"/><figcaption>
+            <p><a href="https://www.oreilly.com/library/view/database-internals/9781492040330">Database Internals, Alex Petrov, 2019</a>, Chapter1, Figure 1-1. Architecure of database management system</p>
+        </figcaption>
+</figure>
+
+<p>It abstracts the data structure on disk/memory and provides API to Execution Engine in this figure.
+In addition, it also provides transaction and recovery functions.</p>
+<h2 id="data-model">Data Model</h2>
+<p>Based on these characteristics, tstorage adopts a linear data model structure that partitions data points by time.
+Each partition acts as a fully independent database containing all data points for its time range.</p>
+<pre><code>  │                 │
+Read              Write
+  │                 │
+  │                 V
+  │      ┌───────────────────┐ max: 1600010800
+  ├─────&gt;   Memory Partition
+  │      └───────────────────┘ min: 1600007201
+  │
+  │      ┌───────────────────┐ max: 1600007200
+  ├─────&gt;   Memory Partition
+  │      └───────────────────┘ min: 1600003601
+  │
+  │      ┌───────────────────┐ max: 1600003600
+  └─────&gt;   Disk Partition
+         └───────────────────┘ min: 1600000000
+</code></pre><p>Slightly influenced by LSM-trees, <a href="https://fabxc.org/tsdb/">Prometheus' V3 storage</a> also uses a model that is quite close.</p>
+<p>Only the Head and the next partition are on the heap and are writable.
+This is called a <strong>memory partition</strong>.
+In memory partitions, data is appended to the end of the Write Ahead Log before writing to prevent data loss (this can be turned off if you don&rsquo;t need such durability).</p>
+<p>Older partitions get written to a single file on the disk.
+This is called a <strong>disk partition</strong> and is read-only.
+Files written to disk are transparently cached through the kernel by <a href="https://en.wikipedia.org/wiki/Mmap">mmap(2)</a>, which will be explained later.</p>
+<p>You can set a period of time for the partition, after which a new memory partition will be automatically added to the Head and the old one will be flushed to disk.</p>
+<p>This model has a number of advantages.
+First, partitions outside the specified range can be completely ignored when reading.
+This idea of narrowing down the search range as much as possible is inspired by the <a href="https://en.wikipedia.org/wiki/Bloom_filter">Bloom filter</a> used in LevelDB.
+Also, since the latest data points are cached in the heap, most reads will be fast.</p>
+<p>Besides, because tstorage is designed to write one partition to one file:</p>
+<ul>
+<li>All write operations can be append-only without any Write amplification occurring as it only writes to one file sequentially</li>
+<li>The number of files does not depend on the cardinality (number of metric types)</li>
+<li>It improves locality because reads operations often specify a time period and acquire adjacent data points as mentioned above</li>
+</ul>
+<p>The following sections describe the key points in each partition&rsquo;s implementations.</p>
+<h2 id="memory-partition">Memory Partition</h2>
+<h3 id="data-point-list">Data point list</h3>
+<p>A list of data points is represented as an array on the heap (technically, it&rsquo;s kind of like a pointer list to a base array called <a href="https://blog.golang.org/slices">Slice</a> in Go).
+This is a list with an unlimited number of data points to be written, so at first glance, Linked-list may seem to be the best choice, as it allows adding elements with O(1).
+However, arrays whose elements are lined up next to each other in RAM benefit from the spatial locality of cache memory.
+Also, since the time series data is always pre-sorted, classical search algorithms such as binary search can be easily implemented.</p>
+<h3 id="out-of-order-data-points">Out-of-order data points</h3>
+<p>What data points get out-of-order in real-world applications is not uncommon because of network latency or clock synchronization issues.
+This should be taken into account when writing, and the data points in the partition should always be kept sorted.</p>
+<p>However, note that we need to apply an exclusive lock each time we write to them as we are managing data points as arrays.
+We have to think a cool way to ingest them so that we do not have to extend this lock time to accommodate unordered data points.</p>
+<p>Unordered data points can be divided into two cases:
+first, they are unordered within the range of the partition you are trying to write to.
+The second case is that the data point is outside of the range of the partition you tried to write to in the first place.</p>
+<p>If the written data points correspond to the first case, we will first buffer the data points in a separate array in out-of-order.
+Then, at the time of flushing to disk, the data points get merged with the data points in the memory partition and re-sorted.</p>
+<p>In the <a href="#data-model">data model section</a>, I mentioned that only the Head and its next partition are on the heap, in order to accommodate the second case:
+soon after a new partition is added to the Head, data points crossing partitions may be written.
+This is for addressing the second case. By keeping the two most recent partitions writable, we avoid these being discarded.</p>
+<h3 id="write-ahead-log-wal">Write Ahead Log (WAL)</h3>
+<p>Since memory partitions use volatile storage, there is a possibility of data loss due to sudden crash or power shortage.
+To deal with this, the memory partition first writes the operation log to the <a href="https://martinfowler.com/articles/patterns-of-distributed-systems/wal.html">Write Ahead Log (WAL)</a>.
+In the event of a crash, you can recover by executing the operations written from the beginning to the end of the log.</p>
+<p>In the case of a database engine that supports on-disk data update operations, WAL has to hold very low-level operations;
+to fully restore the update process, it is necessary to store exactly which bytes in which disk block were changed, etc.</p>
+<p>However, time-series data is append-only, and tstorage makes all disk partitions read-only.
+It needs to append only high-level information about what data points have been written to the memory partition, so it can recover them with a simple disk-independent format.</p>
+<h2 id="disk-partition">Disk Partition</h2>
+<p>The fastest way to understand disk partitions is to have a look at the macro layout on the file system.</p>
+<p>As shown below, it uses one directory per partition, with metadata and the actual compressed data underneath.
+This is a simplified version of the Prometheus layout, so you may have seen a similar structure before.</p>
+<pre><code>$ tree ./data
+./data
+├── p-1600000001-1600003600
+│   ├── data
+│   └── meta.json
+├── p-1600003601-1600007200
+│   ├── data
+│   └── meta.json
+└── p-1600007201-1600010800
+    ├── data
+    └── meta.json
+</code></pre><p>I will describe the implementation points in the order of data -&gt; metadata.</p>
+<h3 id="memory-mapped-data">Memory-mapped data</h3>
+<p>As mentioned above, all data points in a partition are written to a single file. tstorage adopts the following format.</p>
+<pre><code>        ┌───────────────────────────┐
+        │    Metric-1    │ Metric-2 │
+        │───────────────────────────│
+        │ Metric-3 │                │
+        │──────────┘                │
+        │          Metric-4         │
+        │───────────────────────────│
+        │   Metric-5  │   Metric-6  │
+        │───────────────────────────│
+        │         Metric-7      │   │
+        │───────────────────────┘   │
+        │         Metric-8          │
+        │───────────────────────────│
+        │Metric-9│     Metric-10    │
+        └───────────────────────────┘
+                 File format
+</code></pre><p>Metric-1 ~ Metric-10 represent the data point list of metrics respectively.</p>
+<p>Recall the characteristics of time series data.
+Data points were immutable, and mostly, metrics were obtained in bulk by specifying a range.
+Therefore, we can improve locality by grouping data points by metric.</p>
+<p>This file is cached transparently through the kernel in mmap(2).
+This allows us to cache the file without copying it to user space.
+This works quite well since my original motivation was to solve the problem of Ali eating up the heap over time.</p>
+<p>The memory-mapped file can be accessed by the Go program as <code>[]bytes</code>, just like a string of bytes on the heap.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">diskPartition</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#75715e">// file descriptor of data file
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">f</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">File</span>
+	<span style="color:#75715e">// memory-mapped file backed by f
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mappedFile</span> []<span style="color:#66d9ef">byte</span>
+</code></pre></div><p>Now, how do we search for this self-contained byte sequence?
+It would be easy to copy it onto the heap and decode it into a data structure in the Go program, but that would defeat the purpose of memory mapping.
+Somehow, we need an index structure to access the encoded data efficiently. The metadata introduced next is used for this purpose.</p>
+<h3 id="metadata">Metadata</h3>
+<p>The content of the metadata looks like this.
+A partition has only one metadata, that&rsquo;s why the JSON format was adopted, which is somewhat redundant but easy to handle programmatically.</p>
+<pre><code>$ cat ./data/p-1600000001-1600003600/meta.json
+{
+  &quot;minTimestamp&quot;: 1600000001,
+  &quot;maxTimestamp&quot;: 1600003600,
+  &quot;numDataPoints&quot;: 7200,
+  &quot;metrics&quot;: {
+    &quot;metric-1&quot;: {
+      &quot;name&quot;: &quot;metric-1&quot;,
+      &quot;offset&quot;: 0,
+      &quot;minTimestamp&quot;: 1600000001,
+      &quot;maxTimestamp&quot;: 1600003600,
+      &quot;numDataPoints&quot;: 3600
+    },
+    &quot;metric-2&quot;: {
+      &quot;name&quot;: &quot;metric-2&quot;,
+      &quot;offset&quot;: 36014,
+      &quot;minTimestamp&quot;: 1600000001,
+      &quot;maxTimestamp&quot;: 1600003600,
+      &quot;numDataPoints&quot;: 3600
+    }
+  }
+}
+</code></pre><p>Metadata is used to build indexes in partitions.
+This is where the intra-file offsets and byte sizes for each metric are stored, and only this metadata gets onto the heap.
+With these, tstorage attemts random access to the data mapped in the kernel space. It&rsquo;s something like:</p>
+<pre><code>     {
+       &quot;minTimestamp&quot;: 1600000001,
+       &quot;maxTimestamp&quot;: 1600003600,
+       &quot;numDataPoints&quot;: 7200,
+       &quot;metrics&quot;: {
+         &quot;metric-1&quot;: {
+           &quot;name&quot;: &quot;metric-1&quot;,
+   ┌─────  &quot;offset&quot;: 0,
+   │       &quot;minTimestamp&quot;: 1600000001,
+   │       &quot;maxTimestamp&quot;: 1600003600,
+   │       &quot;numDataPoints&quot;: 3600
+   │     },
+   │     &quot;metric-2&quot;: {
+   │       &quot;name&quot;: &quot;metric-2&quot;,
+   │       &quot;offset&quot;: 36014, ────────────┐
+   │       &quot;minTimestamp&quot;: 1600000001,  │
+   │       &quot;maxTimestamp&quot;: 1600003600,  │
+   │       &quot;numDataPoints&quot;: 3600        │
+   │     }                              │
+   │   }                                │
+   │ }              ┌───────────────────┘
+   │                │
+   V                V
+   0              36014
+   ┌───────────────────────────┐
+   │    Metric-1    │ Metric-2 │
+   │───────────────────────────│
+   │ Metric-3 │                │
+   │──────────┘                │
+   │          Metric-4         │
+   │───────────────────────────│
+   │   Metric-5  │   Metric-6  │
+   │───────────────────────────│
+   │         Metric-7      │   │
+   │───────────────────────┘   │
+   │         Metric-8          │
+   │───────────────────────────│
+   │Metric-9│     Metric-10    │
+   └───────────────────────────┘
+</code></pre><p>In order to store the start offset for each metric, we need to persist it when we flush to disk.
+It encodes a list of data points for each metric and write the offsets into a metadata file as we build the index.</p>
+<h2 id="encoding">Encoding</h2>
+<p>As mentioned earlier, time-series data is often represented by a tuple of timestamp and value, which can be encoded into a very small size with some ingenuity.</p>
+<p>In 2015, Facebook published a paper called <a href="http://www.vldb.org/pvldb/vol8/p1816-teller.pdf">Gorilla: A Fast, Scalable, In-Memory Time Series Database</a>,
+in which they introduced an encoding way that takes advantage of the characteristics of time series data.
+Many of the current mainstream time series databases are based on this encoding way, and tstorage also does.</p>
+<p>Timestamps and values are encoded using different methods.
+First, the UNIX timestamp in tstorage is represented as an unsigned 64-bit integer.
+Since this timestamp tends to increase monotonically, an encoding method that stores only the difference from the previous value is effective.
+Therefore, Delta-of-delta encoding is used.</p>
+<p>Also, the value in tstorage is represented as a signed 64-bit floating-point type.
+This value is also encoded using XOR encoding, since it tends to stay close to the value, although it&rsquo;s not likely to monotonically increase/decrease.</p>
+<p>I will explain each of the encoding ways.</p>
+<h3 id="delta-encoding">Delta encoding</h3>
+<p>Delta-of-delta encoding is an encoding method that utilizes delta encoding, so I will first explain a little about delta encoding.</p>
+<p>Delta encoding writes only the difference between the previous number and the current one.</p>
+<p>Like for instance, let&rsquo;s say the first timestamp is 1600000000.
+If 1600000060 -&gt; 1600000120 -&gt; 1600000181 are written after it, the delta will be 60, 60, 61 respectively.</p>
+<table>
+<thead>
+<tr>
+<th>Timestamp</th>
+<th>Delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1600000000</td>
+<td>-</td>
+</tr>
+<tr>
+<td>1600000060</td>
+<td>60</td>
+</tr>
+<tr>
+<td>1600000120</td>
+<td>60</td>
+</tr>
+<tr>
+<td>1600000181</td>
+<td>61</td>
+</tr>
+</tbody>
+</table>
+<p>Only these delta values are written to the file in order. When decoding, just apply the delta values in order and you can restore the original.</p>
+<h3 id="delta-of-delta-encoding">Delta-of-delta encoding</h3>
+<p>Even with the delta-encoded result, some variable-length encoding can save a enough amount of size.
+However, the timestamps of time series data are often at regular intervals, and the delta values themselves are likely to be close to each other.
+Therefore, it takes the delta value of this delta value to save more size. This delta value of delta value is called delta-of-delta.</p>
+<p>Let&rsquo;s take the delta-of-delta of the previous timestamp.</p>
+<table>
+<thead>
+<tr>
+<th>Timestamp</th>
+<th>Delta</th>
+<th>Delta-of-delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1600000000</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>1600000060</td>
+<td>60</td>
+<td>-</td>
+</tr>
+<tr>
+<td>1600000120</td>
+<td>60</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1600000181</td>
+<td>61</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>For the first timestamp, since the delta value cannot be calculated, we write 1600000000 as it is.
+According to the paper, Gorilla uses fixed-length encoding to encode the data, but tstorage uses a variable-length encoding method called <a href="https://developers.google.com/protocol-buffers/docs/encoding#varints">Varints</a>.</p>
+<p>For the second timestamp, since delta-of-delta cannot be calculated yet, we write the delta value of 60 as it is.
+Because Gorilla assumes that a block of time series data is created every 4 hours (=16384 seconds), the maximum number of bits that can be taken is 14bits,
+so it encodes with a fixed length of 14bits.
+However, tstorage also uses Varints for variable length encoding (<a href="https://github.com/prometheus/prometheus/blob/39d79c3cfb86c47d6bc06a9e9317af582f1833bb/tsdb/chunkenc/xor.go#L154-L169">Prometheus also encodes the first two timestamps with Varints</a>, I honestly don&rsquo;t know why Gorilla uses a fixed length).</p>
+<p>If you&rsquo;re interested in learning more about how Varints works, please check out my previous article: <a href="https://nakabonne.dev/posts/binary-encoding-go/#how-varints-works">https://nakabonne.dev/posts/binary-encoding-go/#how-varints-works</a></p>
+<p>The delta-of-delta is encoded using variable length encoding, so its size varies depending on the size of the number being written.
+If the delta-of-delta is 0, 1 bit is used to write 0.
+If the delta-of-delta is within the range of 64 ~ 64, 2 bits are used to write 1 and 0, and then 7 bits are used to write the delta-of-delta.</p>
+<p>So the sizes of each timestamp are:</p>
+<table>
+<thead>
+<tr>
+<th>Timestamp</th>
+<th>Delta</th>
+<th>Delta-of-delta</th>
+<th>Length</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1600000000</td>
+<td>-</td>
+<td>-</td>
+<td>40bits</td>
+</tr>
+<tr>
+<td>1600000060</td>
+<td>60</td>
+<td>-</td>
+<td>8bits</td>
+</tr>
+<tr>
+<td>1600000120</td>
+<td>60</td>
+<td>0</td>
+<td>1bits</td>
+</tr>
+<tr>
+<td>1600000181</td>
+<td>61</td>
+<td>1</td>
+<td>9bits</td>
+</tr>
+</tbody>
+</table>
+<p>The total size is <code>40 + 8 + 1 + 9 = 58bits</code>.</p>
+<p>If we encode the original four timestamps in fixed-length encoding, we get <code>64 x 4 = 256bits</code>; we can see that we have saved sizes a lot.</p>
+<p>As you can see, if the timestamps are aligned at regular intervals, the delta-of-delta will always be zero, which makes the encoding very efficient.
+If you want to keep the size as small as possible, you should try to write data points at regular intervals.</p>
+<p>If you want to understand it in more detail, I recommend you to read <a href="http://www.vldb.org/pvldb/vol8/p1816-teller.pdf">the paper</a> <code>4.1.1 Compressing time stamps</code>.</p>
+<h3 id="xor-encoding">XOR encoding</h3>
+<p>XOR encoding is a way to take the XOR of two floating-point values and write it in place of the actual value.</p>
+<p>If we take the XORs of close values, the Leading zeros and Trailing zeros tend to be more, and we can hope to omit the size to be written.
+For example, if we take the XOR of 2.0 and 3.0</p>
+<pre><code>2.0 ^ 3.0 = 0000000000001000000000000000000000000000000000000000000000000000
+            └leading 0s┘ └                  trailing 0s                    ┘
+</code></pre><p>As you can see, it is divided into three parts:</p>
+<ul>
+<li>Leading zeros (12bits)</li>
+<li>1 (1bits)</li>
+<li>Trailing zeros (51bits)</li>
+</ul>
+<p>The second one <code>1</code> is called meaningful bits, and by writing this meaningful bits and the number of leading zeros, we can represent the number accurately.
+We will encode the number according to the following rules.</p>
+<ul>
+<li>If the XOR with the previous value is the same
+<ul>
+<li>Write 0 and exit</li>
+</ul>
+</li>
+<li>If the XOR with the previous value is different
+<ul>
+<li>Write 1</li>
+<li>If meaningful bits are the same as the previous value&rsquo;s one
+<ul>
+<li>Write 0 and meaningful bits and exit</li>
+</ul>
+</li>
+<li>If meaningful bits are different from the previous value&rsquo;s one
+<ul>
+<li>Write the number of Leading zeros (5bits)</li>
+<li>Write the size number of meaningful bits (6bits)</li>
+<li>Write meaningful bits themselves</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>If you want to understand it in more detail, I recommend you to read <a href="http://www.vldb.org/pvldb/vol8/p1816-teller.pdf">the paper</a> <code>4.1.2 Compressing values</code>.</p>
+<h3 id="note">Note</h3>
+<p>Keep in mind that these encoding ways depend on the relationship between neighboring values, so they cannot be accessed randomly as is.</p>
+<h2 id="alis-performance-got-improved">Ali&rsquo;s performance got improved</h2>
+<p><strong>Before</strong>:</p>
+<figure><img src="/img/ali-v0.6.1-memory-benchmark.png" width="100%" height="auto"/>
+</figure>
+
+<p><strong>After</strong>:</p>
+<figure><img src="/img/ali-v0.7.0-memory-benchmark.png" width="100%" height="auto"/>
+</figure>
+
+<p>We can see that the addition of the time series storage layer solved the problem of heap usage increasing over time.</p>
+<h2 id="tstorages-drawbacks">tstorage&rsquo;s drawbacks</h2>
+<p>tstorage is very simple, so there are still some things that it is not powerful enough for.</p>
+<p>For instance, if a single disk partition has a large number of different metrics, there is a problem of the heap becoming overwhelmed.
+As mentioned earlier, the data itself is mapped in kernel space, so increasing the amount of data is fine.
+However, all the metadata for the index is on the heap.
+Because metadata exists for each metric, the number of metadata per partition increases as the number of metrics increases, and the increase in heap usage goes up linearly.</p>
+<h2 id="bottom-line">Bottom line:</h2>
+<p>I feel like time series data is a good subject for implementing a storage engine for the first time because the problems to be handled are simple and can be designed in a straightforward manner.</p>
+<p>This post covered the implementation points in an abstract way, but I hope you will have a look at <a href="https://github.com/nakabonne/tstorage">the source code</a> if you are interested.</p>
+<p>If you have any questions or feedback, or found out mistakes, it would be great if you could contact me <a href="https://nakabonne.dev/about/#contact">in any way you like</a>.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://misfra.me/state-of-the-state-part-iii">https://misfra.me/state-of-the-state-part-iii</a></li>
+<li><a href="https://fabxc.org/tsdb">https://fabxc.org/tsdb</a></li>
+<li><a href="https://questdb.io/blog/2020/11/26/why-timeseries-data">https://questdb.io/blog/2020/11/26/why-timeseries-data</a></li>
+<li><a href="http://www.vldb.org/pvldb/vol8/p1816-teller.pdf">http://www.vldb.org/pvldb/vol8/p1816-teller.pdf</a></li>
+<li><a href="https://blog.timescale.com/blog/time-series-compression-algorithms-explained">https://blog.timescale.com/blog/time-series-compression-algorithms-explained</a></li>
+</ul>
+
+        </p>
+    </div>
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/golang">#Golang</a>
+        
+            <a class="tag" href="/tags/algorithm">#Algorithm</a>
+        
+      
+    </div>
+
+
+        
+
+<link rel="stylesheet" type="text/css" href="/css/katex.min.css">
+<script type="text/javascript" src="/js/katex.min.js"></script>
+<script type="text/javascript" src="/js/auto-render.min.js"onload="renderMathInElement(document.body);"></script>
+
+        </div>
+        
+<footer class="footer-mobile">
+	<div class="social-icons">
+        
+
+    
+
+    
+    <a class="social-icon" href="https://twitter.com/nakabonne" target="_blank" rel="noopener" title="Twitter">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M8.991284,24.971612 C19.180436,24.971612 24.752372,16.530224 24.752372,9.210524 C24.752372,8.970656 24.747512,8.731868 24.736496,8.494376 C25.818008,7.712564 26.758256,6.737 27.5,5.62622 C26.507372,6.067076 25.439252,6.364292 24.318752,6.498212 C25.462472,5.812628 26.340512,4.727444 26.754584,3.434036 C25.684088,4.068536 24.499004,4.53002 23.23724,4.778528 C22.226468,3.701876 20.786828,3.028388 19.193828,3.028388 C16.134404,3.028388 13.653536,5.509256 13.653536,8.567492 C13.653536,9.0023 13.702244,9.424904 13.797176,9.830552 C9.19346,9.599108 5.11106,7.39472 2.3792,4.04294 C1.903028,4.861364 1.629032,5.812628 1.629032,6.827072 C1.629032,8.74904 2.606972,10.445612 4.094024,11.438132 C3.185528,11.41016 2.331788,11.160464 1.585184,10.745096 C1.583888,10.768208 1.583888,10.791428 1.583888,10.815728 C1.583888,13.49888 3.493652,15.738584 6.028088,16.246508 C5.562932,16.373084 5.07326,16.44134 4.56782,16.44134 C4.210988,16.44134 3.863876,16.406024 3.526484,16.34144 C4.231724,18.542264 6.276596,20.143796 8.701412,20.18894 C6.805148,21.674696 4.416836,22.56008 1.821488,22.56008 C1.374476,22.56008 0.93362,22.534592 0.5,22.4834 C2.951708,24.054476 5.862524,24.971612 8.991284,24.971612"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.linkedin.com/in/nakabonne" target="_blank" rel="noopener" title="LinkedIn">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M2,3.654102 C2,2.69908141 2.79442509,1.92397846 3.77383592,1.92397846 L24.2261641,1.92397846 C25.2058917,1.92397846 26,2.69908141 26,3.654102 L26,24.3462148 C26,25.3015521 25.2058917,26.0760215 24.2261641,26.0760215 L3.77383592,26.0760215 C2.79442509,26.0760215 2,25.3015521 2,24.3465315 L2,3.65378524 L2,3.654102 Z M9.27526132,22.1415901 L9.27526132,11.2356668 L5.65030092,11.2356668 L5.65030092,22.1415901 L9.27557808,22.1415901 L9.27526132,22.1415901 Z M7.46341463,9.74691162 C8.72727273,9.74691162 9.51409566,8.90940767 9.51409566,7.86284447 C9.49033893,6.79252455 8.72727273,5.97846056 7.48748812,5.97846056 C6.24675325,5.97846056 5.43649034,6.79252455 5.43649034,7.86284447 C5.43649034,8.90940767 6.22299652,9.74691162 7.4396579,9.74691162 L7.46309788,9.74691162 L7.46341463,9.74691162 Z M11.2815965,22.1415901 L14.9062401,22.1415901 L14.9062401,16.0519481 C14.9062401,15.7263225 14.9299968,15.4000634 15.0256573,15.1675641 C15.2876148,14.5159962 15.8840672,13.8416218 16.8856509,13.8416218 C18.1970225,13.8416218 18.7218879,14.8416218 18.7218879,16.3078872 L18.7218879,22.1415901 L22.3465315,22.1415901 L22.3465315,15.8885017 C22.3465315,12.5388027 20.5584416,10.9800443 18.1735825,10.9800443 C16.2182452,10.9800443 15.3595185,12.072854 14.8824834,12.8172315 L14.9065569,12.8172315 L14.9065569,11.2359835 L11.2819132,11.2359835 C11.3291099,12.2591067 11.2815965,22.1419069 11.2815965,22.1419069 L11.2815965,22.1415901 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <a class="social-icon" href="https://github.com/nakabonne" target="_blank" rel="noopener" title="GitHub">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M13.9988029,1.32087331 C6.82105037,1.32087331 1,7.14112562 1,14.3212723 C1,20.0649109 4.72454649,24.9370678 9.89038951,26.6560892 C10.5408085,26.7757983 10.7778323,26.374374 10.7778323,26.0296121 C10.7778323,25.7215609 10.7666595,24.9035493 10.760275,23.8189856 C7.14426471,24.6042767 6.38131925,22.0760223 6.38131925,22.0760223 C5.78995672,20.5740732 4.93762853,20.1742451 4.93762853,20.1742451 C3.75729765,19.3682044 5.02701126,19.3841656 5.02701126,19.3841656 C6.33183953,19.4759425 7.01817121,20.7241085 7.01817121,20.7241085 C8.17775254,22.7104801 10.0611744,22.1366749 10.8017741,21.8038838 C10.919887,20.9643246 11.2558703,20.3913175 11.6269683,20.066507 C8.74038491,19.7385043 5.70536235,18.6228163 5.70536235,13.6413251 C5.70536235,12.2223743 6.21213051,11.0611968 7.04370914,10.1530044 C6.90963504,9.82420367 6.46351945,8.50181809 7.17139875,6.71256734 C7.17139875,6.71256734 8.26234691,6.36301702 10.7459099,8.04532771 C11.78259,7.75642995 12.8950858,7.61277914 14.000399,7.60719272 C15.1049142,7.61277914 16.2166119,7.75642995 17.2548881,8.04532771 C19.736855,6.36301702 20.8262071,6.71256734 20.8262071,6.71256734 C21.5356825,8.50181809 21.0895669,9.82420367 20.9562909,10.1530044 C21.7894656,11.0611968 22.2922435,12.2223743 22.2922435,13.6413251 C22.2922435,18.6355852 19.2524325,19.734514 16.3570705,20.0561322 C16.8231376,20.4575564 17.2389269,21.2508282 17.2389269,22.4638795 C17.2389269,24.2012564 17.2229657,25.603448 17.2229657,26.0296121 C17.2229657,26.3775663 17.4575954,26.7821827 18.116793,26.6552912 C23.2786458,24.9322794 27,20.0633148 27,14.3212723 C27,7.14112562 21.1789496,1.32087331 13.9988029,1.32087331"></path>
+        </svg>
+    </a>
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+</div>
+
+
+
+
+	<script src="https://nakabonne.dev/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I="></script>
+</footer>
+
+    </body>
+</html>
