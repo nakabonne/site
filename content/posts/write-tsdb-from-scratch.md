@@ -38,8 +38,7 @@ In [Ali](https://github.com/nakabonne/ali)'s use case, the request rate specifie
 To deal with this, we need to focus on optimizing the writing process anyway. We also need to do something to minimize the disk space consumed as much as possible.
 
 ### Append-only
-Each and every data point is immutable as well as basically never updated.
-Also, it typically performs delete operations in batches on less recent data, not specifying a specific data point.
+Every data point is immutable. Also, it typically performs delete operations in batches on less recent data, not specifying a specific data point.
 
 ### Ordered by time
 It can be considered as already being indexed by time as the data is stored sorted by timestamps.
@@ -134,7 +133,7 @@ Besides, because tstorage is designed to write one partition to one file:
 - All write operations can be append-only without any Write amplification occurring as it only writes to one file sequentially
 - The number of files does not depend on the cardinality (number of metric types)
 - It improves locality because reads operations often specify a time period and acquire adjacent data points as mentioned above
-  
+
 The following sections describe the key points in each partition's implementations.
 
 ## Memory Partition

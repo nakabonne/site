@@ -191,8 +191,7 @@ It&rsquo;s not uncommon in the financial industry for data capture requirements 
 (although basically the upper limit of the number of file descriptors is the bottleneck).</p>
 <p>To deal with this, we need to focus on optimizing the writing process anyway. We also need to do something to minimize the disk space consumed as much as possible.</p>
 <h3 id="append-only">Append-only</h3>
-<p>Each and every data point is immutable as well as basically never updated.
-Also, it typically performs delete operations in batches on less recent data, not specifying a specific data point.</p>
+<p>Every data point is immutable. Also, it typically performs delete operations in batches on less recent data, not specifying a specific data point.</p>
 <h3 id="ordered-by-time">Ordered by time</h3>
 <p>It can be considered as already being indexed by time as the data is stored sorted by timestamps.
 With it you can build up indexes without any overhead.</p>
