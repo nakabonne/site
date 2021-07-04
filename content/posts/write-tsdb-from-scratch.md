@@ -18,7 +18,7 @@ In other words, it's kind of like making a push monitoring system with simple qu
 
 It was simply appending data points to a variable length array on the heap in previous implementation, which naturally led to the problem of increasing memory usage over time:
 
-{{< figure src="/img/ali-v0.6.1-memory-benchmark.png" width="100%" height="auto" caption="Ali's heap usage measured by [nakabonne/gosivy](https://github.com/nakabonne/gosivy)">}}
+{{< figure src="/img/ali-v0.6.1-memory-benchmark.png" width="110%" height="auto" caption="Ali's heap usage measured by [nakabonne/gosivy](https://github.com/nakabonne/gosivy)">}}
 
 I little poked around a storage engine that could be used as a library from the Go program to address this issue.
 
@@ -84,7 +84,7 @@ A typical DBMS handles requests from clients and controls communication between 
 It also parses queries, makes execution plans, and reads/writes data from/to disk based on those plans.
 A database engine is a component that performs only the last read/write part. This is the part of the Storage Engine in the figure below.
 
-{{< figure src="/img/database-internals-storage-engine.png" width="50%" height="auto" caption="[Database Internals, Alex Petrov, 2019](https://www.oreilly.com/library/view/database-internals/9781492040330), Chapter1, Figure 1-1. Architecure of database management system">}}
+{{< figure src="/img/database-internals-storage-engine.png" width="70%" height="auto" caption="[Database Internals, Alex Petrov, 2019](https://www.oreilly.com/library/view/database-internals/9781492040330), Chapter1, Figure 1-1. Architecure of database management system">}}
 
 It abstracts the data structure on disk/memory and provides API to Execution Engine in this figure.
 In addition, it also provides transaction and recovery functions.
@@ -198,22 +198,22 @@ I will describe the implementation points in the order of data -> metadata.
 As mentioned above, all data points in a partition are written to a single file. tstorage adopts the following format.
 
 ```
-        ┌───────────────────────────┐
-        │    Metric-1    │ Metric-2 │
-        │───────────────────────────│
-        │ Metric-3 │                │
-        │──────────┘                │
-        │          Metric-4         │
-        │───────────────────────────│
-        │   Metric-5  │   Metric-6  │
-        │───────────────────────────│
-        │         Metric-7      │   │
-        │───────────────────────┘   │
-        │         Metric-8          │
-        │───────────────────────────│
-        │Metric-9│     Metric-10    │
-        └───────────────────────────┘
-                 File format
+    ┌───────────────────────────┐
+    │    Metric-1    │ Metric-2 │
+    │───────────────────────────│
+    │ Metric-3 │                │
+    │──────────┘                │
+    │          Metric-4         │
+    │───────────────────────────│
+    │   Metric-5  │   Metric-6  │
+    │───────────────────────────│
+    │         Metric-7      │   │
+    │───────────────────────┘   │
+    │         Metric-8          │
+    │───────────────────────────│
+    │Metric-9│     Metric-10    │
+    └───────────────────────────┘
+             File format
 ```
 
 Metric-1 ~ Metric-10 represent the data point list of metrics respectively.

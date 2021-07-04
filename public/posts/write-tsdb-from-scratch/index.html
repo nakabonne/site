@@ -174,7 +174,7 @@ It requires a certain query performance while the results like latency and any o
 In other words, it&rsquo;s kind of like making a push monitoring system with simple query feature on a single host.</p>
 <p>It was simply appending data points to a variable length array on the heap in previous implementation, which naturally led to the problem of increasing memory usage over time:</p>
 <figure><img src="/img/ali-v0.6.1-memory-benchmark.png"
-         alt="Ali&amp;rsquo;s heap usage measured by nakabonne/gosivy" width="100%" height="auto"/><figcaption>
+         alt="Ali&amp;rsquo;s heap usage measured by nakabonne/gosivy" width="110%" height="auto"/><figcaption>
             <p>Ali&rsquo;s heap usage measured by <a href="https://github.com/nakabonne/gosivy">nakabonne/gosivy</a></p>
         </figcaption>
 </figure>
@@ -223,7 +223,7 @@ Despite this, I was a little concerned about the Write amplification that occurs
 It also parses queries, makes execution plans, and reads/writes data from/to disk based on those plans.
 A database engine is a component that performs only the last read/write part. This is the part of the Storage Engine in the figure below.</p>
 <figure><img src="/img/database-internals-storage-engine.png"
-         alt="Database Internals, Alex Petrov, 2019, Chapter1, Figure 1-1. Architecure of database management system" width="50%" height="auto"/><figcaption>
+         alt="Database Internals, Alex Petrov, 2019, Chapter1, Figure 1-1. Architecure of database management system" width="70%" height="auto"/><figcaption>
             <p><a href="https://www.oreilly.com/library/view/database-internals/9781492040330">Database Internals, Alex Petrov, 2019</a>, Chapter1, Figure 1-1. Architecure of database management system</p>
         </figcaption>
 </figure>
@@ -312,22 +312,22 @@ This is a simplified version of the Prometheus layout, so you may have seen a si
 </code></pre><p>I will describe the implementation points in the order of data -&gt; metadata.</p>
 <h3 id="memory-mapped-data">Memory-mapped data</h3>
 <p>As mentioned above, all data points in a partition are written to a single file. tstorage adopts the following format.</p>
-<pre><code>        ┌───────────────────────────┐
-        │    Metric-1    │ Metric-2 │
-        │───────────────────────────│
-        │ Metric-3 │                │
-        │──────────┘                │
-        │          Metric-4         │
-        │───────────────────────────│
-        │   Metric-5  │   Metric-6  │
-        │───────────────────────────│
-        │         Metric-7      │   │
-        │───────────────────────┘   │
-        │         Metric-8          │
-        │───────────────────────────│
-        │Metric-9│     Metric-10    │
-        └───────────────────────────┘
-                 File format
+<pre><code>    ┌───────────────────────────┐
+    │    Metric-1    │ Metric-2 │
+    │───────────────────────────│
+    │ Metric-3 │                │
+    │──────────┘                │
+    │          Metric-4         │
+    │───────────────────────────│
+    │   Metric-5  │   Metric-6  │
+    │───────────────────────────│
+    │         Metric-7      │   │
+    │───────────────────────┘   │
+    │         Metric-8          │
+    │───────────────────────────│
+    │Metric-9│     Metric-10    │
+    └───────────────────────────┘
+             File format
 </code></pre><p>Metric-1 ~ Metric-10 represent the data point list of metrics respectively.</p>
 <p>Recall the characteristics of time series data.
 Data points were immutable, and mostly, metrics were obtained in bulk by specifying a range.
