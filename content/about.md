@@ -5,7 +5,9 @@ draft: false
 
 Hi there! I'm Ryo Nakao.
 
-I'm a software engineer with a couple of years of experience working on [fancy projects](https://github.com/nakabonne); also am a maintainer of [PipeCD](https://github.com/pipe-cd/pipe).
+I'm a software engineer, an OSS enthusiast. I work as a full time maintainer of [PipeCD](https://github.com/pipe-cd/pipe).
+
+I like peeling away at abstraction layers to get a better sense of what I'm working with by implementing actually.
 
 Writing helps me clear up my thoughts, that's why I keep blogging.
 
@@ -14,6 +16,7 @@ What I value are:
 - Joy - that's the reason why I live
 - Curiosity - no greater pleasure than learning something new
 - Simplicity - always looking for the simplest solution
+- Making - making actually is understanding
 
 # Projects
 I’ve done a couple of (hopefully) interesting things over the last few years. The noteworthy projects I’ve written are:
@@ -21,20 +24,17 @@ I’ve done a couple of (hopefully) interesting things over the last few years. 
 #### ***[ali](https://github.com/nakabonne/ali)***
 A load testing tool aimed to perform real-time analysis
 
-#### ***[pbgopy](https://github.com/nakabonne/pbgopy)***
-Copy and paste between devices
+#### ***[tstorage](https://github.com/nakabonne/tstorage)***
+A fast time-series data storage engine
 
 #### ***[gosivy](https://github.com/nakabonne/gosivy)***
 Real-time visualization tool for Go process metrics
 
-#### ***[tstorage](https://github.com/nakabonne/tstorage)***
-A fast time-series data storage engine
+#### ***[pbgopy](https://github.com/nakabonne/pbgopy)***
+Copy and paste between devices
 
 #### ***[rhack](https://github.com/nakabonne/rhack)***
 Temporary edits Rust libraries that your project depends on
-
-#### ***[golintui](https://github.com/nakabonne/golintui)***
-A simple terminal UI for Go linters
 
 # Contact
 I can be found online at:
