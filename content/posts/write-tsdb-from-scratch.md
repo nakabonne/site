@@ -465,5 +465,6 @@ If you have any questions or feedback, or found out mistakes, it would be great 
 - https://misfra.me/state-of-the-state-part-iii
 - https://fabxc.org/tsdb
 - https://questdb.io/blog/2020/11/26/why-timeseries-data
+- https://questdb.io/blog/2021/05/10/questdb-release-6-0-tsbs-benchmark
 - http://www.vldb.org/pvldb/vol8/p1816-teller.pdf
 - https://blog.timescale.com/blog/time-series-compression-algorithms-explained
