@@ -5,7 +5,7 @@ draft: false
 
 Hi there! I'm Ryo Nakao.
 
-I'm a software engineer, an OSS enthusiast. I work as a full time maintainer of [PipeCD](https://github.com/pipe-cd/pipe).
+I'm a software engineer, an OSS enthusiast.
 
 I like peeling away at abstraction layers to get a better sense of what I'm working with by implementing actually.
 
